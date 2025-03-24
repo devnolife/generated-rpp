@@ -12,16 +12,28 @@ registerEnumType(Fase, {
 });
 
 @ObjectType()
-export class MateriPembelajaran {
+export class KegiatanPembelajaran {
   @Field()
-  pendahuluan: string;
-
-  @Field(() => [String])
-  inti: string[];
+  kegiatan: string;
 
   @Field()
-  penutup: string;
+  deskripsi: string;
 }
+
+
+@ObjectType()
+export class MateriPembelajaran {
+  @Field(() => [KegiatanPembelajaran])
+  pendahuluan: KegiatanPembelajaran[];
+
+  @Field(() => [KegiatanPembelajaran])
+  inti: KegiatanPembelajaran[];
+
+  @Field(() => [KegiatanPembelajaran])
+  penutup: KegiatanPembelajaran[];
+}
+
+
 @ObjectType()
 export class KegiatanDetail {
   @Field()

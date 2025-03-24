@@ -4,7 +4,7 @@ import axios from 'axios';
 @Injectable()
 export class GeminiService {
   private readonly geminiApiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
-  private readonly geminiApiKey = 'AIzaSyB_YC1tD6gZGkuAdyAFLN01Dej1mKupiEI'
+  private readonly geminiApiKey = process.env.GEMINI_API_KEY;
 
   constructor() {}
 
@@ -16,7 +16,7 @@ export class GeminiService {
           contents: [
             {
               role: 'user',
-              parts: [{ text: `Perbaiki dan optimalkan prompt berikut agar lebih jelas dan terstruktur:\n\n${prompt}` }],
+              parts: [{ text: `${prompt}` }],
             },
           ],
         },
@@ -27,12 +27,10 @@ export class GeminiService {
         },
       );
 
-      // Periksa apakah respons dari Gemini valid
       if (!response.data || !response.data.candidates || response.data.candidates.length === 0) {
         throw new Error('Gagal menerima respons dari Gemini API');
       }
 
-      // Ambil teks hasil optimasi dari Gemini
       return response.data.candidates[0]?.content?.parts[0]?.text || prompt;
     } catch (error) {
       console.error('Error optimizing prompt with Gemini:', error);

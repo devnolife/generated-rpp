@@ -47,10 +47,15 @@ type KegiatanDetail {
   durasi: String!
 }
 
+type KegiatanPembelajaran {
+  deskripsi: String!
+  kegiatan: String!
+}
+
 type MateriPembelajaran {
-  inti: [String!]!
-  pendahuluan: String!
-  penutup: String!
+  inti: [KegiatanPembelajaran!]!
+  pendahuluan: [KegiatanPembelajaran!]!
+  penutup: [KegiatanPembelajaran!]!
 }
 
 type Mutation {
