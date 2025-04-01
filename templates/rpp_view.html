@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPP - {{ rpp.identitas.mata_pelajaran }} Kelas {{ rpp.identitas.kelas_semester.split('/')[0] }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 30px auto;
+            border-radius: 5px;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+            }
+            .container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 15px;
+                box-shadow: none;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            border-left: 5px solid #0d6efd;
+            margin-bottom: 15px;
+        }
+        
+        table.identitas {
+            width: 100%;
+        }
+        
+        table.identitas td {
+            padding: 5px 0;
+        }
+        
+        table.identitas td:first-child {
+            width: 30%;
+            font-weight: bold;
+        }
+        
+        .table-sm td, .table-sm th {
+            padding: 0.5rem;
+        }
+        
+        .action-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        ol, ul {
+            padding-left: 25px;
+        }
+        
+        .card {
+            margin-bottom: 15px;
+        }
+        
+        .signature-area {
+            margin-top: 50px;
+        }
+        
+        .signature-block {
+            text-align: center;
+        }
+        
+        .signature-name {
+            margin-top: 70px;
+            border-top: 1px solid #000;
+            display: inline-block;
+            padding-top: 5px;
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="action-buttons no-print">
+        <button class="btn btn-primary" onclick="window.print()">
+            <i class="bi bi-printer"></i> Cetak
+        </button>
+        <button class="btn btn-secondary" onclick="window.close()">
+            <i class="bi bi-x-circle"></i> Tutup
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Rencana Pelaksanaan Pembelajaran (RPP)</h1>
+            {% if rpp.identitas %}
+            <h2>{{ rpp.identitas.mata_pelajaran }}</h2>
+            <p>Kelas {{ rpp.identitas.kelas_semester }} | {{ rpp.identitas.tema }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- Identitas -->
+        {% if rpp.identitas %}
+        <div class="section">
+            <div class="section-title">A. Identitas</div>
+            <table class="identitas">
+                <tr>
+                    <td>Satuan Pendidikan</td>
+                    <td>: {{ rpp.identitas.satuan_pendidikan }}</td>
+                </tr>
+                <tr>
+                    <td>Kelas/Semester</td>
+                    <td>: {{ rpp.identitas.kelas_semester }}</td>
+                </tr>
+                <tr>
+                    <td>Mata Pelajaran</td>
+                    <td>: {{ rpp.identitas.mata_pelajaran }}</td>
+                </tr>
+                <tr>
+                    <td>Tema</td>
+                    <td>: {{ rpp.identitas.tema }}</td>
+                </tr>
+                <tr>
+                    <td>Sub Tema</td>
+                    <td>: {{ rpp.identitas.sub_tema }}</td>
+                </tr>
+                <tr>
+                    <td>Pertemuan Ke</td>
+                    <td>: {{ rpp.identitas.pertemuan_ke }}</td>
+                </tr>
+                <tr>
+                    <td>Alokasi Waktu</td>
+                    <td>: {{ rpp.identitas.alokasi_waktu }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+        
+        <!-- Kompetensi Inti -->
+        {% if rpp.kompetensi_inti %}
+        <div class="section">
+            <div class="section-title">B. Kompetensi Inti</div>
+            <table class="table table-bordered table-sm">
+                {% if rpp.kompetensi_inti.ki_1 %}
+                <tr>
+                    <td width="15%"><strong>KI-1</strong></td>
+                    <td>{{ rpp.kompetensi_inti.ki_1 }}</td>
+                </tr>
+                {% endif %}
+                {% if rpp.kompetensi_inti.ki_2 %}
+                <tr>
+                    <td><strong>KI-2</strong></td>
+                    <td>{{ rpp.kompetensi_inti.ki_2 }}</td>
+                </tr>
+                {% endif %}
+                {% if rpp.kompetensi_inti.ki_3 %}
+                <tr>
+                    <td><strong>KI-3</strong></td>
+                    <td>{{ rpp.kompetensi_inti.ki_3 }}</td>
+                </tr>
+                {% endif %}
+                {% if rpp.kompetensi_inti.ki_4 %}
+                <tr>
+                    <td><strong>KI-4</strong></td>
+                    <td>{{ rpp.kompetensi_inti.ki_4 }}</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        {% endif %}
+        
+        <!-- Kompetensi Dasar dan Indikator -->
+        {% if rpp.kompetensi_dasar_dan_indikator %}
+        <div class="section">
+            <div class="section-title">C. Kompetensi Dasar dan Indikator Pencapaian Kompetensi</div>
+            
+            {% if rpp.kompetensi_dasar_dan_indikator.kompetensi_dasar %}
+            <h5>Kompetensi Dasar:</h5>
+            <table class="table table-bordered table-sm">
+                {% set kd = rpp.kompetensi_dasar_dan_indikator.kompetensi_dasar %}
+                {% if kd.ki_1 %}
+                <tr>
+                    <td width="15%"><strong>KD 1</strong></td>
+                    <td>{{ kd.ki_1 }}</td>
+                </tr>
+                {% endif %}
+                {% if kd.ki_2 %}
+                <tr>
+                    <td><strong>KD 2</strong></td>
+                    <td>{{ kd.ki_2 }}</td>
+                </tr>
+                {% endif %}
+                {% if kd.ki_3 %}
+                <tr>
+                    <td><strong>KD 3</strong></td>
+                    <td>{{ kd.ki_3 }}</td>
+                </tr>
+                {% endif %}
+                {% if kd.ki_4 %}
+                <tr>
+                    <td><strong>KD 4</strong></td>
+                    <td>{{ kd.ki_4 }}</td>
+                </tr>
+                {% endif %}
+            </table>
+            {% endif %}
+            
+            {% if rpp.kompetensi_dasar_dan_indikator.indikator_pencapaian_kompetensi %}
+            <h5>Indikator Pencapaian Kompetensi:</h5>
+            <table class="table table-bordered table-sm">
+                {% set ipk = rpp.kompetensi_dasar_dan_indikator.indikator_pencapaian_kompetensi %}
+                
+                {% if ipk.ki_1 %}
+                <tr>
+                    <td width="15%"><strong>Indikator KI-1</strong></td>
+                    <td>
+                        {% if ipk.ki_1 is string %}
+                            {{ ipk.ki_1 }}
+                        {% else %}
+                            <ol>
+                                {% for item in ipk.ki_1 %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+                
+                {% if ipk.ki_2 %}
+                <tr>
+                    <td><strong>Indikator KI-2</strong></td>
+                    <td>
+                        {% if ipk.ki_2 is string %}
+                            {{ ipk.ki_2 }}
+                        {% else %}
+                            <ol>
+                                {% for item in ipk.ki_2 %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+                
+                {% if ipk.ki_3 %}
+                <tr>
+                    <td><strong>Indikator KI-3</strong></td>
+                    <td>
+                        {% if ipk.ki_3 is string %}
+                            {{ ipk.ki_3 }}
+                        {% else %}
+                            <ol>
+                                {% for item in ipk.ki_3 %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+                
+                {% if ipk.ki_4 %}
+                <tr>
+                    <td><strong>Indikator KI-4</strong></td>
+                    <td>
+                        {% if ipk.ki_4 is string %}
+                            {{ ipk.ki_4 }}
+                        {% else %}
+                            <ol>
+                                {% for item in ipk.ki_4 %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Tujuan Pembelajaran -->
+        {% if rpp.tujuan_pembelajaran %}
+        <div class="section">
+            <div class="section-title">D. Tujuan Pembelajaran</div>
+            <ol>
+                {% for tujuan in rpp.tujuan_pembelajaran %}
+                <li>{{ tujuan }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+        
+        <!-- Materi Pembelajaran -->
+        {% if rpp.materi_pembelajaran %}
+        <div class="section">
+            <div class="section-title">E. Materi Pembelajaran</div>
+            
+            {% if rpp.materi_pembelajaran.reguler %}
+            <h5>Materi Reguler:</h5>
+            <ol>
+                {% for materi in rpp.materi_pembelajaran.reguler %}
+                <li>{{ materi }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            
+            {% if rpp.materi_pembelajaran.remedial %}
+            <h5>Materi Remedial:</h5>
+            <ol>
+                {% for materi in rpp.materi_pembelajaran.remedial %}
+                <li>{{ materi }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            
+            {% if rpp.materi_pembelajaran.pengayaan %}
+            <h5>Materi Pengayaan:</h5>
+            <ol>
+                {% for materi in rpp.materi_pembelajaran.pengayaan %}
+                <li>{{ materi }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Metode Pembelajaran -->
+        {% if rpp.metode_pembelajaran %}
+        <div class="section">
+            <div class="section-title">F. Metode Pembelajaran</div>
+            <table class="table table-bordered table-sm">
+                {% if rpp.metode_pembelajaran.model_pembelajaran %}
+                <tr>
+                    <td width="30%"><strong>Model Pembelajaran</strong></td>
+                    <td>{{ rpp.metode_pembelajaran.model_pembelajaran }}</td>
+                </tr>
+                {% endif %}
+                
+                {% if rpp.metode_pembelajaran.pendekatan %}
+                <tr>
+                    <td><strong>Pendekatan</strong></td>
+                    <td>{{ rpp.metode_pembelajaran.pendekatan }}</td>
+                </tr>
+                {% endif %}
+                
+                {% if rpp.metode_pembelajaran.metode %}
+                <tr>
+                    <td><strong>Metode</strong></td>
+                    <td>
+                        {% if rpp.metode_pembelajaran.metode is string %}
+                            {{ rpp.metode_pembelajaran.metode }}
+                        {% else %}
+                            {{ rpp.metode_pembelajaran.metode|join(', ') }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        {% endif %}
+        
+        <!-- Media, Alat, Bahan, Sumber -->
+        {% if rpp.media_alat_bahan_sumber %}
+        <div class="section">
+            <div class="section-title">G. Media, Alat, Bahan, dan Sumber Belajar</div>
+            
+            {% if rpp.media_alat_bahan_sumber.media_alat %}
+            <h5>Media dan Alat:</h5>
+            <ol>
+                {% for item in rpp.media_alat_bahan_sumber.media_alat %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            
+            {% if rpp.media_alat_bahan_sumber.bahan %}
+            <h5>Bahan:</h5>
+            <ol>
+                {% for item in rpp.media_alat_bahan_sumber.bahan %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            
+            {% if rpp.media_alat_bahan_sumber.sumber_belajar %}
+            <h5>Sumber Belajar:</h5>
+            <ol>
+                {% for item in rpp.media_alat_bahan_sumber.sumber_belajar %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Langkah-langkah Kegiatan Pembelajaran -->
+        {% if rpp.langkah_langkah_kegiatan_pembelajaran %}
+        <div class="section page-break">
+            <div class="section-title">H. Langkah-langkah Kegiatan Pembelajaran</div>
+            
+            {% if rpp.langkah_langkah_kegiatan_pembelajaran.pertemuan_ke %}
+            <p><strong>Pertemuan Ke:</strong> {{ rpp.langkah_langkah_kegiatan_pembelajaran.pertemuan_ke }}</p>
+            {% endif %}
+            
+            {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_pendahuluan %}
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <strong>Kegiatan Pendahuluan</strong>
+                    {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_pendahuluan.durasi %}
+                    <span class="float-end">({{ rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_pendahuluan.durasi }})</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_pendahuluan.kegiatan %}
+                    <ol>
+                        {% for kegiatan in rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_pendahuluan.kegiatan %}
+                        <li>{{ kegiatan }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_inti %}
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <strong>Kegiatan Inti</strong>
+                    {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_inti.durasi %}
+                    <span class="float-end">({{ rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_inti.durasi }})</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% set kegiatan = rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_inti.kegiatan %}
+                    
+                    {% if kegiatan.mengamati %}
+                    <h6><strong>Mengamati:</strong></h6>
+                    <ol>
+                        {% for item in kegiatan.mengamati %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                    
+                    {% if kegiatan.menanya %}
+                    <h6><strong>Menanya:</strong></h6>
+                    <ol>
+                        {% for item in kegiatan.menanya %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                    
+                    {% if kegiatan.mengumpulkan_informasi_eksperimen %}
+                    <h6><strong>Mengumpulkan Informasi/Eksperimen:</strong></h6>
+                    <ol>
+                        {% for item in kegiatan.mengumpulkan_informasi_eksperimen %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                    
+                    {% if kegiatan.mengasosiasi_mengolah_informasi %}
+                    <h6><strong>Mengasosiasi/Mengolah Informasi:</strong></h6>
+                    <ol>
+                        {% for item in kegiatan.mengasosiasi_mengolah_informasi %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                    
+                    {% if kegiatan.mengomunikasikan %}
+                    <h6><strong>Mengomunikasikan:</strong></h6>
+                    <ol>
+                        {% for item in kegiatan.mengomunikasikan %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_penutup %}
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <strong>Kegiatan Penutup</strong>
+                    {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_penutup.durasi %}
+                    <span class="float-end">({{ rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_penutup.durasi }})</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_penutup.kegiatan %}
+                    <ol>
+                        {% for kegiatan in rpp.langkah_langkah_kegiatan_pembelajaran.kegiatan_penutup.kegiatan %}
+                        <li>{{ kegiatan }}</li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Penilaian -->
+        {% if rpp.penilaian_pembelajaran_remedial_dan_pengayaan %}
+        <div class="section">
+            <div class="section-title">I. Penilaian, Pembelajaran Remedial dan Pengayaan</div>
+            
+            {% if rpp.penilaian_pembelajaran_remedial_dan_pengayaan.teknik_penilaian %}
+            <h5>Teknik Penilaian:</h5>
+            {% set teknik = rpp.penilaian_pembelajaran_remedial_dan_pengayaan.teknik_penilaian %}
+            
+            {% if teknik.penilaian_sikap %}
+            <h6>Penilaian Sikap:</h6>
+            <ol>
+                {% for item in teknik.penilaian_sikap %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            
+            {% if teknik.penilaian_pengetahuan %}
+            <h6>Penilaian Pengetahuan:</h6>
+            <ol>
+                {% for item in teknik.penilaian_pengetahuan %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            
+            {% if teknik.penilaian_keterampilan %}
+            <h6>Penilaian Keterampilan:</h6>
+            <ol>
+                {% for item in teknik.penilaian_keterampilan %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            {% endif %}
+            
+            {% if rpp.penilaian_pembelajaran_remedial_dan_pengayaan.instrumen_penilaian %}
+            <h5>Instrumen Penilaian:</h5>
+            <ol>
+                {% for item in rpp.penilaian_pembelajaran_remedial_dan_pengayaan.instrumen_penilaian %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+            
+            {% if rpp.penilaian_pembelajaran_remedial_dan_pengayaan.pembelajaran_remedial_dan_pengayaan %}
+            <h5>Pembelajaran Remedial dan Pengayaan:</h5>
+            {% set remedial = rpp.penilaian_pembelajaran_remedial_dan_pengayaan.pembelajaran_remedial_dan_pengayaan %}
+            
+            {% if remedial.remedial %}
+            <p><strong>Remedial:</strong> {{ remedial.remedial }}</p>
+            {% endif %}
+            
+            {% if remedial.pengayaan %}
+            <p><strong>Pengayaan:</strong> {{ remedial.pengayaan }}</p>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Lampiran -->
+        {% if rpp.lampiran %}
+        <div class="section">
+            <div class="section-title">J. Lampiran</div>
+            <ol>
+                {% for item in rpp.lampiran %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+        
+        <!-- Tanda Tangan -->
+        {% if rpp.mengetahui %}
+        <div class="signature-area row">
+            <div class="col-6 signature-block">
+                <p>Mengetahui,<br>Kepala Sekolah</p>
+                <p class="signature-name">
+                    {{ rpp.mengetahui.kepala_sekolah }}<br>
+                    {{ rpp.mengetahui.nip_kepala_sekolah }}
+                </p>
+            </div>
+            <div class="col-6 signature-block">
+                <p>Guru Mata Pelajaran</p>
+                <p class="signature-name">
+                    {{ rpp.mengetahui.guru_mata_pelajaran }}<br>
+                    {{ rpp.mengetahui.nip_guru_mata_pelajaran }}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Auto print when the page loads if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            // Uncomment the line below if you want the page to automatically print
+            // window.print();
+        });
+    </script>
+</body>
+</html> 

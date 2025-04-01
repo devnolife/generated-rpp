@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator RPP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #0d6efd;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-label {
+            font-weight: 600;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        #results {
+            margin-top: 30px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+        }
+        textarea {
+            min-height: 100px;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        .point-input {
+            margin-bottom: 8px;
+        }
+        .add-point-btn {
+            margin-bottom: 20px;
+        }
+        .remove-btn {
+            cursor: pointer;
+            color: #dc3545;
+        }
+        /* Styling for the results section */
+        #resultContent {
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        #resultContent pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 0;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .result-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        .result-body {
+            padding: 20px;
+        }
+        .copy-btn {
+            float: right;
+            margin-top: -40px;
+            position: relative;
+            z-index: 100;
+            margin-right: 10px;
+        }
+        /* New styling for formatted JSON */
+        .json-formatter {
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+        .json-key {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+        .json-string {
+            color: #198754;
+        }
+        .json-number {
+            color: #fd7e14;
+        }
+        .json-boolean {
+            color: #dc3545;
+        }
+        .json-null {
+            color: #6c757d;
+        }
+        .json-array {
+            margin-left: 20px;
+        }
+        .json-item {
+            padding: 2px 0;
+        }
+        .json-section {
+            margin-bottom: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: white;
+        }
+        .json-section-header {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #0d6efd;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 5px;
+        }
+        .print-btn {
+            margin-right: 5px;
+        }
+        .action-buttons {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        /* RPP Preview Styling */
+        .rpp-preview {
+            font-family: 'Times New Roman', Times, serif;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .preview-header h4 {
+            margin-bottom: 10px;
+            color: #0d6efd;
+        }
+        .preview-header h5 {
+            font-style: italic;
+            color: #495057;
+        }
+        .preview-section {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .section-title {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+        .preview-section table {
+            margin-bottom: 0;
+        }
+        .preview-section ol {
+            padding-left: 25px;
+        }
+        .preview-section li {
+            margin-bottom: 5px;
+        }
+        /* Print styles */
+        @media print {
+            body {
+                background-color: white;
+                font-size: 12pt;
+            }
+            .container {
+                width: 100%;
+                max-width: 100%;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+            .rpp-preview {
+                box-shadow: none;
+            }
+            form, .btn, .action-buttons, .result-header, #loading {
+                display: none !important;
+            }
+            .card-header {
+                color: black !important;
+                background-color: #f8f9fa !important;
+                border: 1px solid #dee2e6;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generator RPP</h1>
+        
+        <form id="rppForm">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="kelas" class="form-label">Kelas</label>
+                    <input type="text" class="form-control" id="kelas" name="kelas" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="semester" class="form-label">Semester</label>
+                    <input type="text" class="form-control" id="semester" name="semester" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="mata_pelajaran" class="form-label">Mata Pelajaran</label>
+                <input type="text" class="form-control" id="mata_pelajaran" name="mata_pelajaran" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="pertemuan" class="form-label">Pertemuan</label>
+                <input type="text" class="form-control" id="pertemuan" name="pertemuan" required>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="tema" class="form-label">Tema</label>
+                    <input type="text" class="form-control" id="tema" name="tema" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="sub_tema" class="form-label">Sub Tema</label>
+                    <input type="text" class="form-control" id="sub_tema" name="sub_tema" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Alur Tujuan Pembelajaran (ATP)</label>
+                <div id="atp-container">
+                    <div class="point-input input-group">
+                        <textarea class="form-control" name="atp[]" required placeholder="Contoh: Peserta didik mampu menggunakan Bahasa inggris untuk berinteraksi formal dan informal..."></textarea>
+                        <button type="button" class="btn btn-danger remove-point">×</button>
+                    </div>
+                </div>
+                <button type="button" id="add-atp" class="btn btn-sm btn-outline-primary add-point-btn">+ Tambah ATP</button>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Element</label>
+                <div id="element-container">
+                    <div class="point-input input-group">
+                        <input type="text" class="form-control" name="element[]" required placeholder="Contoh: LISTENING - SPEAKING">
+                        <button type="button" class="btn btn-danger remove-point">×</button>
+                    </div>
+                </div>
+                <button type="button" id="add-element" class="btn btn-sm btn-outline-primary add-point-btn">+ Tambah Element</button>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Materi</label>
+                <div id="materi-container">
+                    <div class="point-input input-group">
+                        <input type="text" class="form-control" name="materi[]" required placeholder="Contoh: GREETINGS">
+                        <button type="button" class="btn btn-danger remove-point">×</button>
+                    </div>
+                </div>
+                <button type="button" id="add-materi" class="btn btn-sm btn-outline-primary add-point-btn">+ Tambah Materi</button>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Generate RPP</button>
+        </form>
+        
+        <div id="results" style="display: none;">
+            <h3 class="result-header">Hasil RPP</h3>
+            <div class="alert alert-info" id="loading" style="display: none;">
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                Sedang memproses... Harap tunggu.
+            </div>
+            <button class="btn btn-sm btn-outline-primary copy-btn" id="copyBtn" style="display: none;">
+                <i class="bi bi-clipboard"></i> Copy
+            </button>
+            <div id="resultContent" class="result-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Function to add new input point
+        function addInputPoint(containerId, inputName, isTextarea = false) {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = 'point-input input-group';
+            
+            if (isTextarea) {
+                div.innerHTML = `
+                    <textarea class="form-control" name="${inputName}[]" required></textarea>
+                    <button type="button" class="btn btn-danger remove-point">×</button>
+                `;
+            } else {
+                div.innerHTML = `
+                    <input type="text" class="form-control" name="${inputName}[]" required>
+                    <button type="button" class="btn btn-danger remove-point">×</button>
+                `;
+            }
+            
+            container.appendChild(div);
+            
+            // Add event listener to the new remove button
+            div.querySelector('.remove-point').addEventListener('click', function() {
+                if (container.children.length > 1) {
+                    container.removeChild(div);
+                }
+            });
+        }
+        
+        // Add event listeners for "Add Point" buttons
+        document.getElementById('add-atp').addEventListener('click', function() {
+            addInputPoint('atp-container', 'atp', true);
+        });
+        
+        document.getElementById('add-element').addEventListener('click', function() {
+            addInputPoint('element-container', 'element');
+        });
+        
+        document.getElementById('add-materi').addEventListener('click', function() {
+            addInputPoint('materi-container', 'materi');
+        });
+        
+        // Add event listeners for initial remove buttons
+        document.querySelectorAll('.remove-point').forEach(button => {
+            button.addEventListener('click', function() {
+                const container = this.parentElement.parentElement;
+                if (container.children.length > 1) {
+                    container.removeChild(this.parentElement);
+                }
+            });
+        });
+        
+        // Form submission
+        document.getElementById('rppForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const results = document.getElementById('results');
+            const loading = document.getElementById('loading');
+            const resultContent = document.getElementById('resultContent');
+            
+            results.style.display = 'block';
+            loading.style.display = 'block';
+            resultContent.innerHTML = '';
+            
+            // Remove any existing action buttons
+            const existingActionBtns = document.querySelector('.action-buttons');
+            if (existingActionBtns) {
+                existingActionBtns.remove();
+            }
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Try to parse the module content as JSON for better display
+                    try {
+                        const jsonContent = JSON.parse(data.module);
+                        
+                        // Add action buttons before content display
+                        const actionBtns = document.createElement('div');
+                        actionBtns.className = 'action-buttons';
+                        actionBtns.innerHTML = `
+                            <button class="btn btn-primary view-btn mb-3" id="viewBtn">
+                                <i class="bi bi-file-earmark-text"></i> Lihat RPP Lengkap
+                            </button>
+                            <div class="btn-group mb-3 ms-2">
+                                <button class="btn btn-outline-primary print-btn" id="printBtn">
+                                    <i class="bi bi-printer"></i> Print
+                                </button>
+                                <button class="btn btn-outline-primary copy-btn" id="copyBtnAction">
+                                    <i class="bi bi-clipboard"></i> Copy
+                                </button>
+                            </div>
+                        `;
+                        results.insertBefore(actionBtns, resultContent);
+                        
+                        // Create a hidden form for the view button
+                        const viewForm = document.createElement('form');
+                        viewForm.method = 'POST';
+                        viewForm.action = '/view-rpp';
+                        viewForm.target = '_blank'; // Open in new tab
+                        viewForm.style.display = 'none';
+                        
+                        const rppDataInput = document.createElement('input');
+                        rppDataInput.type = 'hidden';
+                        rppDataInput.name = 'rpp_data';
+                        rppDataInput.value = data.module;
+                        
+                        viewForm.appendChild(rppDataInput);
+                        document.body.appendChild(viewForm);
+                        
+                        // Add event listener for view button
+                        document.getElementById('viewBtn').addEventListener('click', function() {
+                            viewForm.submit();
+                        });
+                        
+                        // Create formatted HTML for better display - simplified preview
+                        resultContent.innerHTML = createSimplifiedPreview(jsonContent);
+                        
+                        // Add event listener for print button
+                        document.getElementById('printBtn').addEventListener('click', function() {
+                            window.print();
+                        });
+                        
+                        // Update copy button functionality
+                        document.getElementById('copyBtnAction').addEventListener('click', function() {
+                            const formattedContent = JSON.stringify(jsonContent, null, 2);
+                            navigator.clipboard.writeText(formattedContent).then(() => {
+                                // Change button text temporarily
+                                const originalText = this.innerHTML;
+                                this.innerHTML = '<i class="bi bi-check"></i> Copied!';
+                                setTimeout(() => {
+                                    this.innerHTML = originalText;
+                                }, 2000);
+                            });
+                        });
+                        
+                        // Auto-click the view button to immediately show the complete RPP
+                        setTimeout(() => {
+                            document.getElementById('viewBtn').click();
+                        }, 500);
+                        
+                    } catch (e) {
+                        // If not valid JSON, display error
+                        resultContent.innerHTML = `<div class="alert alert-danger">Format response tidak valid: ${e.message}</div>`;
+                    }
+                } else {
+                    resultContent.innerHTML = `<div class="alert alert-danger">Error: ${data.message}</div>`;
+                }
+            } catch (error) {
+                resultContent.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+        
+        // Function to create a simplified preview of the RPP
+        function createSimplifiedPreview(json) {
+            if (!json.rpp) {
+                return '<div class="alert alert-warning">Format RPP tidak valid</div>';
+            }
+            
+            const rpp = json.rpp;
+            let html = '<div class="rpp-preview">';
+            
+            // Header with document title and mata pelajaran
+            html += `
+                <div class="preview-header text-center mb-4">
+                    <h4 class="fw-bold">RENCANA PELAKSANAAN PEMBELAJARAN (RPP)</h4>
+                    ${rpp.identitas ? `<h5>${rpp.identitas.mata_pelajaran}</h5>` : ''}
+                </div>
+            `;
+            
+            // Identitas section - table format
+            if (rpp.identitas) {
+                html += `
+                    <div class="preview-section mb-4">
+                        <h5 class="section-title pb-2 border-bottom">Identitas</h5>
+                        <table class="table table-sm">
+                            <tr>
+                                <td width="30%" class="fw-bold">Satuan Pendidikan</td>
+                                <td>: ${rpp.identitas.satuan_pendidikan || '-'}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Kelas/Semester</td>
+                                <td>: ${rpp.identitas.kelas_semester || '-'}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Mata Pelajaran</td>
+                                <td>: ${rpp.identitas.mata_pelajaran || '-'}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Tema</td>
+                                <td>: ${rpp.identitas.tema || '-'}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Sub Tema</td>
+                                <td>: ${rpp.identitas.sub_tema || '-'}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Pertemuan Ke</td>
+                                <td>: ${rpp.identitas.pertemuan_ke || '-'}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Alokasi Waktu</td>
+                                <td>: ${rpp.identitas.alokasi_waktu || '-'}</td>
+                            </tr>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            // Tujuan Pembelajaran section
+            if (rpp.tujuan_pembelajaran && rpp.tujuan_pembelajaran.length > 0) {
+                html += `
+                    <div class="preview-section mb-4">
+                        <h5 class="section-title pb-2 border-bottom">Tujuan Pembelajaran</h5>
+                        <ol>
+                            ${rpp.tujuan_pembelajaran.map(tujuan => `<li>${tujuan}</li>`).join('')}
+                        </ol>
+                    </div>
+                `;
+            }
+            
+            // Simplified Langkah Pembelajaran
+            if (rpp.langkah_langkah_kegiatan_pembelajaran) {
+                const langkah = rpp.langkah_langkah_kegiatan_pembelajaran;
+                html += `
+                    <div class="preview-section mb-4">
+                        <h5 class="section-title pb-2 border-bottom">Langkah-langkah Pembelajaran</h5>
+                `;
+                
+                // Pendahuluan card
+                if (langkah.kegiatan_pendahuluan) {
+                    html += `
+                        <div class="card mb-3">
+                            <div class="card-header bg-primary text-white">
+                                Kegiatan Pendahuluan
+                                ${langkah.kegiatan_pendahuluan.durasi ? 
+                                  `<span class="float-end">(${langkah.kegiatan_pendahuluan.durasi})</span>` : ''}
+                            </div>
+                            <div class="card-body">
+                                ${langkah.kegiatan_pendahuluan.kegiatan && langkah.kegiatan_pendahuluan.kegiatan.length > 0 ?
+                                  `<ol>${langkah.kegiatan_pendahuluan.kegiatan.map(item => `<li>${item}</li>`).join('')}</ol>` : 
+                                  '<p class="text-muted">Tidak ada detail kegiatan</p>'}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Inti card
+                if (langkah.kegiatan_inti) {
+                    html += `
+                        <div class="card mb-3">
+                            <div class="card-header bg-success text-white">
+                                Kegiatan Inti
+                                ${langkah.kegiatan_inti.durasi ? 
+                                  `<span class="float-end">(${langkah.kegiatan_inti.durasi})</span>` : ''}
+                            </div>
+                            <div class="card-body">
+                                <p class="text-center text-primary fw-bold">
+                                    Lihat detail lengkap di tampilan RPP lengkap
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Penutup card
+                if (langkah.kegiatan_penutup) {
+                    html += `
+                        <div class="card mb-3">
+                            <div class="card-header bg-danger text-white">
+                                Kegiatan Penutup
+                                ${langkah.kegiatan_penutup.durasi ? 
+                                  `<span class="float-end">(${langkah.kegiatan_penutup.durasi})</span>` : ''}
+                            </div>
+                            <div class="card-body">
+                                ${langkah.kegiatan_penutup.kegiatan && langkah.kegiatan_penutup.kegiatan.length > 0 ?
+                                  `<ol>${langkah.kegiatan_penutup.kegiatan.map(item => `<li>${item}</li>`).join('')}</ol>` : 
+                                  '<p class="text-muted">Tidak ada detail kegiatan</p>'}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += `</div>`;
+            }
+            
+            // View full document button
+            html += `
+                <div class="text-center mt-5">
+                    <p class="fst-italic">RPP ini menampilkan preview terbatas. Untuk melihat dokumen lengkap, gunakan tombol "Lihat RPP Lengkap" di atas.</p>
+                </div>
+            `;
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Function to format RPP JSON into a readable HTML structure
+        function formatRPPJson(json) {
+            if (!json.rpp) {
+                return '<div class="alert alert-warning">Format RPP tidak valid</div>';
+            }
+            
+            const rpp = json.rpp;
+            let html = '<div class="json-formatter">';
+            
+            // Identitas
+            if (rpp.identitas) {
+                html += createSection('Identitas RPP', formatIdentitas(rpp.identitas));
+            }
+            
+            // Kompetensi Inti
+            if (rpp.kompetensi_inti) {
+                html += createSection('Kompetensi Inti', formatKompetensiInti(rpp.kompetensi_inti));
+            }
+            
+            // Kompetensi Dasar dan Indikator
+            if (rpp.kompetensi_dasar_dan_indikator) {
+                html += createSection('Kompetensi Dasar dan Indikator', formatKompetensiDasar(rpp.kompetensi_dasar_dan_indikator));
+            }
+            
+            // Tujuan Pembelajaran
+            if (rpp.tujuan_pembelajaran) {
+                html += createSection('Tujuan Pembelajaran', formatArray(rpp.tujuan_pembelajaran));
+            }
+            
+            // Materi Pembelajaran
+            if (rpp.materi_pembelajaran) {
+                html += createSection('Materi Pembelajaran', formatMateri(rpp.materi_pembelajaran));
+            }
+            
+            // Metode Pembelajaran
+            if (rpp.metode_pembelajaran) {
+                html += createSection('Metode Pembelajaran', formatMetode(rpp.metode_pembelajaran));
+            }
+            
+            // Media, Alat, Bahan, dan Sumber
+            if (rpp.media_alat_bahan_sumber) {
+                html += createSection('Media, Alat, Bahan, dan Sumber', formatMedia(rpp.media_alat_bahan_sumber));
+            }
+            
+            // Langkah-langkah Kegiatan Pembelajaran
+            if (rpp.langkah_langkah_kegiatan_pembelajaran) {
+                html += createSection('Langkah-langkah Kegiatan Pembelajaran', formatLangkah(rpp.langkah_langkah_kegiatan_pembelajaran));
+            }
+            
+            // Penilaian
+            if (rpp.penilaian_pembelajaran_remedial_dan_pengayaan) {
+                html += createSection('Penilaian, Pembelajaran Remedial dan Pengayaan', formatPenilaian(rpp.penilaian_pembelajaran_remedial_dan_pengayaan));
+            }
+            
+            // Lampiran
+            if (rpp.lampiran) {
+                html += createSection('Lampiran', formatArray(rpp.lampiran));
+            }
+            
+            // Mengetahui
+            if (rpp.mengetahui) {
+                html += createSection('Mengetahui', formatMengetahui(rpp.mengetahui));
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Helper function to create a section
+        function createSection(title, content) {
+            return `
+                <div class="json-section">
+                    <div class="json-section-header">${title}</div>
+                    ${content}
+                </div>
+            `;
+        }
+        
+        // Format Identitas
+        function formatIdentitas(identitas) {
+            let html = '<table class="table table-borderless table-sm">';
+            if (identitas.satuan_pendidikan) html += `<tr><td width="30%">Satuan Pendidikan</td><td>: ${identitas.satuan_pendidikan}</td></tr>`;
+            if (identitas.kelas_semester) html += `<tr><td>Kelas/Semester</td><td>: ${identitas.kelas_semester}</td></tr>`;
+            if (identitas.mata_pelajaran) html += `<tr><td>Mata Pelajaran</td><td>: ${identitas.mata_pelajaran}</td></tr>`;
+            if (identitas.tema) html += `<tr><td>Tema</td><td>: ${identitas.tema}</td></tr>`;
+            if (identitas.sub_tema) html += `<tr><td>Sub Tema</td><td>: ${identitas.sub_tema}</td></tr>`;
+            if (identitas.pertemuan_ke) html += `<tr><td>Pertemuan Ke</td><td>: ${identitas.pertemuan_ke}</td></tr>`;
+            if (identitas.alokasi_waktu) html += `<tr><td>Alokasi Waktu</td><td>: ${identitas.alokasi_waktu}</td></tr>`;
+            html += '</table>';
+            return html;
+        }
+        
+        // Format Kompetensi Inti
+        function formatKompetensiInti(ki) {
+            let html = '<table class="table table-bordered table-sm">';
+            if (ki.ki_1) html += `<tr><td width="20%">KI-1</td><td>${ki.ki_1}</td></tr>`;
+            if (ki.ki_2) html += `<tr><td>KI-2</td><td>${ki.ki_2}</td></tr>`;
+            if (ki.ki_3) html += `<tr><td>KI-3</td><td>${ki.ki_3}</td></tr>`;
+            if (ki.ki_4) html += `<tr><td>KI-4</td><td>${ki.ki_4}</td></tr>`;
+            html += '</table>';
+            return html;
+        }
+        
+        // Format Kompetensi Dasar dan Indikator
+        function formatKompetensiDasar(kd) {
+            let html = '<div>';
+            
+            if (kd.kompetensi_dasar) {
+                html += '<p><strong>Kompetensi Dasar:</strong></p>';
+                html += '<table class="table table-bordered table-sm">';
+                const kdObj = kd.kompetensi_dasar;
+                if (kdObj.ki_1) html += `<tr><td width="20%">KD 1</td><td>${kdObj.ki_1}</td></tr>`;
+                if (kdObj.ki_2) html += `<tr><td>KD 2</td><td>${kdObj.ki_2}</td></tr>`;
+                if (kdObj.ki_3) html += `<tr><td>KD 3</td><td>${kdObj.ki_3}</td></tr>`;
+                if (kdObj.ki_4) html += `<tr><td>KD 4</td><td>${kdObj.ki_4}</td></tr>`;
+                html += '</table>';
+            }
+            
+            if (kd.indikator_pencapaian_kompetensi) {
+                html += '<p><strong>Indikator Pencapaian Kompetensi:</strong></p>';
+                html += '<table class="table table-bordered table-sm">';
+                const indObj = kd.indikator_pencapaian_kompetensi;
+                
+                if (indObj.ki_1) {
+                    html += `<tr><td width="20%">Indikator KI-1</td><td>`;
+                    if (Array.isArray(indObj.ki_1)) {
+                        html += `<ol>${indObj.ki_1.map(item => `<li>${item}</li>`).join('')}</ol>`;
+                    } else {
+                        html += indObj.ki_1;
+                    }
+                    html += `</td></tr>`;
+                }
+                
+                if (indObj.ki_2) {
+                    html += `<tr><td>Indikator KI-2</td><td>`;
+                    if (Array.isArray(indObj.ki_2)) {
+                        html += `<ol>${indObj.ki_2.map(item => `<li>${item}</li>`).join('')}</ol>`;
+                    } else {
+                        html += indObj.ki_2;
+                    }
+                    html += `</td></tr>`;
+                }
+                
+                if (indObj.ki_3) {
+                    html += `<tr><td>Indikator KI-3</td><td>`;
+                    if (Array.isArray(indObj.ki_3)) {
+                        html += `<ol>${indObj.ki_3.map(item => `<li>${item}</li>`).join('')}</ol>`;
+                    } else {
+                        html += indObj.ki_3;
+                    }
+                    html += `</td></tr>`;
+                }
+                
+                if (indObj.ki_4) {
+                    html += `<tr><td>Indikator KI-4</td><td>`;
+                    if (Array.isArray(indObj.ki_4)) {
+                        html += `<ol>${indObj.ki_4.map(item => `<li>${item}</li>`).join('')}</ol>`;
+                    } else {
+                        html += indObj.ki_4;
+                    }
+                    html += `</td></tr>`;
+                }
+                
+                html += '</table>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Format simple array to HTML list
+        function formatArray(arr) {
+            if (!Array.isArray(arr)) return arr;
+            return `<ol>${arr.map(item => `<li>${item}</li>`).join('')}</ol>`;
+        }
+        
+        // Format Materi
+        function formatMateri(materi) {
+            let html = '<div>';
+            
+            if (materi.reguler) {
+                html += '<p><strong>Materi Reguler:</strong></p>';
+                html += formatArray(materi.reguler);
+            }
+            
+            if (materi.remedial) {
+                html += '<p><strong>Materi Remedial:</strong></p>';
+                html += formatArray(materi.remedial);
+            }
+            
+            if (materi.pengayaan) {
+                html += '<p><strong>Materi Pengayaan:</strong></p>';
+                html += formatArray(materi.pengayaan);
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Format Metode
+        function formatMetode(metode) {
+            let html = '<table class="table table-borderless table-sm">';
+            
+            if (metode.model_pembelajaran) {
+                html += `<tr><td width="30%">Model Pembelajaran</td><td>: ${metode.model_pembelajaran}</td></tr>`;
+            }
+            
+            if (metode.pendekatan) {
+                html += `<tr><td>Pendekatan</td><td>: ${metode.pendekatan}</td></tr>`;
+            }
+            
+            if (metode.metode) {
+                html += `<tr><td>Metode</td><td>: `;
+                if (Array.isArray(metode.metode)) {
+                    html += metode.metode.join(', ');
+                } else {
+                    html += metode.metode;
+                }
+                html += `</td></tr>`;
+            }
+            
+            html += '</table>';
+            return html;
+        }
+        
+        // Format Media
+        function formatMedia(media) {
+            let html = '<div>';
+            
+            if (media.media_alat) {
+                html += '<p><strong>Media dan Alat:</strong></p>';
+                html += formatArray(media.media_alat);
+            }
+            
+            if (media.bahan) {
+                html += '<p><strong>Bahan:</strong></p>';
+                html += formatArray(media.bahan);
+            }
+            
+            if (media.sumber_belajar) {
+                html += '<p><strong>Sumber Belajar:</strong></p>';
+                html += formatArray(media.sumber_belajar);
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Format Langkah Pembelajaran
+        function formatLangkah(langkah) {
+            let html = '<div>';
+            
+            if (langkah.pertemuan_ke) {
+                html += `<p><strong>Pertemuan Ke:</strong> ${langkah.pertemuan_ke}</p>`;
+            }
+            
+            if (langkah.kegiatan_pendahuluan) {
+                html += '<div class="card mb-3">';
+                html += '<div class="card-header bg-primary text-white">Kegiatan Pendahuluan';
+                if (langkah.kegiatan_pendahuluan.durasi) {
+                    html += ` (${langkah.kegiatan_pendahuluan.durasi})`;
+                }
+                html += '</div>';
+                html += '<div class="card-body">';
+                if (langkah.kegiatan_pendahuluan.kegiatan) {
+                    html += formatArray(langkah.kegiatan_pendahuluan.kegiatan);
+                }
+                html += '</div></div>';
+            }
+            
+            if (langkah.kegiatan_inti) {
+                html += '<div class="card mb-3">';
+                html += '<div class="card-header bg-success text-white">Kegiatan Inti';
+                if (langkah.kegiatan_inti.durasi) {
+                    html += ` (${langkah.kegiatan_inti.durasi})`;
+                }
+                html += '</div>';
+                html += '<div class="card-body">';
+                
+                if (langkah.kegiatan_inti.kegiatan) {
+                    const kegiatan = langkah.kegiatan_inti.kegiatan;
+                    
+                    if (kegiatan.mengamati) {
+                        html += '<p><strong>Mengamati:</strong></p>';
+                        html += formatArray(kegiatan.mengamati);
+                    }
+                    
+                    if (kegiatan.menanya) {
+                        html += '<p><strong>Menanya:</strong></p>';
+                        html += formatArray(kegiatan.menanya);
+                    }
+                    
+                    if (kegiatan.mengumpulkan_informasi_eksperimen) {
+                        html += '<p><strong>Mengumpulkan Informasi/Eksperimen:</strong></p>';
+                        html += formatArray(kegiatan.mengumpulkan_informasi_eksperimen);
+                    }
+                    
+                    if (kegiatan.mengasosiasi_mengolah_informasi) {
+                        html += '<p><strong>Mengasosiasi/Mengolah Informasi:</strong></p>';
+                        html += formatArray(kegiatan.mengasosiasi_mengolah_informasi);
+                    }
+                    
+                    if (kegiatan.mengomunikasikan) {
+                        html += '<p><strong>Mengomunikasikan:</strong></p>';
+                        html += formatArray(kegiatan.mengomunikasikan);
+                    }
+                }
+                
+                html += '</div></div>';
+            }
+            
+            if (langkah.kegiatan_penutup) {
+                html += '<div class="card mb-3">';
+                html += '<div class="card-header bg-danger text-white">Kegiatan Penutup';
+                if (langkah.kegiatan_penutup.durasi) {
+                    html += ` (${langkah.kegiatan_penutup.durasi})`;
+                }
+                html += '</div>';
+                html += '<div class="card-body">';
+                if (langkah.kegiatan_penutup.kegiatan) {
+                    html += formatArray(langkah.kegiatan_penutup.kegiatan);
+                }
+                html += '</div></div>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Format Penilaian
+        function formatPenilaian(penilaian) {
+            let html = '<div>';
+            
+            if (penilaian.teknik_penilaian) {
+                html += '<p><strong>Teknik Penilaian:</strong></p>';
+                const teknik = penilaian.teknik_penilaian;
+                
+                if (teknik.penilaian_sikap) {
+                    html += '<p>Penilaian Sikap:</p>';
+                    html += formatArray(teknik.penilaian_sikap);
+                }
+                
+                if (teknik.penilaian_pengetahuan) {
+                    html += '<p>Penilaian Pengetahuan:</p>';
+                    html += formatArray(teknik.penilaian_pengetahuan);
+                }
+                
+                if (teknik.penilaian_keterampilan) {
+                    html += '<p>Penilaian Keterampilan:</p>';
+                    html += formatArray(teknik.penilaian_keterampilan);
+                }
+            }
+            
+            if (penilaian.instrumen_penilaian) {
+                html += '<p><strong>Instrumen Penilaian:</strong></p>';
+                html += formatArray(penilaian.instrumen_penilaian);
+            }
+            
+            if (penilaian.pembelajaran_remedial_dan_pengayaan) {
+                html += '<p><strong>Pembelajaran Remedial dan Pengayaan:</strong></p>';
+                const remedial = penilaian.pembelajaran_remedial_dan_pengayaan;
+                
+                if (remedial.remedial) {
+                    html += `<p>Remedial: ${remedial.remedial}</p>`;
+                }
+                
+                if (remedial.pengayaan) {
+                    html += `<p>Pengayaan: ${remedial.pengayaan}</p>`;
+                }
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        // Format Mengetahui
+        function formatMengetahui(mengetahui) {
+            let html = '<div class="row text-center mt-4">';
+            
+            html += '<div class="col-md-6">';
+            html += '<p>Mengetahui,<br>Kepala Sekolah</p>';
+            html += '<p class="mt-5">';
+            if (mengetahui.kepala_sekolah) html += mengetahui.kepala_sekolah;
+            html += '</p>';
+            if (mengetahui.nip_kepala_sekolah) html += `<p>${mengetahui.nip_kepala_sekolah}</p>`;
+            html += '</div>';
+            
+            html += '<div class="col-md-6">';
+            html += '<p>Guru Mata Pelajaran</p>';
+            html += '<p class="mt-5">';
+            if (mengetahui.guru_mata_pelajaran) html += mengetahui.guru_mata_pelajaran;
+            html += '</p>';
+            if (mengetahui.nip_guru_mata_pelajaran) html += `<p>${mengetahui.nip_guru_mata_pelajaran}</p>`;
+            html += '</div>';
+            
+            html += '</div>';
+            return html;
+        }
+    </script>
+    <!-- Add Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</body>
+</html> 

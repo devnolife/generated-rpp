@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator RPP Bahasa Inggris</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+        h1 {
+            color: #0066cc;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-label {
+            font-weight: 600;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #0066cc;
+            border-color: #0066cc;
+        }
+        .btn-primary:hover {
+            background-color: #004c99;
+            border-color: #004c99;
+        }
+        #results {
+            margin-top: 30px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+        }
+        textarea {
+            min-height: 100px;
+        }
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+        .result-header {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        .result-body {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 0 0 8px 8px;
+        }
+        .copy-btn {
+            float: right;
+            margin-top: -40px;
+            position: relative;
+            z-index: 100;
+            margin-right: 10px;
+        }
+        .section-header {
+            background-color: #e9ecef;
+            padding: 10px 15px;
+            margin: 20px 0 15px 0;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #0066cc;
+        }
+        /* RPP Preview Styling */
+        .rpp-preview {
+            font-family: 'Times New Roman', Times, serif;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .preview-header h4 {
+            margin-bottom: 10px;
+            color: #0066cc;
+        }
+        .preview-section {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generator RPP Bahasa Inggris</h1>
+        
+        <form id="rppForm">
+            <!-- Section: Identitas -->
+            <div class="section-header">Identitas Penyusun</div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="nama_penyusun" class="form-label">Nama Penyusun</label>
+                    <input type="text" class="form-control" id="nama_penyusun" name="nama_penyusun">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="institusi" class="form-label">Institusi</label>
+                    <input type="text" class="form-control" id="institusi" name="institusi">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="tahun_pembuatan" class="form-label">Tahun Pembuatan</label>
+                    <input type="text" class="form-control" id="tahun_pembuatan" name="tahun_pembuatan">
+                </div>
+            </div>
+            
+            <!-- Section: Informasi Pembelajaran -->
+            <div class="section-header">Informasi Pembelajaran</div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="mata_pelajaran" class="form-label required-field">Mata Pelajaran</label>
+                    <input type="text" class="form-control" id="mata_pelajaran" name="mata_pelajaran" required value="Bahasa Inggris">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="jenjang" class="form-label required-field">Jenjang</label>
+                    <select class="form-select" id="jenjang" name="jenjang" required>
+                        <option value="">Pilih Jenjang</option>
+                        <option value="SD">SD (Sekolah Dasar)</option>
+                        <option value="SMP">SMP (Sekolah Menengah Pertama)</option>
+                        <option value="SMA">SMA (Sekolah Menengah Atas)</option>
+                        <option value="SMK">SMK (Sekolah Menengah Kejuruan)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="kelas" class="form-label required-field">Kelas</label>
+                    <select class="form-select" id="kelas" name="kelas" required>
+                        <option value="">Pilih Kelas</option>
+                        <option value="1">Kelas 1</option>
+                        <option value="2">Kelas 2</option>
+                        <option value="3">Kelas 3</option>
+                        <option value="4">Kelas 4</option>
+                        <option value="5">Kelas 5</option>
+                        <option value="6">Kelas 6</option>
+                        <option value="7">Kelas 7</option>
+                        <option value="8">Kelas 8</option>
+                        <option value="9">Kelas 9</option>
+                        <option value="10">Kelas 10</option>
+                        <option value="11">Kelas 11</option>
+                        <option value="12">Kelas 12</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="alokasi_waktu" class="form-label required-field">Alokasi Waktu</label>
+                    <input type="text" class="form-control" id="alokasi_waktu" name="alokasi_waktu" required placeholder="Contoh: 2 x 45 menit">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="tahapan" class="form-label required-field">Tahapan</label>
+                    <input type="text" class="form-control" id="tahapan" name="tahapan" required placeholder="Contoh: Pembelajaran 1">
+                </div>
+            </div>
+            
+            <!-- Section: Komponen Kurikulum -->
+            <div class="section-header">Komponen Kurikulum</div>
+            
+            <div class="mb-3">
+                <label for="capaian_pembelajaran" class="form-label required-field">Capaian Pembelajaran (CP)</label>
+                <textarea class="form-control" id="capaian_pembelajaran" name="capaian_pembelajaran" required placeholder="Contoh: Peserta didik mampu memahami, menggunakan, dan menyusun teks lisan dan tulis untuk mengungkapkan dan merespons gagasan, pendapat, argumen, dll."></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="domain_konten" class="form-label required-field">Domain Konten/Elemen</label>
+                <input type="text" class="form-control" id="domain_konten" name="domain_konten" required placeholder="Contoh: Listening, Speaking, Reading, Writing">
+            </div>
+            
+            <div class="mb-3">
+                <label for="tujuan_pembelajaran" class="form-label required-field">Tujuan Pembelajaran</label>
+                <textarea class="form-control" id="tujuan_pembelajaran" name="tujuan_pembelajaran" required placeholder="Contoh: Siswa mampu menggunakan simple present tense dalam percakapan sehari-hari"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="konten_utama" class="form-label required-field">Konten Utama/Referensi/catatan/inspirasi/adaptasi</label>
+                <textarea class="form-control" id="konten_utama" name="konten_utama" required placeholder="Contoh: Simple Present Tense, Vocabulary about Daily Activities"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="prasyarat" class="form-label">Prasyarat Pengetahuan/Keterampilan</label>
+                <textarea class="form-control" id="prasyarat" name="prasyarat" placeholder="Pengetahuan atau keterampilan yang harus dikuasai sebelumnya"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="pemahaman_bermakna" class="form-label">Pemahaman Bermakna</label>
+                <textarea class="form-control" id="pemahaman_bermakna" name="pemahaman_bermakna" placeholder="Pemahaman yang diharapkan tertanam pada siswa"></textarea>
+            </div>
+            
+            <!-- Section: Pengembangan Karakter -->
+            <div class="section-header">Pengembangan Karakter</div>
+            <div class="mb-3">
+                <label for="profil_pelajar" class="form-label">Profil Pelajar Pancasila yang Berkaitan</label>
+                <textarea class="form-control" id="profil_pelajar" name="profil_pelajar" placeholder="Contoh: Beriman, bertakwa kepada Tuhan YME, berkebinekaan global, gotong royong, mandiri, bernalar kritis, kreatif"></textarea>
+            </div>
+            
+            <!-- Section: Pendukung Pembelajaran -->
+            <div class="section-header">Pendukung Pembelajaran</div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="sarana" class="form-label">Sarana dan Prasarana</label>
+                    <textarea class="form-control" id="sarana" name="sarana" placeholder="Contoh: Laptop, Proyektor, Speaker, Papan Tulis, dll."></textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="sumber_belajar" class="form-label">Sumber Belajar</label>
+                    <textarea class="form-control" id="sumber_belajar" name="sumber_belajar" placeholder="Contoh: Buku teks, Video pembelajaran, Website, dll."></textarea>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="target_peserta" class="form-label">Target Peserta Didik</label>
+                    <input type="text" class="form-control" id="target_peserta" name="target_peserta" placeholder="Contoh: Siswa kelas regular">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="jumlah_peserta" class="form-label">Jumlah Peserta Didik</label>
+                    <input type="text" class="form-control" id="jumlah_peserta" name="jumlah_peserta" placeholder="Contoh: 30 siswa">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="model_pembelajaran" class="form-label">Model Pembelajaran</label>
+                    <input type="text" class="form-control" id="model_pembelajaran" name="model_pembelajaran" placeholder="Contoh: Discovery Learning">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Generate RPP Bahasa Inggris</button>
+        </form>
+        
+        <div id="results" style="display: none;">
+            <h3 class="result-header">Hasil RPP Bahasa Inggris</h3>
+            <div class="alert alert-info" id="loading" style="display: none;">
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                Sedang memproses... Harap tunggu.
+            </div>
+            <button class="btn btn-sm btn-outline-primary copy-btn" id="copyBtn" style="display: none;">
+                <i class="bi bi-clipboard"></i> Copy
+            </button>
+            <div id="resultContent" class="result-body"></div>
+            
+            <div class="action-buttons mt-3" style="display: none;">
+                <button class="btn btn-primary view-btn" id="viewBtn">
+                    <i class="bi bi-file-earmark-text"></i> Lihat RPP Lengkap
+                </button>
+                <button class="btn btn-outline-primary ms-2" id="generateBahanAjarBtn">
+                    <i class="bi bi-book"></i> Generate Bahan Ajar
+                </button>
+            </div>
+            
+            <div id="bahanAjarSection" class="mt-4" style="display: none;">
+                <h3 class="result-header">Bahan Ajar</h3>
+                <div class="alert alert-info" id="loadingBahanAjar" style="display: none;">
+                    <div class="spinner-border spinner-border-sm me-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    Sedang membuat bahan ajar... Harap tunggu.
+                </div>
+                <div id="bahanAjarContent" class="result-body"></div>
+            </div>
+        </div>
+        
+        <!-- Hidden form for viewing RPP -->
+        <form id="viewRppForm" method="POST" action="/view-english-rpp" target="_blank" style="display: none;">
+            <input type="hidden" name="rpp_data" id="rpp_data">
+        </form>
+    </div>
+
+    <script>
+        // Form submission
+        document.getElementById('rppForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const results = document.getElementById('results');
+            const loading = document.getElementById('loading');
+            const resultContent = document.getElementById('resultContent');
+            const actionButtons = document.querySelector('.action-buttons');
+            
+            results.style.display = 'block';
+            loading.style.display = 'block';
+            resultContent.innerHTML = '';
+            
+            if (actionButtons) {
+                actionButtons.style.display = 'none';
+            }
+            
+            // Hide bahan ajar section
+            document.getElementById('bahanAjarSection').style.display = 'none';
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/generate-english', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Try to parse the RPP content as JSON for better display
+                    try {
+                        const jsonContent = JSON.parse(data.rpp);
+                        
+                        // Store the RPP data for viewing
+                        document.getElementById('rpp_data').value = data.rpp;
+                        
+                        // Format the JSON for display
+                        const formattedRpp = formatRPP(jsonContent);
+                        resultContent.innerHTML = formattedRpp;
+                        
+                        // Show action buttons
+                        document.querySelector('.action-buttons').style.display = 'block';
+                    } catch (e) {
+                        resultContent.innerHTML = `<pre>${data.rpp}</pre>`;
+                    }
+                    
+                    document.getElementById('copyBtn').style.display = 'block';
+                } else {
+                    resultContent.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                }
+            } catch (error) {
+                resultContent.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan: ${error.message}</div>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+        
+        // View RPP Button
+        document.getElementById('viewBtn').addEventListener('click', function() {
+            document.getElementById('viewRppForm').submit();
+        });
+        
+        // Generate Bahan Ajar button
+        document.getElementById('generateBahanAjarBtn').addEventListener('click', async function() {
+            const bahanAjarSection = document.getElementById('bahanAjarSection');
+            const loadingBahanAjar = document.getElementById('loadingBahanAjar');
+            const bahanAjarContent = document.getElementById('bahanAjarContent');
+            
+            bahanAjarSection.style.display = 'block';
+            loadingBahanAjar.style.display = 'block';
+            bahanAjarContent.innerHTML = '';
+            
+            // Get data from the form to generate bahan ajar
+            const data = {
+                mata_pelajaran: document.getElementById('mata_pelajaran').value,
+                jenjang: document.getElementById('jenjang').value,
+                kelas: document.getElementById('kelas').value,
+                konten_utama: document.getElementById('konten_utama').value,
+                tujuan_pembelajaran: document.getElementById('tujuan_pembelajaran').value
+            };
+            
+            try {
+                const response = await fetch('/generate-bahan-ajar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    try {
+                        const bahanAjarData = JSON.parse(result.bahan_ajar);
+                        bahanAjarContent.innerHTML = formatBahanAjar(bahanAjarData);
+                    } catch (e) {
+                        // If not valid JSON, display as is
+                        bahanAjarContent.innerHTML = `<pre>${result.bahan_ajar}</pre>`;
+                    }
+                } else {
+                    bahanAjarContent.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
+                }
+            } catch (error) {
+                bahanAjarContent.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan: ${error.message}</div>`;
+            } finally {
+                loadingBahanAjar.style.display = 'none';
+            }
+        });
+        
+        // Copy button
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const rppData = document.getElementById('rpp_data').value;
+            navigator.clipboard.writeText(rppData).then(() => {
+                alert('RPP berhasil disalin ke clipboard!');
+            });
+        });
+        
+        // Helper function to format RPP JSON for display
+        function formatRPP(data) {
+            const rpp = data.rpp_bahasa_inggris;
+            if (!rpp) return '<div class="alert alert-warning">Format RPP tidak valid</div>';
+            
+            let html = '<div class="rpp-preview">';
+            
+            // Identitas
+            html += `<div class="preview-header">
+                        <h4>RPP BAHASA INGGRIS</h4>
+                        <h5>${rpp.identitas?.mata_pelajaran || 'Bahasa Inggris'} - ${rpp.identitas?.kelas || ''}</h5>
+                     </div>`;
+            
+            html += `<div class="preview-section mb-3">
+                        <h5 class="section-title">Identitas</h5>
+                        <table class="table table-bordered">
+                            <tr><td width="30%">Nama Penyusun</td><td>${rpp.identitas?.nama_penyusun || '-'}</td></tr>
+                            <tr><td>Institusi</td><td>${rpp.identitas?.institusi || '-'}</td></tr>
+                            <tr><td>Tahun Pembuatan</td><td>${rpp.identitas?.tahun_pembuatan || '-'}</td></tr>
+                            <tr><td>Mata Pelajaran</td><td>${rpp.identitas?.mata_pelajaran || 'Bahasa Inggris'}</td></tr>
+                            <tr><td>Jenjang</td><td>${rpp.identitas?.jenjang || '-'}</td></tr>
+                            <tr><td>Kelas</td><td>${rpp.identitas?.kelas || '-'}</td></tr>
+                            <tr><td>Alokasi Waktu</td><td>${rpp.identitas?.alokasi_waktu || '-'}</td></tr>
+                            <tr><td>Tahapan</td><td>${rpp.identitas?.tahapan || '-'}</td></tr>
+                        </table>
+                     </div>`;
+            
+            // Komponen Pembelajaran
+            html += `<div class="preview-section mb-3">
+                        <h5 class="section-title">Komponen Pembelajaran</h5>
+                        <table class="table table-bordered">
+                            <tr><td width="30%">Capaian Pembelajaran (CP)</td><td>${rpp.komponen_pembelajaran?.capaian_pembelajaran || '-'}</td></tr>
+                            <tr><td width="30%">Domain Konten/Elemen</td><td>${rpp.komponen_pembelajaran?.domain_konten || '-'}</td></tr>
+                            <tr><td>Tujuan Pembelajaran</td><td>${rpp.komponen_pembelajaran?.tujuan_pembelajaran || '-'}</td></tr>
+                            <tr><td>Konten Utama/Referensi/Inpirasi</td><td>${rpp.komponen_pembelajaran?.konten_utama || '-'}</td></tr>
+                            <tr><td>Prasyarat Pengetahuan</td><td>${rpp.komponen_pembelajaran?.prasyarat_pengetahuan || '-'}</td></tr>
+                            <tr><td>Pemahaman Bermakna</td><td>${rpp.komponen_pembelajaran?.pemahaman_bermakna || '-'}</td></tr>
+                            <tr><td>Profil Pelajar Pancasila</td><td>${rpp.komponen_pembelajaran?.profil_pelajar_pancasila || '-'}</td></tr>
+                        </table>
+                     </div>`;
+            
+            // Kegiatan Pembelajaran
+            html += `<div class="preview-section mb-3">
+                        <h5 class="section-title">Kegiatan Pembelajaran</h5>
+                        
+                        <h6>Kegiatan Awal (${rpp.kegiatan_pembelajaran?.kegiatan_awal?.durasi || '15 Menit'})</h6>
+                        <ol>`;
+            
+            if (rpp.kegiatan_pembelajaran?.kegiatan_awal?.langkah_kegiatan) {
+                rpp.kegiatan_pembelajaran.kegiatan_awal.langkah_kegiatan.forEach(langkah => {
+                    html += `<li>${langkah}</li>`;
+                });
+            }
+            
+            html += `</ol>
+                     
+                     <h6>Kegiatan Inti (${rpp.kegiatan_pembelajaran?.kegiatan_inti?.durasi || '90 Menit'})</h6>
+                     <ol>`;
+            
+            if (rpp.kegiatan_pembelajaran?.kegiatan_inti?.langkah_kegiatan) {
+                rpp.kegiatan_pembelajaran.kegiatan_inti.langkah_kegiatan.forEach(langkah => {
+                    html += `<li>${langkah}</li>`;
+                });
+            }
+            
+            html += `</ol>
+                     
+                     <h6>Kegiatan Penutup (${rpp.kegiatan_pembelajaran?.kegiatan_penutup?.durasi || '15 Menit'})</h6>
+                     <ol>`;
+            
+            if (rpp.kegiatan_pembelajaran?.kegiatan_penutup?.langkah_kegiatan) {
+                rpp.kegiatan_pembelajaran.kegiatan_penutup.langkah_kegiatan.forEach(langkah => {
+                    html += `<li>${langkah}</li>`;
+                });
+            }
+            
+            html += `</ol></div>`;
+            
+            // Materi dan Assessment
+            html += `<div class="preview-section">
+                        <h5 class="section-title">Materi dan Assessment</h5>
+                        
+                        <h6>Bahan Ajar</h6>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                ${rpp.materi_dan_assessment?.bahan_ajar?.materi || '-'}
+                            </div>
+                        </div>
+                        
+                        <h6>Remedial</h6>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                ${rpp.materi_dan_assessment?.remedial?.aktivitas || '-'}
+                            </div>
+                        </div>
+                        
+                        <h6>Pengayaan</h6>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                ${rpp.materi_dan_assessment?.pengayaan?.aktivitas || '-'}
+                            </div>
+                        </div>
+                        
+                        <h6>Assessment</h6>
+                        <div class="card">
+                            <div class="card-body">
+                                ${rpp.materi_dan_assessment?.assessment?.instrumen || '-'}
+                            </div>
+                        </div>
+                     </div>`;
+            
+            html += '</div>'; // Close rpp-preview
+            
+            return html;
+        }
+        
+        // Helper function to format bahan ajar JSON for display
+        function formatBahanAjar(data) {
+            // Handle whatever structure the bahan ajar comes in
+            if (typeof data === 'string') return data;
+            
+            let html = '<div class="rpp-preview">';
+            
+            // Check if we have the new bahan_ajar structure
+            if (data.bahan_ajar) {
+                // Title and description
+                html += `<div class="preview-section mb-3">
+                            <h5 class="section-title">${data.bahan_ajar.judul || 'Bahan Ajar'}</h5>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <p>${data.bahan_ajar.deskripsi || ''}</p>
+                                </div>
+                            </div>
+                         </div>`;
+                
+                // Materi section with vocabulary
+                if (data.bahan_ajar.materi) {
+                    html += `<div class="preview-section mb-3">
+                                <h5 class="section-title">Materi</h5>`;
+                    
+                    if (data.bahan_ajar.materi.penjelasan) {
+                        html += `<div class="card mb-3">
+                                    <div class="card-body">
+                                        <p>${data.bahan_ajar.materi.penjelasan}</p>
+                                    </div>
+                                </div>`;
+                    }
+                    
+                    // Vocabulary section with professions
+                    if (data.bahan_ajar.materi.vocabulary && data.bahan_ajar.materi.vocabulary.length > 0) {
+                        html += `<h6 class="mt-3">Vocabulary - Professions</h6>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th width="30%">Profession</th>
+                                                    <th>Explanation</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>`;
+                        
+                        data.bahan_ajar.materi.vocabulary.forEach(item => {
+                            html += `<tr>
+                                        <td><strong>${item.profesi}</strong></td>
+                                        <td>${item.penjelasan}</td>
+                                    </tr>`;
+                        });
+                        
+                        html += `</tbody>
+                                </table>
+                            </div>
+                        </div>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+                
+                // Examples/dialog section
+                if (data.bahan_ajar.contoh && data.bahan_ajar.contoh.length > 0) {
+                    html += `<div class="preview-section mb-3">
+                                <h5 class="section-title">Contoh Dialog/Teks</h5>
+                                <div class="card mb-3">
+                                    <div class="card-body">`;
+                    
+                    data.bahan_ajar.contoh.forEach((contoh, index) => {
+                        html += `<div class="mb-2"><strong>Contoh ${index + 1}:</strong></div>
+                                <div class="p-3 bg-light mb-3 rounded">${contoh.replace(/\n/g, '<br>')}</div>`;
+                    });
+                    
+                    html += `</div>
+                           </div>
+                        </div>`;
+                }
+                
+                // Exercises section
+                if (data.bahan_ajar.latihan) {
+                    html += `<div class="preview-section mb-3">
+                                <h5 class="section-title">Latihan (Exercises)</h5>`;
+                    
+                    for (const [skillType, exercises] of Object.entries(data.bahan_ajar.latihan)) {
+                        html += `<h6 class="mt-3">${formatKeyToTitle(skillType)}</h6>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <ol>`;
+                        
+                        exercises.forEach(exercise => {
+                            html += `<li>${exercise}</li>`;
+                        });
+                        
+                        html += `</ol>
+                                </div>
+                            </div>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+                
+                // Answer keys
+                if (data.bahan_ajar.kunci_jawaban) {
+                    html += `<div class="preview-section mb-3">
+                                <h5 class="section-title">Kunci Jawaban</h5>`;
+                    
+                    for (const [exerciseName, answers] of Object.entries(data.bahan_ajar.kunci_jawaban)) {
+                        html += `<h6 class="mt-3">${formatKeyToTitle(exerciseName)}</h6>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <ol>`;
+                        
+                        answers.forEach(answer => {
+                            html += `<li>${answer}</li>`;
+                        });
+                        
+                        html += `</ol>
+                                </div>
+                            </div>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+            } else {
+                // Generic formatter for other JSON structures (fallback)
+                for (const key in data) {
+                    if (typeof data[key] === 'object' && data[key] !== null) {
+                        html += `<div class="preview-section mb-3">
+                                    <h5 class="section-title">${formatKeyToTitle(key)}</h5>`;
+                        
+                        for (const subKey in data[key]) {
+                            if (Array.isArray(data[key][subKey])) {
+                                html += `<h6>${formatKeyToTitle(subKey)}</h6><ol>`;
+                                data[key][subKey].forEach(item => {
+                                    html += `<li>${item}</li>`;
+                                });
+                                html += `</ol>`;
+                            } else if (typeof data[key][subKey] === 'object' && data[key][subKey] !== null) {
+                                html += `<h6>${formatKeyToTitle(subKey)}</h6>
+                                         <table class="table table-bordered">`;
+                                for (const deepKey in data[key][subKey]) {
+                                    html += `<tr>
+                                                <td width="30%">${formatKeyToTitle(deepKey)}</td>
+                                                <td>${data[key][subKey][deepKey]}</td>
+                                            </tr>`;
+                                }
+                                html += `</table>`;
+                            } else {
+                                html += `<h6>${formatKeyToTitle(subKey)}</h6>
+                                         <div class="card mb-3">
+                                            <div class="card-body">
+                                                ${data[key][subKey] || '-'}
+                                            </div>
+                                         </div>`;
+                            }
+                        }
+                        
+                        html += `</div>`;
+                    } else {
+                        html += `<div class="preview-section mb-3">
+                                    <h5 class="section-title">${formatKeyToTitle(key)}</h5>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            ${data[key] || '-'}
+                                        </div>
+                                    </div>
+                                 </div>`;
+                    }
+                }
+            }
+            
+            html += '</div>'; // Close rpp-preview
+            
+            return html;
+        }
+        
+        // Helper to format JSON keys to titles
+        function formatKeyToTitle(key) {
+            return key
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, c => c.toUpperCase());
+        }
+    </script>
+</body>
+</html> 

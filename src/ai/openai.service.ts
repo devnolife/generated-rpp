@@ -8,7 +8,7 @@ export class OpenAiService {
 
   constructor(private configService: ConfigService) {
     this.openai = new OpenAI({
-      apiKey: this.configService.get<string>('OPENAI_API_KEY'),
+      apiKey: this.configService.get<string>('GEMINI_API_KEY'),
     });
   }
 

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPP Bahasa Inggris</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #0066cc;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header h2 {
+            font-size: 18px;
+            color: #666;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            color: #0066cc;
+            font-weight: bold;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .subsection {
+            margin-bottom: 20px;
+        }
+        .subsection-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #444;
+        }
+        table.identity-table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        table.identity-table td {
+            padding: 5px 10px;
+        }
+        table.identity-table td:first-child {
+            width: 30%;
+            font-weight: bold;
+        }
+        .content-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .kegiatan-list {
+            padding-left: 20px;
+        }
+        .kegiatan-list li {
+            margin-bottom: 10px;
+        }
+        .kegiatan-header {
+            background-color: #e9ecef;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .btn-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            .btn-print {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="btn btn-primary btn-print" onclick="window.print()">
+        <i class="bi bi-printer"></i> Cetak RPP
+    </button>
+    
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>RENCANA PELAKSANAAN PEMBELAJARAN (RPP)</h1>
+            <h2>{{ rpp.identitas.mata_pelajaran if rpp.identitas.mata_pelajaran else 'BAHASA INGGRIS' }}</h2>
+            <h2>{{ rpp.identitas.jenjang if rpp.identitas.jenjang }} - Kelas {{ rpp.identitas.kelas if rpp.identitas.kelas }}</h2>
+        </div>
+        
+        <!-- Identity Section -->
+        <div class="section">
+            <h3 class="section-title">A. IDENTITAS</h3>
+            <table class="identity-table">
+                <tr>
+                    <td>Nama Penyusun</td>
+                    <td>: {{ rpp.identitas.nama_penyusun if rpp.identitas.nama_penyusun else '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Institusi</td>
+                    <td>: {{ rpp.identitas.institusi if rpp.identitas.institusi else '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Tahun Pembuatan</td>
+                    <td>: {{ rpp.identitas.tahun_pembuatan if rpp.identitas.tahun_pembuatan else '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Mata Pelajaran</td>
+                    <td>: {{ rpp.identitas.mata_pelajaran if rpp.identitas.mata_pelajaran else 'Bahasa Inggris' }}</td>
+                </tr>
+                <tr>
+                    <td>Jenjang</td>
+                    <td>: {{ rpp.identitas.jenjang if rpp.identitas.jenjang else '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Kelas</td>
+                    <td>: {{ rpp.identitas.kelas if rpp.identitas.kelas else '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Alokasi Waktu</td>
+                    <td>: {{ rpp.identitas.alokasi_waktu if rpp.identitas.alokasi_waktu else '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Tahapan</td>
+                    <td>: {{ rpp.identitas.tahapan if rpp.identitas.tahapan else '-' }}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Komponen Pembelajaran Section -->
+        <div class="section">
+            <h3 class="section-title">B. KOMPONEN PEMBELAJARAN</h3>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Capaian Pembelajaran (CP)</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.capaian_pembelajaran if rpp.komponen_pembelajaran.capaian_pembelajaran else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Domain Konten/Elemen</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.domain_konten if rpp.komponen_pembelajaran.domain_konten else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Tujuan Pembelajaran</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.tujuan_pembelajaran if rpp.komponen_pembelajaran.tujuan_pembelajaran else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Konten Utama/Referensi/Inpirasi</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.konten_utama if rpp.komponen_pembelajaran.konten_utama else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Prasyarat Pengetahuan/Keterampilan</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.prasyarat_pengetahuan if rpp.komponen_pembelajaran.prasyarat_pengetahuan else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Pemahaman Bermakna</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.pemahaman_bermakna if rpp.komponen_pembelajaran.pemahaman_bermakna else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Profil Pelajar Pancasila</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.profil_pelajar_pancasila if rpp.komponen_pembelajaran.profil_pelajar_pancasila else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Sarana dan Prasarana</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.sarana_prasarana if rpp.komponen_pembelajaran.sarana_prasarana else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Target Peserta Didik</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.target_peserta_didik if rpp.komponen_pembelajaran.target_peserta_didik else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Jumlah Peserta Didik</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.jumlah_peserta_didik if rpp.komponen_pembelajaran.jumlah_peserta_didik else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Model Pembelajaran</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.model_pembelajaran if rpp.komponen_pembelajaran.model_pembelajaran else '-' }}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Sumber Belajar</h4>
+                <div class="content-box">
+                    {{ rpp.komponen_pembelajaran.sumber_belajar if rpp.komponen_pembelajaran.sumber_belajar else '-' }}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page Break for Printing -->
+        <div class="page-break"></div>
+        
+        <!-- Kegiatan Pembelajaran Section -->
+        <div class="section">
+            <h3 class="section-title">C. KEGIATAN PEMBELAJARAN</h3>
+            
+            <div class="subsection">
+                <div class="kegiatan-header">Kegiatan Awal ({{ rpp.kegiatan_pembelajaran.kegiatan_awal.durasi if rpp.kegiatan_pembelajaran.kegiatan_awal.durasi else '15 Menit' }})</div>
+                <ol class="kegiatan-list">
+                    {% if rpp.kegiatan_pembelajaran.kegiatan_awal.langkah_kegiatan %}
+                        {% for langkah in rpp.kegiatan_pembelajaran.kegiatan_awal.langkah_kegiatan %}
+                            <li>
+                                <strong>{{ langkah.aktivitas }}</strong> ({{ langkah.waktu }})
+                                <div><strong>Peran Guru:</strong> {{ langkah.peran_guru }}</div>
+                                <div><strong>Peran Siswa:</strong> {{ langkah.peran_siswa }}</div>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li>Tidak ada data</li>
+                    {% endif %}
+                </ol>
+            </div>
+            
+            <div class="subsection">
+                <div class="kegiatan-header">Kegiatan Inti ({{ rpp.kegiatan_pembelajaran.kegiatan_inti.durasi if rpp.kegiatan_pembelajaran.kegiatan_inti.durasi else '90 Menit' }})</div>
+                <ol class="kegiatan-list">
+                    {% if rpp.kegiatan_pembelajaran.kegiatan_inti.langkah_kegiatan %}
+                        {% for langkah in rpp.kegiatan_pembelajaran.kegiatan_inti.langkah_kegiatan %}
+                            <li>
+                                <strong>{{ langkah.aktivitas }}</strong> ({{ langkah.waktu }})
+                                <div><strong>Peran Guru:</strong> {{ langkah.peran_guru }}</div>
+                                <div><strong>Peran Siswa:</strong> {{ langkah.peran_siswa }}</div>
+                                {% if langkah.pengelompokan %}
+                                    <div><strong>Pengelompokan:</strong> {{ langkah.pengelompokan }}</div>
+                                {% endif %}
+                                {% if langkah.pertanyaan_kunci %}
+                                    <div><strong>Pertanyaan Kunci:</strong></div>
+                                    <ul>
+                                        {% for pertanyaan in langkah.pertanyaan_kunci %}
+                                            <li>{{ pertanyaan }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li>Tidak ada data</li>
+                    {% endif %}
+                </ol>
+            </div>
+            
+            <div class="subsection">
+                <div class="kegiatan-header">Kegiatan Penutup ({{ rpp.kegiatan_pembelajaran.kegiatan_penutup.durasi if rpp.kegiatan_pembelajaran.kegiatan_penutup.durasi else '15 Menit' }})</div>
+                <ol class="kegiatan-list">
+                    {% if rpp.kegiatan_pembelajaran.kegiatan_penutup.langkah_kegiatan %}
+                        {% for langkah in rpp.kegiatan_pembelajaran.kegiatan_penutup.langkah_kegiatan %}
+                            <li>
+                                <strong>{{ langkah.aktivitas }}</strong> ({{ langkah.waktu }})
+                                <div><strong>Peran Guru:</strong> {{ langkah.peran_guru }}</div>
+                                <div><strong>Peran Siswa:</strong> {{ langkah.peran_siswa }}</div>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li>Tidak ada data</li>
+                    {% endif %}
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Materi & Assessment Section -->
+        <div class="section">
+            <h3 class="section-title">D. MATERI DAN ASSESSMENT</h3>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Bahan Ajar</h4>
+                <div class="content-box">
+                    {% if rpp.materi_dan_assessment.bahan_ajar.materi %}
+                        <p>{{ rpp.materi_dan_assessment.bahan_ajar.materi }}</p>
+                    {% endif %}
+                    
+                    {% if rpp.materi_dan_assessment.bahan_ajar.contoh %}
+                        <h5>Contoh-contoh:</h5>
+                        <ul>
+                            {% for contoh in rpp.materi_dan_assessment.bahan_ajar.contoh %}
+                                <li>{{ contoh }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                    {% if rpp.materi_dan_assessment.bahan_ajar.latihan %}
+                        <h5>Latihan:</h5>
+                        <ol>
+                            {% for latihan in rpp.materi_dan_assessment.bahan_ajar.latihan %}
+                                <li>{{ latihan }}</li>
+                            {% endfor %}
+                        </ol>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Remedial</h4>
+                <div class="content-box">
+                    {% if rpp.materi_dan_assessment.remedial %}
+                        <p><strong>Aktivitas:</strong> {{ rpp.materi_dan_assessment.remedial.aktivitas if rpp.materi_dan_assessment.remedial.aktivitas else '-' }}</p>
+                        
+                        {% if rpp.materi_dan_assessment.remedial.materi %}
+                            <p><strong>Materi:</strong> {{ rpp.materi_dan_assessment.remedial.materi }}</p>
+                        {% endif %}
+                    {% else %}
+                        <p>-</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Pengayaan</h4>
+                <div class="content-box">
+                    {% if rpp.materi_dan_assessment.pengayaan %}
+                        <p><strong>Aktivitas:</strong> {{ rpp.materi_dan_assessment.pengayaan.aktivitas if rpp.materi_dan_assessment.pengayaan.aktivitas else '-' }}</p>
+                        
+                        {% if rpp.materi_dan_assessment.pengayaan.materi %}
+                            <p><strong>Materi:</strong> {{ rpp.materi_dan_assessment.pengayaan.materi }}</p>
+                        {% endif %}
+                    {% else %}
+                        <p>-</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h4 class="subsection-title">Assessment</h4>
+                <div class="content-box">
+                    {% if rpp.materi_dan_assessment.assessment %}
+                        <!-- Penilaian Pengetahuan -->
+                        {% if rpp.materi_dan_assessment.assessment.penilaian_pengetahuan %}
+                            <div class="mb-4">
+                                <h5>1. Rubrik Penilaian Pengetahuan</h5>
+                                <div class="ms-3">
+                                    <p><strong>a. Teknik penilaian:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.teknik }}</p>
+                                    <p><strong>b. Bentuk Instrumen:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.bentuk_instrumen }}</p>
+                                    <p><strong>c. Kisi-kisi:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.kisi_kisi }}</p>
+                                    <p><strong>d. Instrumen penilaian:</strong></p>
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.instrumen %}
+                                        <ol class="ms-3">
+                                            {% for item in rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.instrumen %}
+                                                <li>{{ item }}</li>
+                                            {% endfor %}
+                                        </ol>
+                                    {% endif %}
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.kunci_jawaban %}
+                                        <p><strong>Kunci Jawaban:</strong></p>
+                                        <ol class="ms-3">
+                                            {% for item in rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.kunci_jawaban %}
+                                                <li>{{ item }}</li>
+                                            {% endfor %}
+                                        </ol>
+                                    {% endif %}
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.pedoman_penskoran %}
+                                        <p><strong>Pedoman Penskoran:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_pengetahuan.pedoman_penskoran }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Penilaian Keterampilan Mengucapkan -->
+                        {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan %}
+                            <div class="mb-4">
+                                <h5>2. Rubrik untuk Penilaian Keterampilan Mengucapkan</h5>
+                                <div class="ms-3">
+                                    <p><strong>Teknik penilaian:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan.teknik }}</p>
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan.aspek_penilaian %}
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Aspek</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Skor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for aspek in rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan.aspek_penilaian %}
+                                                    {% set outer_loop = loop %}
+                                                    {% for deskripsi in aspek.deskripsi %}
+                                                        {% if loop.first %}
+                                                            <tr>
+                                                                <td rowspan="{{ aspek.deskripsi|length }}">{{ outer_loop.index }}</td>
+                                                                <td rowspan="{{ aspek.deskripsi|length }}">{{ aspek.nama_aspek }}</td>
+                                                                <td>{{ deskripsi.level }}</td>
+                                                                <td>{{ deskripsi.skor }}</td>
+                                                            </tr>
+                                                        {% else %}
+                                                            <tr>
+                                                                <td>{{ deskripsi.level }}</td>
+                                                                <td>{{ deskripsi.skor }}</td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan.penentuan_nilai %}
+                                        <p><strong>Penentuan Nilai:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan.penentuan_nilai }}</p>
+                                    {% endif %}
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan.instrumen %}
+                                        <p><strong>Instrumen:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_keterampilan_mengucapkan.instrumen }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Penilaian Keterampilan Lainnya -->
+                        {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya %}
+                            <div class="mb-4">
+                                <h5>3. Penilaian Keterampilan Lainnya</h5>
+                                <div class="ms-3">
+                                    <p><strong>Teknik penilaian:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya.teknik }}</p>
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya.instrumen %}
+                                        <p><strong>Instrumen:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya.instrumen }}</p>
+                                    {% endif %}
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya.rubrik %}
+                                        <p><strong>Rubrik:</strong></p>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kriteria</th>
+                                                    <th>Sangat Baik</th>
+                                                    <th>Baik</th>
+                                                    <th>Cukup</th>
+                                                    <th>Perlu Bimbingan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for kriteria, nilai in rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya.rubrik.items() %}
+                                                    <tr>
+                                                        <td>{{ kriteria }}</td>
+                                                        <td>{{ nilai.sangat_baik }}</td>
+                                                        <td>{{ nilai.baik }}</td>
+                                                        <td>{{ nilai.cukup }}</td>
+                                                        <td>{{ nilai.perlu_bimbingan }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                    
+                                    {% if rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya.pedoman_penskoran %}
+                                        <p><strong>Pedoman Penskoran:</strong> {{ rpp.materi_dan_assessment.assessment.penilaian_keterampilan_lainnya.pedoman_penskoran }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p>-</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Section -->
+        <div class="section" style="margin-top: 50px;">
+            <div class="row">
+                <div class="col-6 text-center">
+                    <p>Mengetahui,</p>
+                    <p>Kepala Sekolah</p>
+                    <br><br><br>
+                    <p>____________________</p>
+                    <p>NIP. </p>
+                </div>
+                <div class="col-6 text-center">
+                    <p>{{ rpp.identitas.tahun_pembuatan if rpp.identitas.tahun_pembuatan else '' }}</p>
+                    <p>Guru Mata Pelajaran</p>
+                    <br><br><br>
+                    <p>{{ rpp.identitas.nama_penyusun if rpp.identitas.nama_penyusun else '____________________' }}</p>
+                    <p>NIP. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add any JavaScript functionality needed here
+    </script>
+</body>
+</html> 
