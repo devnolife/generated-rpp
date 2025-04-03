@@ -97,6 +97,12 @@
             right: 140px;
             z-index: 1000;
         }
+        .btn-kisi-kisi {
+            position: fixed;
+            top: 20px;
+            right: 260px;
+            z-index: 1000;
+        }
         #questionsSection {
             display: none;
             margin-top: 20px;
@@ -116,7 +122,7 @@
                 padding: 0;
                 margin: 0;
             }
-            .btn-print, .btn-generate-questions {
+            .btn-print, .btn-generate-questions, .btn-kisi-kisi {
                 display: none;
             }
             #questionsSection {
@@ -135,6 +141,10 @@
     
     <button class="btn btn-success btn-generate-questions" onclick="showGenerateQuestionsModal()">
         <i class="bi bi-question-circle"></i> Buat Soal
+    </button>
+    
+    <button class="btn btn-info btn-kisi-kisi" onclick="showKisiKisiModal()">
+        <i class="bi bi-file-text"></i> Buat Kisi-Kisi
     </button>
     
     <div class="container">
@@ -604,6 +614,39 @@
         <input type="hidden" name="questions_data" id="questions_data">
     </form>
     
+    <!-- Modal for generating kisi-kisi -->
+    <div class="modal fade" id="generateKisiKisiModal" tabindex="-1" aria-labelledby="generateKisiKisiModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="generateKisiKisiModalLabel">Buat Kisi-Kisi Soal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Untuk membuat kisi-kisi soal, diperlukan soal evaluasi terlebih dahulu.</p>
+                    <p>Buat soal evaluasi terlebih dahulu, lalu dari halaman soal, Anda dapat membuat kisi-kisi soal.</p>
+                    <div id="loadingKisiKisi" style="display: none;">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <p class="text-center mt-2">Sedang membuat kisi-kisi soal... Harap tunggu.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" onclick="generateQuestionAndKisiKisi()">Buat Soal & Kisi-Kisi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form for viewing kisi-kisi -->
+    <form id="viewKisiKisiForm" method="POST" action="/view-english-kisi-kisi" target="_blank" style="display: none;">
+        <input type="hidden" name="kisi_kisi_data" id="kisi_kisi_data">
+    </form>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Initialize Bootstrap components
@@ -672,6 +715,79 @@
                 this.disabled = false;
             }
         });
+
+        // Function to show the kisi-kisi modal
+        function showKisiKisiModal() {
+            const modal = new bootstrap.Modal(document.getElementById('generateKisiKisiModal'));
+            modal.show();
+        }
+
+        // Function to generate questions and then kisi-kisi
+        async function generateQuestionAndKisiKisi() {
+            // Show loading indicator
+            document.getElementById('loadingKisiKisi').style.display = 'block';
+            // Disable the button while processing
+            document.querySelector('#generateKisiKisiModal .btn-primary').disabled = true;
+            
+            // Get RPP data from localStorage
+            const rppData = JSON.parse(localStorage.getItem('rppData'));
+            
+            try {
+                // Step 1: Generate questions
+                const questionsResponse = await fetch('/generate-english-questions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(rppData)
+                });
+                
+                const questionsResult = await questionsResponse.json();
+                
+                if (questionsResult.status === 'success') {
+                    // Parse questions data
+                    const questionsData = JSON.parse(questionsResult.questions);
+                    
+                    // Step 2: Generate kisi-kisi
+                    const kisiKisiResponse = await fetch('/generate-english-kisi-kisi', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            rpp_data: rppData,
+                            questions_data: questionsData.soal_bahasa_inggris || {}
+                        })
+                    });
+                    
+                    const kisiKisiResult = await kisiKisiResponse.json();
+                    
+                    if (kisiKisiResult.status === 'success') {
+                        // Store the kisi-kisi data for viewing
+                        document.getElementById('kisi_kisi_data').value = kisiKisiResult.kisi_kisi;
+                        
+                        // Hide the modal
+                        const modalElement = document.getElementById('generateKisiKisiModal');
+                        const modal = bootstrap.Modal.getInstance(modalElement);
+                        modal.hide();
+                        
+                        // Submit the form to view kisi-kisi
+                        document.getElementById('viewKisiKisiForm').submit();
+                    } else {
+                        alert('Terjadi kesalahan: ' + kisiKisiResult.message);
+                    }
+                } else {
+                    alert('Terjadi kesalahan: ' + questionsResult.message);
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan: ' + error.message);
+            } finally {
+                // Hide loading indicator
+                document.getElementById('loadingKisiKisi').style.display = 'none';
+                // Re-enable the button
+                document.querySelector('#generateKisiKisiModal .btn-primary').disabled = false;
+            }
+        }
     </script>
 </body>
 </html> 

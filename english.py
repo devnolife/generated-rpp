@@ -720,6 +720,150 @@ def generate_english_questions(data):
             print(f"Fallback error: {str(inner_e)}")
             raise Exception(f"Failed to generate questions: {str(e)}, Fallback error: {str(inner_e)}")
 
+def generate_english_kisi_kisi(data, questions_data):
+    # Format required fields for kisi-kisi generation
+    system_prompt = """
+    Kamu adalah ahli penilaian pendidikan Bahasa Inggris yang menguasai pembuatan kisi-kisi soal untuk sekolah di Indonesia.
+    Tugasmu adalah menghasilkan kisi-kisi penulisan soal (blueprint) untuk asesmen bahasa Inggris berdasarkan RPP dan soal yang telah dibuat.
+    
+    Kisi-kisi ini HARUS mengikuti format sesuai kurikulum merdeka dan mencakup tabel dengan kolom:
+    1. Nomor (1, 2, 3, dst)
+    2. Tujuan Pembelajaran (diambil dari RPP)
+    3. Materi (diambil dari RPP)
+    4. Indikator Soal (deskripsikan apa yang diuji oleh soal tersebut)
+    5. Level Kognitif (C1-Mengingat, C2-Memahami, C3-Menerapkan, C4-Menganalisis, C5-Mengevaluasi, C6-Mencipta)
+    6. Bentuk Soal (Pilihan Ganda, Menjodohkan, Benar-Salah, Essay)
+    7. Nomor Soal (sesuai dengan nomor pada soal yang telah dibuat)
+    
+    PENTING! Kisi-kisi harus mencakup semua jenis soal yang telah dibuat (pilihan ganda, menjodohkan, benar-salah, dan essay).
+    Level kognitif harus bervariasi dan sesuai dengan jenis pertanyaan/soal.
+    
+    Berikan output dalam format JSON yang terstruktur seperti berikut:
+    
+    {
+      "kisi_kisi": {
+        "informasi": {
+          "nama_sekolah": "string (gunakan data dari RPP)",
+          "mata_pelajaran": "Bahasa Inggris",
+          "kelas_semester": "string",
+          "kurikulum": "Merdeka",
+          "alokasi_waktu": "string (gunakan data dari soal)",
+          "jumlah_bentuk_soal": "string (jumlah dan jenis soal, mis: 5 PG, 5 Menjodohkan, 5 B-S, 2 Essay)",
+          "penulis": "string (gunakan data dari RPP)",
+          "tahun_pelajaran": "2024/2025",
+          "tempat_tanggal": "string (lokasi dan tanggal)"
+        },
+        "tabel_kisi_kisi": [
+          {
+            "nomor": 1,
+            "tujuan_pembelajaran": "string (dari RPP)",
+            "materi": "string (dari RPP)",
+            "indikator_soal": "string (deskripsikan kemampuan yang diuji)",
+            "level_kognitif": "string (C1-C6)",
+            "bentuk_soal": "string (PG/Menjodohkan/B-S/Essay)",
+            "nomor_soal": "string (nomor soal dalam kelompoknya)"
+          },
+          // tambahkan untuk semua soal yang dibuat
+        ]
+      }
+    }
+    
+    Pastikan semua informasi lengkap, akurat, dan sesuai dengan standar kurikulum Merdeka di Indonesia.
+    """
+
+    user_prompt = f"""
+    Buatlah kisi-kisi penulisan soal untuk asesmen bahasa Inggris berdasarkan data berikut:
+    
+    RPP (Rencana Pelaksanaan Pembelajaran):
+    Mata Pelajaran: {data.get('mata_pelajaran')}
+    Jenjang: {data.get('jenjang')}
+    Kelas: {data.get('kelas')}
+    Alokasi Waktu: {data.get('alokasi_waktu', '90 menit')}
+    Konten Utama: {data.get('konten_utama')}
+    Tujuan Pembelajaran: {data.get('tujuan_pembelajaran')}
+    Nama Penyusun: {data.get('nama_penyusun', 'Guru Bahasa Inggris')}
+    
+    Soal yang telah dibuat:
+    Judul Soal: {questions_data.get('judul', 'Soal Evaluasi Bahasa Inggris')}
+    - Pilihan Ganda: 5 soal
+    - Menjodohkan: 5 soal
+    - Benar-Salah: 5 soal
+    - Essay: 2 soal
+    
+    Buatlah kisi-kisi yang memuat informasi dan tabel kisi-kisi sesuai format yang diminta.
+    Pastikan setiap jenis soal memiliki entri dalam tabel kisi-kisi dan level kognitif bervariasi sesuai dengan jenis soal.
+    """
+
+    full_prompt = system_prompt + "\n\n" + user_prompt
+
+    try:
+        # Create a Gemini model
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        # Generate content with Gemini
+        response = model.generate_content(full_prompt)
+        
+        result = response.text
+        
+        # Clean the response - remove any markdown code block formatting or extra text
+        result = re.sub(r'```json\s*', '', result)
+        result = re.sub(r'```\s*', '', result)
+        
+        # Try to parse JSON to verify its validity
+        try:
+            parsed_json = json.loads(result)
+            # Return the properly formatted JSON string
+            return json.dumps(parsed_json, ensure_ascii=False)
+        except json.JSONDecodeError:
+            # If the response isn't valid JSON, try to extract JSON using regex
+            json_match = re.search(r'({.*})', result, re.DOTALL)
+            if json_match:
+                try:
+                    json_str = json_match.group(1)
+                    parsed_json = json.loads(json_str)
+                    return json.dumps(parsed_json, ensure_ascii=False)
+                except:
+                    pass
+            
+            # If all attempts fail, return the original response
+            return result
+            
+    except Exception as e:
+        print(f"Error generating kisi-kisi: {str(e)}")
+        # Try fallback to another model
+        try:
+            model = genai.GenerativeModel('gemini-1.5-pro')
+            
+            response = model.generate_content(full_prompt)
+            
+            result = response.text
+            
+            # Clean the response - remove any markdown code block formatting
+            result = re.sub(r'```json\s*', '', result)
+            result = re.sub(r'```\s*', '', result)
+            
+            # Try to parse JSON to verify its validity
+            try:
+                parsed_json = json.loads(result)
+                return json.dumps(parsed_json, ensure_ascii=False)
+            except json.JSONDecodeError:
+                # If the response isn't valid JSON, try to extract JSON using regex
+                json_match = re.search(r'({.*})', result, re.DOTALL)
+                if json_match:
+                    try:
+                        json_str = json_match.group(1)
+                        parsed_json = json.loads(json_str)
+                        return json.dumps(parsed_json, ensure_ascii=False)
+                    except:
+                        pass
+                
+                # If all attempts fail, return the original response
+                return result
+                
+        except Exception as inner_e:
+            print(f"Fallback error: {str(inner_e)}")
+            raise Exception(f"Failed to generate kisi-kisi: {str(e)}, Fallback error: {str(inner_e)}")
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("english_index.html")
@@ -828,6 +972,41 @@ def view_questions():
         
         # Render a dedicated template for the questions
         return render_template("english_questions_view.html", questions=questions_data.get('soal_bahasa_inggris', {}))
+    except Exception as e:
+        return render_template("error.html", error=str(e))
+
+@app.route("/generate-english-kisi-kisi", methods=["POST"])
+def generate_kisi_kisi():
+    try:
+        # Get JSON data from request
+        data = request.json
+        rpp_data = data.get('rpp_data', {})
+        questions_data = data.get('questions_data', {})
+        
+        # Generate kisi-kisi
+        result = generate_english_kisi_kisi(rpp_data, questions_data)
+        
+        # Try to parse the result as JSON
+        try:
+            json_data = json.loads(result)
+            return jsonify({"status": "success", "kisi_kisi": json.dumps(json_data, ensure_ascii=False)})
+        except json.JSONDecodeError:
+            return jsonify({"status": "success", "kisi_kisi": result})
+            
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route("/view-english-kisi-kisi", methods=["POST"])
+def view_kisi_kisi():
+    try:
+        # Get the kisi-kisi JSON data from form
+        kisi_kisi_json = request.form.get("kisi_kisi_data")
+        
+        # Parse the JSON data
+        kisi_kisi_data = json.loads(kisi_kisi_json)
+        
+        # Render a dedicated template for the kisi-kisi
+        return render_template("english_kisi_kisi_view.html", kisi_kisi=kisi_kisi_data.get('kisi_kisi', {}))
     except Exception as e:
         return render_template("error.html", error=str(e))
 

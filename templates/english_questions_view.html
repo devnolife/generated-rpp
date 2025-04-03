@@ -113,6 +113,12 @@
             right: 20px;
             z-index: 1000;
         }
+        .btn-kisi-kisi {
+            position: fixed;
+            top: 20px;
+            right: 140px;
+            z-index: 1000;
+        }
         @media print {
             body {
                 background-color: white;
@@ -125,7 +131,7 @@
                 padding: 0;
                 margin: 0;
             }
-            .btn-print, .btn-toggle-answers {
+            .btn-print, .btn-toggle-answers, .btn-kisi-kisi {
                 display: none;
             }
             .answer-key, .essay-answer {
@@ -140,6 +146,10 @@
 <body>
     <button class="btn btn-primary btn-print" onclick="window.print()">
         <i class="bi bi-printer"></i> Cetak Soal
+    </button>
+    
+    <button class="btn btn-success btn-kisi-kisi" onclick="generateKisiKisi()">
+        <i class="bi bi-file-text"></i> Buat Kisi-Kisi Soal
     </button>
     
     <div class="container">
@@ -314,7 +324,47 @@
         </div>
     </div>
     
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" aria-labelledby="loadingModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loadingModalLabel">Membuat Kisi-Kisi</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Sedang membuat kisi-kisi soal. Harap tunggu...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Form for viewing kisi-kisi -->
+    <form id="viewKisiKisiForm" method="POST" action="/view-english-kisi-kisi" target="_blank" style="display: none;">
+        <input type="hidden" name="kisi_kisi_data" id="kisi_kisi_data">
+    </form>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Store questions data in localStorage for kisi-kisi generation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Basic data about the questions
+            const questionsData = {
+                judul: "{{ questions.judul if questions.judul else 'Soal Evaluasi Bahasa Inggris' }}",
+                kelas: "{{ questions.kelas if questions.kelas else '' }}",
+                identitas: {
+                    nama_sekolah: "{{ questions.identitas.nama_sekolah if questions.identitas.nama_sekolah else '' }}",
+                    mata_pelajaran: "{{ questions.identitas.mata_pelajaran if questions.identitas.mata_pelajaran else 'Bahasa Inggris' }}",
+                    alokasi_waktu: "{{ questions.identitas.alokasi_waktu if questions.identitas.alokasi_waktu else '' }}"
+                }
+            };
+            
+            // Store in localStorage
+            localStorage.setItem('questionsData', JSON.stringify(questionsData));
+        });
+        
         // Toggle functions for showing/hiding answers
         function toggleMultipleChoiceAnswers() {
             const answers = document.querySelectorAll('.answer-key');
@@ -347,6 +397,55 @@
             answers.forEach(answer => {
                 answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
             });
+        }
+        
+        // Function to generate kisi-kisi
+        async function generateKisiKisi() {
+            // Show loading modal
+            const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+            loadingModal.show();
+            
+            try {
+                // Get RPP data from localStorage (stored when viewing RPP)
+                const rppData = JSON.parse(localStorage.getItem('rppData') || '{}');
+                
+                // Get questions data from localStorage
+                const questionsData = JSON.parse(localStorage.getItem('questionsData') || '{}');
+                
+                // Prepare request data
+                const requestData = {
+                    rpp_data: rppData,
+                    questions_data: questionsData
+                };
+                
+                // Send request to generate kisi-kisi
+                const response = await fetch('/generate-english-kisi-kisi', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    // Store the kisi-kisi data for viewing
+                    document.getElementById('kisi_kisi_data').value = result.kisi_kisi;
+                    
+                    // Hide the loading modal
+                    loadingModal.hide();
+                    
+                    // Submit the form to view kisi-kisi
+                    document.getElementById('viewKisiKisiForm').submit();
+                } else {
+                    loadingModal.hide();
+                    alert('Terjadi kesalahan: ' + result.message);
+                }
+            } catch (error) {
+                loadingModal.hide();
+                alert('Terjadi kesalahan: ' + error.message);
+            }
         }
     </script>
 </body>
