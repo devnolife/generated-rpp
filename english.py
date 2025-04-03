@@ -151,7 +151,8 @@ def generate_english_lesson(data):
             "alasan_pemilihan": "string justifikasi     pemilihan model",
             "tahapan": ["string tahap 1", "string tahap 2", "string tahap 3"]
           },
-          "sumber_belajar": ["string referensi 1 format akademik", "string referensi 2 format akademik"]
+          "sumber_belajar": ["string referensi 1 format akademik", "string referensi 2 format akademik"],
+          "catatan": "string catatan tambahan (jika ada)"
         },
         "kegiatan_pembelajaran": {
           "kegiatan_awal": {
@@ -294,6 +295,7 @@ def generate_english_lesson(data):
     Jumlah peserta didik: {data.get('jumlah_peserta', '-')}
     Model pembelajaran: {data.get('model_pembelajaran', '-')}
     Sumber belajar: {data.get('sumber_belajar', '-')}
+    {f"Catatan Tambahan: {data.get('catatan')}" if data.get('catatan') else ""}
 
     Hasilkan RPP Bahasa Inggris yang lengkap dengan isi untuk setiap bagian berikut:
     1. Kegiatan awal (15 Menit) - berisi langkah-langkah kegiatan pendahuluan yang dilakukan guru
@@ -505,6 +507,219 @@ def generate_bahan_ajar(data):
             print(f"Fallback error: {str(inner_e)}")
             return f"Error: {str(e)}, Fallback error: {str(inner_e)}"
 
+def generate_english_questions(data):
+    # Format required fields for question generation
+    system_prompt = """
+    Kamu adalah seorang ahli dalam membuat soal dan penilaian bahasa Inggris untuk siswa di Indonesia.
+    Buatlah soal yang berkualitas, kontekstual, dan SANGAT SESUAI dengan RPP yang telah dibuat.
+    Kamu HARUS memastikan semua soal LANGSUNG terkait dengan konten utama, tujuan pembelajaran, dan materi
+    dalam RPP. Jangan membuat soal di luar konteks RPP.
+    
+    Soal yang dibuat harus mencakup 4 jenis yang SALING TERHUBUNG dalam tema dan materi:
+    
+    1. PILIHAN GANDA - Buatlah 5 soal pilihan ganda dengan 4 opsi jawaban (A, B, C, D)
+       - Setiap soal pilihan ganda harus memiliki paragraf narasi atau teks (minimal 5-7 kalimat)
+       - Paragraf harus LANGSUNG terkait dengan konten RPP dan menjadi dasar pertanyaan
+       - Total harus ada 5 paragraf (satu untuk setiap soal) yang saling berkaitan dalam tema
+       - Pertanyaan harus langsung berkaitan dengan isi paragraf dan menguji pemahaman siswa
+    
+    2. MENJODOHKAN - Buatlah 5 soal menjodohkan
+       - Konten menjodohkan harus BERKAITAN dengan isi paragraf pada soal pilihan ganda
+       - Konsep yang diuji harus sama dengan yang ada di paragraf
+    
+    3. BENAR-SALAH - Buatlah 5 pernyataan benar/salah
+       - Pernyataan harus LANGSUNG mengacu pada informasi dalam paragraf di soal pilihan ganda
+       - Gunakan informasi spesifik dari paragraf untuk membuat pernyataan
+    
+    4. ESSAY - Buatlah 2 soal essay/uraian
+       - Soal essay harus meminta siswa menganalisis, mensintesis, atau mengevaluasi informasi dari paragraf
+       - Harus menggunakan konteks yang SAMA dengan paragraf dalam soal pilihan ganda
+    
+    KETERKAITAN ANTAR SOAL:
+    - Pastikan semua jenis soal membahas tema/topik yang SAMA
+    - Gunakan kosakata, konsep, dan konteks yang konsisten di semua soal
+    - Soal benar-salah dan essay harus mengacu pada informasi dari paragraf di soal pilihan ganda
+    - Menciptakan pengalaman tes yang kohesif dan terintegrasi
+    
+    Berikan output dalam format JSON yang terstruktur dan lengkap seperti berikut:
+    
+    {
+      "soal_bahasa_inggris": {
+        "judul": "Soal Evaluasi Bahasa Inggris - [Topik yang SAMA dengan RPP]",
+        "kelas": "string tingkat/kelas",
+        "identitas": {
+          "nama_sekolah": "string",
+          "mata_pelajaran": "Bahasa Inggris",
+          "alokasi_waktu": "string format waktu",
+          "petunjuk": "string instruksi untuk siswa"
+        },
+        "pilihan_ganda": [
+          {
+            "nomor": 1,
+            "paragraf": "string paragraf yang terkait langsung dengan RPP (5-7 kalimat)",
+            "pertanyaan": "string pertanyaan tentang paragraf",
+            "pilihan": {
+              "A": "string pilihan A",
+              "B": "string pilihan B",
+              "C": "string pilihan C",
+              "D": "string pilihan D"
+            },
+            "kunci_jawaban": "string huruf jawaban benar (A/B/C/D)"
+          },
+          // 4 soal pilihan ganda lainnya dengan format yang sama
+        ],
+        "menjodohkan": {
+          "petunjuk": "string instruksi khusus",
+          "soal": [
+            {
+              "nomor": 1,
+              "kolom_a": "string konten kolom kiri yang terkait dengan paragraf",
+              "kolom_b": "string konten kolom kanan yang benar"
+            },
+            // 4 soal menjodohkan lainnya dengan format yang sama
+          ]
+        },
+        "benar_salah": [
+          {
+            "nomor": 1,
+            "terkait_paragraf": "nomor paragraf pilihan ganda yang terkait (1-5)",
+            "pernyataan": "string pernyataan yang mengacu pada informasi dalam paragraf",
+            "kunci_jawaban": true/false
+          },
+          // 4 soal benar/salah lainnya dengan format yang sama
+        ],
+        "essay": [
+          {
+            "nomor": 1,
+            "terkait_paragraf": "nomor paragraf pilihan ganda yang terkait (1-5)",
+            "pertanyaan": "string pertanyaan essay yang meminta analisis/sintesis dari paragraf",
+            "panduan_jawaban": "string panduan jawaban untuk guru yang mengacu pada paragraf"
+          },
+          {
+            "nomor": 2,
+            "terkait_paragraf": "nomor paragraf pilihan ganda yang terkait (1-5)",
+            "pertanyaan": "string pertanyaan essay yang meminta analisis/sintesis dari paragraf",
+            "panduan_jawaban": "string panduan jawaban untuk guru yang mengacu pada paragraf"
+          }
+        ]
+      }
+    }
+    
+    PENTING: Pastikan semua soal:
+    1. HARUS 100% mengacu pada konten RPP (jangan membuat soal di luar materi RPP)
+    2. Menggunakan bahasa Inggris yang sesuai dengan tingkat/jenjang siswa
+    3. Paragraf dan pertanyaan harus memiliki keterkaitan yang jelas dan logis
+    4. Semua jenis soal (pilihan ganda, menjodohkan, benar-salah, essay) harus terhubung dalam tema yang sama
+    5. Untuk soal benar-salah dan essay, WAJIB menuliskan nomor paragraf yang terkait sebagai referensi
+    
+    Outputkan dalam format JSON yang valid. Pastikan struktur JSON sesuai dengan yang telah ditentukan.
+    """
+
+    user_prompt = f"""
+    Buatlah soal evaluasi bahasa Inggris yang SANGAT SESUAI dan TIDAK KELUAR dari RPP dengan informasi berikut:
+
+    Mata Pelajaran: {data.get('mata_pelajaran')}
+    Jenjang: {data.get('jenjang')}
+    Kelas: {data.get('kelas')}
+    Konten Utama: {data.get('konten_utama')}
+    Tujuan Pembelajaran: {data.get('tujuan_pembelajaran')}
+    
+    Hasilkan 4 jenis soal yang SALING TERHUBUNG dalam tema yang SAMA:
+    
+    1. PILIHAN GANDA (5 soal) - Setiap soal harus memiliki:
+       - Paragraf yang langsung mengacu pada materi dalam RPP (5-7 kalimat)
+       - Pertanyaan yang langsung berkaitan dengan isi paragraf
+       - 4 pilihan jawaban (A, B, C, D)
+    
+    2. MENJODOHKAN (5 soal)
+       - Berhubungan dengan tema/konten dalam paragraf pilihan ganda
+    
+    3. BENAR-SALAH (5 soal)
+       - Pernyataan yang LANGSUNG mengacu pada informasi dalam paragraf pilihan ganda
+       - Jelaskan paragraf mana yang menjadi acuan setiap pernyataan
+    
+    4. ESSAY (2 soal)
+       - Pertanyaan yang meminta analisis atau penerapan informasi dari paragraf
+       - Jelaskan paragraf mana yang menjadi acuan setiap pertanyaan essay
+    
+    PERHATIKAN:
+    - Semua soal HARUS berada dalam cakupan RPP, jangan keluar dari materi RPP
+    - Pastikan ada keterkaitan yang jelas antara paragraf, pertanyaan pilihan ganda, soal menjodohkan, 
+      pernyataan benar-salah, dan pertanyaan essay
+    - Soal benar-salah dan essay harus jelas menunjukkan paragraf mana yang menjadi referensinya
+    - Buat soal yang kohesif dan terintegrasi, bukan soal-soal yang berdiri sendiri
+    """
+
+    full_prompt = system_prompt + "\n\n" + user_prompt
+
+    try:
+        # Create a Gemini model
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        # Generate content with Gemini
+        response = model.generate_content(full_prompt)
+        
+        result = response.text
+        
+        # Clean the response - remove any markdown code block formatting or extra text
+        result = re.sub(r'```json\s*', '', result)
+        result = re.sub(r'```\s*', '', result)
+        
+        # Try to parse JSON to verify its validity
+        try:
+            parsed_json = json.loads(result)
+            # Return the properly formatted JSON string
+            return json.dumps(parsed_json, ensure_ascii=False)
+        except json.JSONDecodeError:
+            # If the response isn't valid JSON, try to extract JSON using regex
+            json_match = re.search(r'({.*})', result, re.DOTALL)
+            if json_match:
+                try:
+                    json_str = json_match.group(1)
+                    parsed_json = json.loads(json_str)
+                    return json.dumps(parsed_json, ensure_ascii=False)
+                except:
+                    pass
+            
+            # If all attempts fail, return the original response
+            return result
+            
+    except Exception as e:
+        print(f"Error generating questions: {str(e)}")
+        # Try fallback to another model
+        try:
+            model = genai.GenerativeModel('gemini-1.5-pro')
+            
+            response = model.generate_content(full_prompt)
+            
+            result = response.text
+            
+            # Clean the response - remove any markdown code block formatting
+            result = re.sub(r'```json\s*', '', result)
+            result = re.sub(r'```\s*', '', result)
+            
+            # Try to parse JSON to verify its validity
+            try:
+                parsed_json = json.loads(result)
+                return json.dumps(parsed_json, ensure_ascii=False)
+            except json.JSONDecodeError:
+                # If the response isn't valid JSON, try to extract JSON using regex
+                json_match = re.search(r'({.*})', result, re.DOTALL)
+                if json_match:
+                    try:
+                        json_str = json_match.group(1)
+                        parsed_json = json.loads(json_str)
+                        return json.dumps(parsed_json, ensure_ascii=False)
+                    except:
+                        pass
+                
+                # If all attempts fail, return the original response
+                return result
+                
+        except Exception as inner_e:
+            print(f"Fallback error: {str(inner_e)}")
+            raise Exception(f"Failed to generate questions: {str(e)}, Fallback error: {str(inner_e)}")
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("english_index.html")
@@ -533,7 +748,8 @@ def generate():
             "target_peserta": request.form.get("target_peserta"),
             "jumlah_peserta": request.form.get("jumlah_peserta"),
             "model_pembelajaran": request.form.get("model_pembelajaran"),
-            "sumber_belajar": request.form.get("sumber_belajar")
+            "sumber_belajar": request.form.get("sumber_belajar"),
+            "catatan": request.form.get("catatan")
         }
         
         result = generate_english_lesson(data)
@@ -579,6 +795,39 @@ def view_rpp():
         
         # Render a dedicated template for the RPP
         return render_template("english_rpp_view.html", rpp=rpp_data.get('rpp_bahasa_inggris', {}))
+    except Exception as e:
+        return render_template("error.html", error=str(e))
+
+@app.route("/generate-english-questions", methods=["POST"])
+def generate_questions():
+    try:
+        # Get JSON data from request
+        data = request.json
+        
+        # Generate questions
+        result = generate_english_questions(data)
+        
+        # Try to parse the result as JSON
+        try:
+            json_data = json.loads(result)
+            return jsonify({"status": "success", "questions": json.dumps(json_data, ensure_ascii=False)})
+        except json.JSONDecodeError:
+            return jsonify({"status": "success", "questions": result})
+            
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
+
+@app.route("/view-english-questions", methods=["POST"])
+def view_questions():
+    try:
+        # Get the questions JSON data from form
+        questions_json = request.form.get("questions_data")
+        
+        # Parse the JSON data
+        questions_data = json.loads(questions_json)
+        
+        # Render a dedicated template for the questions
+        return render_template("english_questions_view.html", questions=questions_data.get('soal_bahasa_inggris', {}))
     except Exception as e:
         return render_template("error.html", error=str(e))
 

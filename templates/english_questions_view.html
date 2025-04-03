@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal Bahasa Inggris</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #0066cc;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header h2 {
+            font-size: 18px;
+            color: #666;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            color: #0066cc;
+            font-weight: bold;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .question-type {
+            background-color: #e9ecef;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #0066cc;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .options {
+            margin-top: 10px;
+            margin-left: 25px;
+        }
+        .option {
+            margin-bottom: 5px;
+        }
+        .answer-key {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e6f3ff;
+            border-radius: 5px;
+            display: none;
+        }
+        .btn-toggle-answers {
+            margin-bottom: 15px;
+        }
+        .matching-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .matching-table th, .matching-table td {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .matching-table th {
+            background-color: #e9ecef;
+            text-align: center;
+        }
+        .true-false-question .form-check {
+            margin-top: 10px;
+        }
+        .essay-question {
+            margin-bottom: 30px;
+        }
+        .essay-answer {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e6f3ff;
+            border-radius: 5px;
+            display: none;
+        }
+        .btn-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            .btn-print, .btn-toggle-answers {
+                display: none;
+            }
+            .answer-key, .essay-answer {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="btn btn-primary btn-print" onclick="window.print()">
+        <i class="bi bi-printer"></i> Cetak Soal
+    </button>
+    
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>{{ questions.judul if questions.judul else 'SOAL EVALUASI BAHASA INGGRIS' }}</h1>
+            <h2>Kelas {{ questions.kelas if questions.kelas }}</h2>
+        </div>
+        
+        <!-- Identity Section -->
+        <div class="section">
+            <h3 class="section-title">IDENTITAS</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <td width="30%">Nama Sekolah</td>
+                    <td>{{ questions.identitas.nama_sekolah if questions.identitas.nama_sekolah else '-' }}</td>
+                </tr>
+                <tr>
+                    <td>Mata Pelajaran</td>
+                    <td>{{ questions.identitas.mata_pelajaran if questions.identitas.mata_pelajaran else 'Bahasa Inggris' }}</td>
+                </tr>
+                <tr>
+                    <td>Alokasi Waktu</td>
+                    <td>{{ questions.identitas.alokasi_waktu if questions.identitas.alokasi_waktu else '-' }}</td>
+                </tr>
+            </table>
+            
+            <div class="alert alert-info mt-3">
+                <strong>Petunjuk:</strong> {{ questions.identitas.petunjuk if questions.identitas.petunjuk else 'Baca dengan teliti dan jawab semua pertanyaan dengan benar.' }}
+            </div>
+        </div>
+        
+        <!-- Multiple Choice Questions -->
+        <div class="section">
+            <h3 class="section-title">A. PILIHAN GANDA</h3>
+            <button class="btn btn-sm btn-outline-primary btn-toggle-answers" onclick="toggleMultipleChoiceAnswers()">
+                Tampilkan/Sembunyikan Kunci Jawaban
+            </button>
+            
+            {% if questions.pilihan_ganda %}
+                {% for question in questions.pilihan_ganda %}
+                    <div class="question">
+                        {% if question.paragraf %}
+                        <div class="reading-paragraph mb-3">
+                            <p class="text-muted small mb-1">Reading Text:</p>
+                            <div style="background-color: #fff; padding: 15px; border-radius: 5px; border: 1px solid #dee2e6;">
+                                {{ question.paragraf }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <p><span class="question-number">{{ question.nomor }}.</span> {{ question.pertanyaan }}</p>
+                        <div class="options">
+                            {% for key, value in question.pilihan.items() %}
+                                <div class="option">
+                                    <span>{{ key }}. {{ value }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="answer-key" id="mc-answer-{{ question.nomor }}">
+                            <strong>Kunci Jawaban:</strong> {{ question.kunci_jawaban }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-secondary">Tidak ada soal pilihan ganda.</div>
+            {% endif %}
+        </div>
+        
+        <!-- Matching Questions -->
+        <div class="section">
+            <h3 class="section-title">B. MENJODOHKAN</h3>
+            <button class="btn btn-sm btn-outline-primary btn-toggle-answers" onclick="toggleMatchingAnswers()">
+                Tampilkan/Sembunyikan Kunci Jawaban
+            </button>
+            
+            {% if questions.menjodohkan %}
+                <div class="question">
+                    <p><strong>Petunjuk:</strong> {{ questions.menjodohkan.petunjuk if questions.menjodohkan.petunjuk else 'Jodohkan item di kolom A dengan item yang tepat di kolom B.' }}</p>
+                    
+                    <table class="matching-table">
+                        <thead>
+                            <tr>
+                                <th width="10%">No.</th>
+                                <th width="45%">Kolom A</th>
+                                <th width="45%">Kolom B</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in questions.menjodohkan.soal %}
+                                <tr>
+                                    <td class="text-center">{{ item.nomor }}</td>
+                                    <td>{{ item.kolom_a }}</td>
+                                    <td class="matching-answer" style="display: none;">{{ item.kolom_b }}</td>
+                                    <td class="matching-blank">...</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-secondary">Tidak ada soal menjodohkan.</div>
+            {% endif %}
+        </div>
+        
+        <!-- True-False Questions -->
+        <div class="section">
+            <h3 class="section-title">C. BENAR - SALAH</h3>
+            <button class="btn btn-sm btn-outline-primary btn-toggle-answers" onclick="toggleTrueFalseAnswers()">
+                Tampilkan/Sembunyikan Kunci Jawaban
+            </button>
+            
+            {% if questions.benar_salah %}
+                {% for question in questions.benar_salah %}
+                    <div class="question true-false-question">
+                        {% if question.terkait_paragraf %}
+                        <p class="text-muted small mb-1">
+                            <em>Referensi: Paragraf soal pilihan ganda nomor {{ question.terkait_paragraf }}</em>
+                        </p>
+                        {% endif %}
+                        <p><span class="question-number">{{ question.nomor }}.</span> {{ question.pernyataan }}</p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" disabled>
+                            <label class="form-check-label">Benar</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" disabled>
+                            <label class="form-check-label">Salah</label>
+                        </div>
+                        <div class="answer-key tf-answer" style="display: none;">
+                            <strong>Kunci Jawaban:</strong> {{ 'Benar' if question.kunci_jawaban else 'Salah' }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-secondary">Tidak ada soal benar-salah.</div>
+            {% endif %}
+        </div>
+        
+        <!-- Essay Questions -->
+        <div class="section">
+            <h3 class="section-title">D. ESSAY</h3>
+            <button class="btn btn-sm btn-outline-primary btn-toggle-answers" onclick="toggleEssayGuides()">
+                Tampilkan/Sembunyikan Panduan Jawaban
+            </button>
+            
+            {% if questions.essay %}
+                {% for question in questions.essay %}
+                    <div class="question essay-question">
+                        {% if question.terkait_paragraf %}
+                        <p class="text-muted small mb-1">
+                            <em>Referensi: Paragraf soal pilihan ganda nomor {{ question.terkait_paragraf }}</em>
+                        </p>
+                        {% endif %}
+                        <p><span class="question-number">{{ question.nomor }}.</span> {{ question.pertanyaan }}</p>
+                        <div class="essay-answer" style="display: none;">
+                            <strong>Panduan Jawaban:</strong> {{ question.panduan_jawaban }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-secondary">Tidak ada soal essay.</div>
+            {% endif %}
+        </div>
+        
+        <!-- Footer Section -->
+        <div class="section" style="margin-top: 50px;">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <p>--- Selamat Mengerjakan ---</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle functions for showing/hiding answers
+        function toggleMultipleChoiceAnswers() {
+            const answers = document.querySelectorAll('.answer-key');
+            answers.forEach(answer => {
+                if (answer.id.startsWith('mc-answer-')) {
+                    answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+                }
+            });
+        }
+        
+        function toggleMatchingAnswers() {
+            const answers = document.querySelectorAll('.matching-answer');
+            const blanks = document.querySelectorAll('.matching-blank');
+            
+            answers.forEach((answer, index) => {
+                answer.style.display = answer.style.display === 'none' ? 'table-cell' : 'none';
+                blanks[index].style.display = blanks[index].style.display === 'none' ? 'table-cell' : 'none';
+            });
+        }
+        
+        function toggleTrueFalseAnswers() {
+            const answers = document.querySelectorAll('.tf-answer');
+            answers.forEach(answer => {
+                answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+        
+        function toggleEssayGuides() {
+            const answers = document.querySelectorAll('.essay-answer');
+            answers.forEach(answer => {
+                answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html> 
