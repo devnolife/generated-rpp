@@ -45,7 +45,15 @@ export class EducationService {
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json() as {
+        candidates?: Array<{
+          content: {
+            parts: Array<{
+              text: string
+            }>
+          }
+        }>
+      };
 
       if (!data.candidates || data.candidates.length === 0) {
         throw new Error('Failed to generate content: No response from API');
