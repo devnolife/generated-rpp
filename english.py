@@ -13,6 +13,37 @@ app = Flask(__name__)
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
 
+# Function to save data to rpp.json
+def save_to_json(data, key=None):
+    try:
+        # Path to the JSON file
+        json_file = os.path.join(os.path.dirname(__file__), 'rpp.json')
+        
+        # Read existing data if file exists
+        if os.path.exists(json_file):
+            with open(json_file, 'r', encoding='utf-8') as f:
+                try:
+                    file_data = json.load(f)
+                except json.JSONDecodeError:
+                    file_data = {}
+        else:
+            file_data = {}
+        
+        # Update the data
+        if key:
+            file_data[key] = data
+        else:
+            file_data.update(data)
+        
+        # Write updated data back to the file
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(file_data, f, ensure_ascii=False, indent=2)
+        
+        return True
+    except Exception as e:
+        print(f"Error saving to JSON: {str(e)}")
+        return False
+
 def generate_english_lesson(data):
     # Format required fields
     system_prompt = """
@@ -460,7 +491,7 @@ def generate_bahan_ajar(data):
 
     try:
         # Create a Gemini model
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.0-flash')
         
         # Generate content with Gemini
         response = model.generate_content(full_prompt)
@@ -584,7 +615,7 @@ def generate_english_questions(data):
             "nomor": 1,
             "terkait_paragraf": "nomor paragraf pilihan ganda yang terkait (1-5)",
             "pernyataan": "string pernyataan yang mengacu pada informasi dalam paragraf",
-            "kunci_jawaban": true/false
+            "kunci_jawaban": "true/false"
           },
           // 4 soal benar/salah lainnya dengan format yang sama
         ],
@@ -896,12 +927,19 @@ def generate():
             "catatan": request.form.get("catatan")
         }
         
+        # Save user input data to JSON
+        save_to_json(data, "user_input")
+        
         result = generate_english_lesson(data)
         
         # Validate that the result is proper JSON
         try:
             # Try to parse the JSON to make sure it's valid
             json_data = json.loads(result)
+            
+            # Save generated RPP to JSON file
+            save_to_json(json_data, "rpp")
+            
             return jsonify({"status": "success", "rpp": json.dumps(json_data, ensure_ascii=False)})
         except json.JSONDecodeError:
             return jsonify({"status": "error", "message": "Model menghasilkan respons yang tidak valid. Silakan coba lagi."})
@@ -921,8 +959,14 @@ def generate_bahan_ajar_route():
         # Try to parse the result as JSON
         try:
             json_data = json.loads(result)
+            
+            # Save bahan ajar to JSON file
+            save_to_json(json_data, "bahan_ajar")
+            
             return jsonify({"status": "success", "bahan_ajar": json.dumps(json_data, ensure_ascii=False)})
         except json.JSONDecodeError:
+            # Even if it's not valid JSON, we'll try to save it
+            save_to_json({"raw_text": result}, "bahan_ajar")
             return jsonify({"status": "success", "bahan_ajar": result})
             
     except Exception as e:
@@ -954,8 +998,14 @@ def generate_questions():
         # Try to parse the result as JSON
         try:
             json_data = json.loads(result)
+            
+            # Save questions to JSON file
+            save_to_json(json_data, "questions")
+            
             return jsonify({"status": "success", "questions": json.dumps(json_data, ensure_ascii=False)})
         except json.JSONDecodeError:
+            # Even if it's not valid JSON, we'll try to save it
+            save_to_json({"raw_text": result}, "questions")
             return jsonify({"status": "success", "questions": result})
             
     except Exception as e:
@@ -989,8 +1039,14 @@ def generate_kisi_kisi():
         # Try to parse the result as JSON
         try:
             json_data = json.loads(result)
+            
+            # Save kisi-kisi to JSON file
+            save_to_json(json_data, "kisi_kisi")
+            
             return jsonify({"status": "success", "kisi_kisi": json.dumps(json_data, ensure_ascii=False)})
         except json.JSONDecodeError:
+            # Even if it's not valid JSON, we'll try to save it
+            save_to_json({"raw_text": result}, "kisi_kisi")
             return jsonify({"status": "success", "kisi_kisi": result})
             
     except Exception as e:
