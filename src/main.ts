@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('api');
 
   // Setup Swagger
   const config = new DocumentBuilder()
@@ -15,10 +16,10 @@ async function bootstrap() {
     .addTag('education')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swigger', app, document);
 
   await app.listen(8000);
   console.log(`Application is running on: ${await app.getUrl()}`);
-  console.log(`Swagger documentation is available at: ${await app.getUrl()}/api`);
+  console.log(`Swagger documentation is available at: ${await app.getUrl()}/swigger`);
 }
 bootstrap();
