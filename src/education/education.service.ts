@@ -17,14 +17,18 @@ export class EducationService {
     // rather than being hardcoded to English
 
     try {
+      const responseData = {
+        mata_pelajaran: data.mata_pelajaran,
+        kelas: data.kelas,
+        // Include capaian_pembelajaran only if it exists
+        ...(data.capaian_pembelajaran && { capaian_pembelajaran: data.capaian_pembelajaran }),
+        // other fields would be populated based on the generated content
+      };
+
       return {
         status: 'success',
         message: `RPP for ${data.mata_pelajaran} generated successfully`,
-        rpp: JSON.stringify({
-          mata_pelajaran: data.mata_pelajaran,
-          kelas: data.kelas,
-          // other fields would be populated based on the generated content
-        })
+        rpp: JSON.stringify(responseData)
       };
     } catch (error) {
       return {
