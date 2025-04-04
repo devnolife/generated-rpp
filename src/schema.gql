@@ -14,6 +14,19 @@ type AsesmenPembelajaran {
   sumatif: String!
 }
 
+input BahanAjarDto {
+  kelas: String!
+  mata_pelajaran: String!
+  materi: String!
+}
+
+type BahanAjarResponse {
+  bahan_ajar: String
+  data: String
+  message: String
+  status: String!
+}
+
 input CreateRppInput {
   alokasi_waktu: String
   cakupanMateri: String!
@@ -23,6 +36,58 @@ input CreateRppInput {
   mataPelajaran: String!
   satuanPendidikan: String!
   topik: String!
+}
+
+type EducationBahanAjarResponse {
+  bahan_ajar: String
+  data: String
+  message: String
+  status: String!
+}
+
+type EducationKisiKisiResponse {
+  data: String
+  kisi_kisi: String
+  message: String
+  status: String!
+}
+
+type EducationQuestionsResponse {
+  data: String
+  message: String
+  questions: String
+  status: String!
+}
+
+type EducationRppResponse {
+  data: String
+  message: String
+  rpp: String
+  status: String!
+}
+
+input EnglishLessonDto {
+  alokasi_waktu: String!
+  capaian_pembelajaran: String
+  catatan: String
+  domain_konten: String!
+  institusi: String
+  jenjang: String!
+  jumlah_peserta: String
+  kelas: String!
+  konten_utama: String!
+  mata_pelajaran: String!
+  model_pembelajaran: String
+  nama_penyusun: String
+  pemahaman_bermakna: String
+  prasyarat: String
+  profil_pelajar: String
+  sarana: String
+  sumber_belajar: String
+  tahapan: String!
+  tahun_pembuatan: String
+  target_peserta: String
+  tujuan_pembelajaran: String!
 }
 
 """Fase pembelajaran dalam Kurikulum Merdeka"""
@@ -52,6 +117,43 @@ type KegiatanPembelajaran {
   kegiatan: String!
 }
 
+input KisiKisiDto {
+  kelas: String!
+  mata_pelajaran: String!
+  materi: String!
+}
+
+type KisiKisiResponse {
+  data: String
+  kisi_kisi: String
+  message: String
+  status: String!
+}
+
+input LessonDto {
+  alokasi_waktu: String!
+  capaian_pembelajaran: String
+  catatan: String
+  domain_konten: String!
+  institusi: String
+  jenjang: String!
+  jumlah_peserta: String
+  kelas: String!
+  konten_utama: String!
+  mata_pelajaran: String!
+  model_pembelajaran: String
+  nama_penyusun: String
+  pemahaman_bermakna: String
+  prasyarat: String
+  profil_pelajar: String
+  sarana: String
+  sumber_belajar: String
+  tahapan: String!
+  tahun_pembuatan: String
+  target_peserta: String
+  tujuan_pembelajaran: String!
+}
+
 type MateriPembelajaran {
   inti: [KegiatanPembelajaran!]!
   pendahuluan: [KegiatanPembelajaran!]!
@@ -60,10 +162,29 @@ type MateriPembelajaran {
 
 type Mutation {
   createRpp(input: CreateRppInput!): Rpp!
+  generateBahanAjar(input: BahanAjarDto!): EducationBahanAjarResponse!
+  generateEnglishLesson(data: EnglishLessonDto!): RppResponse!
+  generateKisiKisi(input: KisiKisiDto!): EducationKisiKisiResponse!
+  generateLesson(input: LessonDto!): EducationRppResponse!
+  generateQuestions(input: QuestionsDto!): EducationQuestionsResponse!
 }
 
 type Query {
   hello: String!
+}
+
+input QuestionsDto {
+  jumlah: String
+  kelas: String!
+  mata_pelajaran: String!
+  materi: String!
+}
+
+type QuestionsResponse {
+  data: String
+  message: String
+  questions: String
+  status: String!
 }
 
 type RefleksiGuru {
@@ -86,6 +207,13 @@ type Rpp {
   satuan_pendidikan: String!
   sumber_dan_media_pembelajaran: SumberDanMediaPembelajaran!
   tujuan_pembelajaran: [String!]!
+}
+
+type RppResponse {
+  data: String
+  message: String
+  rpp: String
+  status: String!
 }
 
 type SumberDanMediaPembelajaran {

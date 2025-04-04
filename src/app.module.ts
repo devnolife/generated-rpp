@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { EnglishModule } from './english/english.module';
+import { EducationModule } from './education/education.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { join } from 'path';
       sortSchema: true,
     }),
     RppModule,
+    EnglishModule,
+    EducationModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }
