@@ -192,10 +192,13 @@ export class EducationService {
 
       const result = await this.generateContent(systemPrompt, userPrompt);
 
+      // Parse the string result into a JSON object
+      const parsedResult = JSON.parse(result);
+
       return {
         status: 'success',
         message: `RPP for ${data.mata_pelajaran} generated successfully`,
-        rpp: result
+        rpp: parsedResult
       };
     } catch (error) {
       return {
@@ -269,10 +272,13 @@ export class EducationService {
 
       const result = await this.generateContent(systemPrompt, userPrompt);
 
+      // Parse the string result into a JSON object
+      const parsedResult = JSON.parse(result);
+
       return {
         status: 'success',
         message: `Bahan Ajar for ${data.mata_pelajaran} generated successfully`,
-        bahan_ajar: result
+        bahan_ajar: parsedResult
       };
     } catch (error) {
       return {
@@ -352,10 +358,13 @@ export class EducationService {
 
       const result = await this.generateContent(systemPrompt, userPrompt);
 
+      // Parse the string result into a JSON object
+      const parsedResult = JSON.parse(result);
+
       return {
         status: 'success',
         message: `Questions for ${data.mata_pelajaran} generated successfully`,
-        questions: result
+        questions: parsedResult
       };
     } catch (error) {
       return {
@@ -402,10 +411,13 @@ export class EducationService {
 
       const result = await this.generateContent(systemPrompt, userPrompt);
 
+      // Parse the string result into a JSON object
+      const parsedResult = JSON.parse(result);
+
       return {
         status: 'success',
         message: `Kisi-kisi for ${data.mata_pelajaran} generated successfully`,
-        kisi_kisi: result
+        kisi_kisi: parsedResult
       };
     } catch (error) {
       return {

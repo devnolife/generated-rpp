@@ -8,6 +8,13 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api');
 
+  // Enable CORS for all origins
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
   // Setup Swagger
   const config = new DocumentBuilder()
     .setTitle('Education API by devnolife')
