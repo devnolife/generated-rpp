@@ -5,11 +5,20 @@ import OpenAI from 'openai';
 @Injectable()
 export class OpenAiService {
   private openai: OpenAI;
+  private tokenUsage = { promptTokens: 0, completionTokens: 0, totalTokens: 0 };
 
   constructor(private configService: ConfigService) {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('OPENAI_API_KEY'),
     });
+  }
+
+  getTokenUsage() {
+    return { ...this.tokenUsage };
+  }
+
+  resetTokenUsage() {
+    this.tokenUsage = { promptTokens: 0, completionTokens: 0, totalTokens: 0 };
   }
 
   async generateContent(prompt: string): Promise<string> {
@@ -89,6 +98,20 @@ export class OpenAiService {
         temperature: 0.7,
         max_tokens: 2000,
       });
+
+      // Update token usage with data from OpenAI response
+      if (response.usage) {
+        this.tokenUsage.promptTokens += response.usage.prompt_tokens;
+        this.tokenUsage.completionTokens += response.usage.completion_tokens;
+        this.tokenUsage.totalTokens += response.usage.total_tokens;
+        
+        // Log token usage
+        console.log('OpenAI token usage:', {
+          promptTokens: response.usage.prompt_tokens,
+          completionTokens: response.usage.completion_tokens,
+          totalTokens: response.usage.total_tokens
+        });
+      }
 
       return response.choices[0].message.content || 'Tidak ada konten yang dihasilkan';
     } catch (error) {
