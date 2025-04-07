@@ -14,67 +14,293 @@ dotenv.config();
 @Injectable()
 export class EducationService {
   private readonly GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-  private readonly GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+  private readonly GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+  private readonly MAX_RETRIES = 3;
 
-  private async generateContent(systemPrompt: string, userPrompt: string): Promise<string> {
-    try {
-      // Combine system and user prompts
-      const fullPrompt = systemPrompt + "\n\n" + userPrompt;
+  private async generateContent(systemPrompt: string, userPrompt: string, schemaExample: any = null): Promise<string> {
+    let retries = 0;
+    let result: string;
 
-      const response = await fetch(`${this.GEMINI_API_URL}?key=${this.GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: fullPrompt
-                }
-              ]
+    while (retries < this.MAX_RETRIES) {
+      try {
+        // Enhance the system prompt with schema example if provided
+        let enhancedSystemPrompt = systemPrompt;
+        if (schemaExample) {
+          enhancedSystemPrompt += "\n\nHere's an example of the EXACT JSON structure expected:\n" +
+            JSON.stringify(schemaExample, null, 2) +
+            "\n\nYour response MUST follow this exact structure. Fields can be different but the structure must be identical.";
+        }
+
+        // Add a clear instruction about JSON format
+        enhancedSystemPrompt += "\n\nIMPORTANT: Your response MUST be valid JSON without any markdown formatting, comments, or explanations. DO NOT wrap the JSON in code blocks.";
+
+        // Combine system and user prompts
+        const fullPrompt = enhancedSystemPrompt + "\n\n" + userPrompt;
+
+        const response = await fetch(`${this.GEMINI_API_URL}?key=${this.GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: fullPrompt
+                  }
+                ]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.7,
+              topK: 40,
+              topP: 0.95,
+              maxOutputTokens: 8192,
             }
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 8192,
-          }
-        }),
-      });
+          }),
+        });
 
-      const data = await response.json() as {
-        candidates?: Array<{
-          content: {
-            parts: Array<{
-              text: string
-            }>
-          }
-        }>
-      };
+        const data = await response.json() as {
+          candidates?: Array<{
+            content: {
+              parts: Array<{
+                text: string
+              }>
+            }
+          }>
+        };
 
-      if (!data.candidates || data.candidates.length === 0) {
-        throw new Error('Failed to generate content: No response from API');
+        if (!data.candidates || data.candidates.length === 0) {
+          throw new Error('Failed to generate content: No response from API');
+        }
+
+        result = data.candidates[0].content.parts[0].text;
+
+        // Clean the response to ensure proper JSON formatting
+        const cleanedResult = result
+          .replace(/```json\s*/g, '')
+          .replace(/```\s*/g, '')
+          .trim();
+
+        // Validate JSON structure
+        const parsedResult = JSON.parse(cleanedResult);
+
+        // If we have a schema example, validate the structure matches
+        if (schemaExample && !this.validateStructure(parsedResult, schemaExample)) {
+          throw new Error('Response structure does not match expected schema');
+        }
+
+        return cleanedResult;
+      } catch (error) {
+        console.error(`Error attempt ${retries + 1}/${this.MAX_RETRIES}:`, error);
+        retries++;
+
+        // If we've exhausted retries, throw the error
+        if (retries >= this.MAX_RETRIES) {
+          throw new Error(`Failed to generate valid content after ${this.MAX_RETRIES} attempts: ${error.message}`);
+        }
+
+        // Otherwise wait before retrying (exponential backoff)
+        await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retries)));
+      }
+    }
+  }
+
+  // Helper method to validate that the response structure matches the expected schema
+  private validateStructure(response: any, schema: any, path: string = ''): boolean {
+    // If schema is null or undefined, any response is valid
+    if (schema === null || schema === undefined) {
+      return true;
+    }
+
+    // If types don't match, structure is invalid
+    if (typeof response !== typeof schema) {
+      console.error(`Structure mismatch at ${path}: expected ${typeof schema}, got ${typeof response}`);
+      return false;
+    }
+
+    // If it's an array, check that elements match
+    if (Array.isArray(schema)) {
+      if (!Array.isArray(response)) {
+        console.error(`Structure mismatch at ${path}: expected array, got ${typeof response}`);
+        return false;
       }
 
-      const result = data.candidates[0].content.parts[0].text;
+      // If schema array has an example element, validate first response element against it
+      if (schema.length > 0 && response.length > 0) {
+        return this.validateStructure(response[0], schema[0], `${path}[0]`);
+      }
 
-      // Clean the response to ensure proper JSON formatting
-      const cleanedResult = result
-        .replace(/```json\s*/g, '')
-        .replace(/```\s*/g, '');
-
-      return cleanedResult;
-    } catch (error) {
-      console.error('Error generating content:', error);
-      throw new Error(`Failed to generate content: ${error.message}`);
+      return true;
     }
+
+    // If it's an object, check that properties match
+    if (typeof schema === 'object') {
+      if (typeof response !== 'object' || response === null) {
+        console.error(`Structure mismatch at ${path}: expected object, got ${typeof response}`);
+        return false;
+      }
+
+      // Check that all schema keys exist in response
+      for (const key of Object.keys(schema)) {
+        if (!(key in response)) {
+          console.error(`Structure mismatch at ${path}: missing key ${key}`);
+          return false;
+        }
+
+        // Recursively validate nested structures
+        if (!this.validateStructure(response[key], schema[key], path ? `${path}.${key}` : key)) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    // For primitive types, structure is valid
+    return true;
   }
 
   async generateLesson(data: LessonDto): Promise<EducationRppResponse> {
     try {
+      // Check for required fields (mata_pelajaran, jenjang, kelas)
+      if (!data.mata_pelajaran || !data.jenjang || !data.kelas) {
+        throw new Error('Required fields missing: mata_pelajaran, jenjang, and kelas are mandatory');
+      }
+
+      // Fill in missing fields with AI-generated content if not provided
+      const autoGeneratePrompt = `
+      Berdasarkan informasi bahwa ini adalah mata pelajaran ${data.mata_pelajaran} untuk jenjang ${data.jenjang} kelas ${data.kelas},
+      berikan rekomendasi untuk komponen RPP berikut:
+      ${!data.alokasi_waktu ? '- alokasi_waktu (format pertemuan x menit)' : ''}
+      ${!data.tahapan ? '- tahapan pembelajaran' : ''}
+      ${!data.capaian_pembelajaran ? '- capaian pembelajaran sesuai kurikulum terbaru' : ''}
+      ${!data.domain_konten ? '- domain konten/elemen' : ''}
+      ${!data.tujuan_pembelajaran ? '- tujuan pembelajaran (minimal 3-5 tujuan)' : ''}
+      ${!data.konten_utama ? '- konten utama pembelajaran' : ''}
+      ${!data.prasyarat ? '- prasyarat pengetahuan/keterampilan' : ''}
+      ${!data.pemahaman_bermakna ? '- pemahaman bermakna' : ''}
+      ${!data.profil_pelajar ? '- profil pelajar pancasila yang relevan' : ''}
+      ${!data.sarana ? '- sarana dan prasarana yang diperlukan' : ''}
+      ${!data.target_peserta ? '- target peserta didik' : ''}
+      ${!data.jumlah_peserta ? '- perkiraan jumlah peserta didik' : ''}
+      ${!data.model_pembelajaran ? '- model pembelajaran yang sesuai' : ''}
+      ${!data.sumber_belajar ? '- sumber belajar yang direkomendasikan' : ''}
+      `;
+
+      // Only call the AI if there are missing fields
+      let autoGeneratedFields = {};
+      if (autoGeneratePrompt.includes('-')) {
+        const systemPrompt = `
+        Kamu adalah asisten AI spesialis pendidikan dengan pengalaman mendalam dalam kurikulum Indonesia.
+        Berikan rekomendasi untuk komponen RPP yang tidak disediakan oleh pengguna.
+        Berikan jawaban dalam format JSON dengan struktur:
+        {
+          "alokasi_waktu": "string", // contoh: "2x45 menit"
+          "tahapan": "string",
+          "capaian_pembelajaran": "string",
+          "domain_konten": "string",
+          "tujuan_pembelajaran": "string",
+          "konten_utama": "string",
+          "prasyarat": "string",
+          "pemahaman_bermakna": "string",
+          "profil_pelajar": "string",
+          "sarana": "string",
+          "target_peserta": "string", 
+          "jumlah_peserta": "string",
+          "model_pembelajaran": "string",
+          "sumber_belajar": "string"
+        }
+        Sertakan HANYA field yang diminta.
+        `;
+
+        const autoGenResult = await this.generateContent(systemPrompt, autoGeneratePrompt);
+        autoGeneratedFields = JSON.parse(autoGenResult);
+      }
+
+      // Merge user-provided data with auto-generated fields
+      const completeData = {
+        ...data,
+        ...autoGeneratedFields
+      };
+
+      // Schema example for RPP
+      const schemaExample = {
+        "identitas": {
+          "nama_penyusun": "Sample Name",
+          "institusi": "Sample Institution",
+          "tahun_pembuatan": "2023/2024",
+          "mata_pelajaran": "Sample Subject",
+          "jenjang": "Sample Level",
+          "kelas": "Sample Class",
+          "alokasi_waktu": "2x45 menit",
+          "tahapan": "Sample Stage"
+        },
+        "komponen_pembelajaran": {
+          "capaian_pembelajaran": "Sample learning outcomes",
+          "domain_konten": "Sample content domain",
+          "tujuan_pembelajaran": ["Sample goal 1", "Sample goal 2"],
+          "konten_utama": "Sample main content",
+          "prasyarat_pengetahuan": "Sample prerequisites",
+          "pemahaman_bermakna": "Sample meaningful understanding",
+          "profil_pelajar_pancasila": ["Dimension 1", "Dimension 2"],
+          "sarana_prasarana": ["Item 1", "Item 2"],
+          "target_peserta_didik": "Sample target",
+          "jumlah_peserta_didik": "30-35",
+          "model_pembelajaran": "Sample learning model",
+          "sumber_belajar": ["Source 1", "Source 2"]
+        },
+        "kegiatan_pembelajaran": {
+          "kegiatan_awal": [
+            { "aktivitas": "Sample activity 1", "durasi": "5 menit", "deskripsi": "Sample description" },
+            { "aktivitas": "Sample activity 2", "durasi": "5 menit", "deskripsi": "Sample description" }
+          ],
+          "kegiatan_inti": [
+            { "aktivitas": "Sample activity 1", "durasi": "15 menit", "deskripsi": "Sample description" },
+            { "aktivitas": "Sample activity 2", "durasi": "15 menit", "deskripsi": "Sample description" }
+          ],
+          "kegiatan_penutup": [
+            { "aktivitas": "Sample activity 1", "durasi": "5 menit", "deskripsi": "Sample description" },
+            { "aktivitas": "Sample activity 2", "durasi": "5 menit", "deskripsi": "Sample description" }
+          ]
+        },
+        "materi_assessment": {
+          "bahan_ajar": {
+            "teori": "Sample theory content",
+            "materi_linguistik": "Sample linguistic material",
+            "teks": "Sample text content",
+            "materi_visual": "Sample visual material"
+          },
+          "remedial": {
+            "aktivitas": ["Activity 1", "Activity 2"],
+            "strategi": "Sample remedial strategy",
+            "instrumen": "Sample remedial instrument"
+          },
+          "pengayaan": {
+            "aktivitas": ["Activity 1", "Activity 2", "Activity 3"],
+            "produk": "Sample expected output"
+          },
+          "assessment": {
+            "rubrik_pengetahuan": {
+              "teknik": "Sample technique",
+              "bentuk": "Sample form",
+              "kisi_kisi": "Sample blueprint",
+              "instrumen": ["Question 1", "Question 2", "Question 3", "Question 4", "Question 5"]
+            },
+            "rubrik_keterampilan": [
+              {
+                "aspek": "Sample aspect",
+                "deskripsi": [
+                  { "level": "Level 1", "deskripsi": "Sample description", "skor": 5 },
+                  { "level": "Level 2", "deskripsi": "Sample description", "skor": 4 }
+                ]
+              }
+            ]
+          }
+        }
+      };
+
       const systemPrompt = `
       Kamu adalah asisten AI spesialis pendidikan dengan pengalaman mendalam dalam kurikulum Indonesia.
       Tugasmu adalah menghasilkan Rencana Pelaksanaan Pembelajaran (RPP) yang sangat detail dan komprehensif.
@@ -127,7 +353,9 @@ export class EducationService {
       4. MATERI DAN ASSESSMENT:
          - Bahan Ajar: 
             * Teori LENGKAP dengan penjelasan konsep dan aplikasi
-            * Materi dengan penjelasan dan contoh KONTEKSTUAL
+            * Contoh-contoh yang relevan dan kontekstual
+            * Teks/materi lengkap yang akan digunakan (minimal 250-300 kata jika berbentuk teks)
+            * Materi visual (deskripsi detail gambar/grafik/bagan yang digunakan)
          
          - Remedial: 
             * Aktivitas SPESIFIK untuk siswa yang belum mencapai KKM
@@ -141,11 +369,35 @@ export class EducationService {
          
          - Assessment: 
             * WAJIB MENGGUNAKAN FORMAT RUBRIK
-            * Tambahkan penilaian keterampilan sesuai dengan konteks pembelajaran
-            * Sediakan instrumen lengkap dengan soal-soal SPESIFIK
-            * Rubrik penilaian DETAIL dengan kriteria dan pembobotan
-            * Pedoman penskoran dan interpretasi hasil
-            * Strategi umpan balik kepada siswa
+         1. Rubrik penilaian pengetahuan
+             a. Teknik penilaian: Tes tertulis/lisan/praktik (sesuaikan dengan mata pelajaran)
+             b. Bentuk Instrumen: Sesuaikan dengan mata pelajaran (contoh: menyebutkan konsep, menjelaskan proses, mendemonstrasikan keterampilan)
+             c. Kisi-kisi: Jelaskan apa yang diuji dan sumber materinya
+             d. Instrumen penilaian: (Sertakan minimal 5 soal sesuai materi)
+
+          2. Rubrik untuk penilaian keterampilan
+             Gunakan tabel dengan format:
+
+             | No | Aspek | Deskripsi | Skor |
+             |----|-------|-----------|------|
+             | 1 | Aspek 1 | 1. Sangat baik | 5 |
+             |   |         | 2. Baik | 4 |
+             |   |         | 3. Cukup | 3 |
+             |   |         | 4. Kurang | 2 |
+             |   |         | 5. Sangat kurang | 1 |
+             | 2 | Aspek 2 | a. Sangat baik | 5 |
+             |   |         | b. Baik | 4 |
+             |   |         | c. Cukup | 3 |
+             |   |         | d. Kurang | 2 |
+             |   |         | e. Sangat kurang | 1 |
+
+             Penentuan Nilai: nilaiSiswa = skorDiperoleh/skorMaksimal * 100
+
+          * Tambahkan juga penilaian aspek lain sesuai dengan konteks pembelajaran dengan format yang serupa
+          * Sediakan instrumen lengkap dengan soal-soal SPESIFIK (minimal 5 soal per jenis)
+          * Rubrik penilaian DETAIL dengan kriteria dan pembobotan
+          * Pedoman penskoran dan interpretasi hasil
+          * Strategi umpan balik kepada siswa
 
       Berikan output dalam format JSON yang sangat terstruktur dan komprehensif.
 
@@ -156,27 +408,27 @@ export class EducationService {
       Anda adalah asisten AI yang ahli dalam menyusun Rencana Pelaksanaan Pembelajaran (RPP).
       Buatkan RPP lengkap dengan detail berikut:
 
-      Nama Penyusun: ${data.nama_penyusun || '-'}
-      Institusi: ${data.institusi || '-'}
-      Tahun Pembuatan: ${data.tahun_pembuatan || '-'}
-      Mata Pelajaran: ${data.mata_pelajaran}
-      Jenjang: ${data.jenjang}
-      Kelas: ${data.kelas}
-      Alokasi Waktu: ${data.alokasi_waktu}
-      Tahapan: ${data.tahapan}
-      Capaian Pembelajaran (CP): ${data.capaian_pembelajaran || '-'}
-      Domain Konten/Elemen: ${data.domain_konten}
-      Tujuan pembelajaran: ${data.tujuan_pembelajaran}
-      Konten Utama: ${data.konten_utama}
-      Prasyarat pengetahuan/Keterampilan: ${data.prasyarat || '-'}
-      Pemahaman bermakna: ${data.pemahaman_bermakna || '-'}
-      Profil pelajar pancasila yang berkaitan: ${data.profil_pelajar || '-'}
-      Sarana dan Prasarana: ${data.sarana || '-'}
-      Target peserta didik: ${data.target_peserta || '-'}
-      Jumlah peserta didik: ${data.jumlah_peserta || '-'}
-      Model pembelajaran: ${data.model_pembelajaran || '-'}
-      Sumber belajar: ${data.sumber_belajar || '-'}
-      ${data.catatan ? `Catatan Tambahan: ${data.catatan}` : ''}
+      Nama Penyusun: ${completeData.nama_penyusun || 'Guru Professional'}
+      Institusi: ${completeData.institusi || 'Sekolah Indonesia'}
+      Tahun Pembuatan: ${completeData.tahun_pembuatan || '2023/2024'}
+      Mata Pelajaran: ${completeData.mata_pelajaran}
+      Jenjang: ${completeData.jenjang}
+      Kelas: ${completeData.kelas}
+      Alokasi Waktu: ${completeData.alokasi_waktu || '2x45 menit'}
+      Tahapan: ${completeData.tahapan || 'Pertemuan ke-1'}
+      Capaian Pembelajaran (CP): ${completeData.capaian_pembelajaran || '-'}
+      Domain Konten/Elemen: ${completeData.domain_konten || '-'}
+      Tujuan pembelajaran: ${completeData.tujuan_pembelajaran || '-'}
+      Konten Utama: ${completeData.konten_utama || '-'}
+      Prasyarat pengetahuan/Keterampilan: ${completeData.prasyarat || '-'}
+      Pemahaman bermakna: ${completeData.pemahaman_bermakna || '-'}
+      Profil pelajar pancasila yang berkaitan: ${completeData.profil_pelajar || '-'}
+      Sarana dan Prasarana: ${completeData.sarana || '-'}
+      Target peserta didik: ${completeData.target_peserta || '-'}
+      Jumlah peserta didik: ${completeData.jumlah_peserta || '-'}
+      Model pembelajaran: ${completeData.model_pembelajaran || '-'}
+      Sumber belajar: ${completeData.sumber_belajar || '-'}
+      ${completeData.catatan ? `Catatan Tambahan: ${completeData.catatan}` : ''}
 
       Hasilkan RPP yang lengkap dengan isi untuk setiap bagian berikut:
       1. Kegiatan awal (15 Menit) - berisi langkah-langkah kegiatan pendahuluan yang dilakukan guru
@@ -186,11 +438,9 @@ export class EducationService {
       5. Remedial - kegiatan remedial untuk siswa yang belum mencapai KKM
       6. Pengayaan - kegiatan pengayaan untuk siswa yang sudah mencapai KKM
       7. Asessmen - berisi instrumen penilaian, rubrik, dan kriteria
-
-      PENTING: Berikan output dalam format JSON lengkap. Pastikan output HANYA berisi JSON tanpa tag backtick atau tambahan apapun.
       `;
 
-      const result = await this.generateContent(systemPrompt, userPrompt);
+      const result = await this.generateContent(systemPrompt, userPrompt, schemaExample);
 
       // Parse the string result into a JSON object
       const parsedResult = JSON.parse(result);
@@ -210,6 +460,40 @@ export class EducationService {
 
   async generateBahanAjar(data: BahanAjarDto): Promise<EducationBahanAjarResponse> {
     try {
+      // Check for required fields (mata_pelajaran, kelas, materi)
+      if (!data.mata_pelajaran || !data.kelas || !data.materi) {
+        throw new Error('Required fields missing: mata_pelajaran, kelas, and materi are mandatory');
+      }
+
+      // Schema example for Bahan Ajar
+      const schemaExample = {
+        "bahan_ajar": {
+          "judul": "Sample Title",
+          "deskripsi": "Sample Description",
+          "materi": {
+            "penjelasan": "Sample explanation",
+            "istilah_penting": [
+              { "istilah": "Term 1", "penjelasan": "Explanation 1" },
+              { "istilah": "Term 2", "penjelasan": "Explanation 2" }
+            ]
+          },
+          "contoh": [
+            "Sample example 1",
+            "Sample example 2"
+          ],
+          "latihan": {
+            "pemahaman": ["Question 1", "Question 2"],
+            "penerapan": ["Question 1", "Question 2"],
+            "analisis": ["Question 1", "Question 2"],
+            "evaluasi": ["Question 1", "Question 2"]
+          },
+          "kunci_jawaban": {
+            "latihan_1": ["Answer 1", "Answer 2"],
+            "latihan_2": ["Answer 1", "Answer 2"]
+          }
+        }
+      };
+
       const systemPrompt = `
       Kamu adalah seorang ahli pengembangan bahan ajar untuk pendidikan. 
       Buatlah bahan ajar yang komprehensif, interaktif, dan sesuai dengan standar pendidikan Indonesia.
@@ -270,7 +554,7 @@ export class EducationService {
       Buatkan dalam format yang menarik, jelas, dan sesuai untuk peserta didik pada kelas tersebut.
       `;
 
-      const result = await this.generateContent(systemPrompt, userPrompt);
+      const result = await this.generateContent(systemPrompt, userPrompt, schemaExample);
 
       // Parse the string result into a JSON object
       const parsedResult = JSON.parse(result);
@@ -290,6 +574,45 @@ export class EducationService {
 
   async generateQuestions(data: QuestionsDto): Promise<EducationQuestionsResponse> {
     try {
+      // Check for required fields (mata_pelajaran, kelas, materi)
+      if (!data.mata_pelajaran || !data.kelas || !data.materi) {
+        throw new Error('Required fields missing: mata_pelajaran, kelas, and materi are mandatory');
+      }
+
+      // Schema example for Questions
+      const schemaExample = {
+        "questions": {
+          "pilihan_ganda": [
+            {
+              "paragraf": "Sample paragraph",
+              "pertanyaan": "Sample question",
+              "opsi": ["A. Option 1", "B. Option 2", "C. Option 3", "D. Option 4"],
+              "jawaban_benar": "A. Option 1"
+            }
+          ],
+          "menjodohkan": {
+            "instruksi": "Sample instructions",
+            "kolom_a": ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+            "kolom_b": ["Match 1", "Match 2", "Match 3", "Match 4", "Match 5"],
+            "jawaban": { "Item 1": "Match 3", "Item 2": "Match 1", "Item 3": "Match 5", "Item 4": "Match 2", "Item 5": "Match 4" }
+          },
+          "benar_salah": [
+            {
+              "pernyataan": "Sample statement 1",
+              "jawaban": true,
+              "referensi_paragraf": 1
+            }
+          ],
+          "essay": [
+            {
+              "pertanyaan": "Sample essay question 1",
+              "panduan_jawaban": "Sample answer guide",
+              "referensi_paragraf": 1
+            }
+          ]
+        }
+      };
+
       const systemPrompt = `
       Kamu adalah seorang ahli dalam membuat soal dan penilaian untuk siswa di Indonesia.
       Buatlah soal yang berkualitas, kontekstual, dan sesuai dengan materi pembelajaran.
@@ -356,7 +679,7 @@ export class EducationService {
       - Buat soal yang kohesif dan terintegrasi, bukan soal-soal yang berdiri sendiri
       `;
 
-      const result = await this.generateContent(systemPrompt, userPrompt);
+      const result = await this.generateContent(systemPrompt, userPrompt, schemaExample);
 
       // Parse the string result into a JSON object
       const parsedResult = JSON.parse(result);
@@ -376,6 +699,33 @@ export class EducationService {
 
   async generateKisiKisi(data: KisiKisiDto): Promise<EducationKisiKisiResponse> {
     try {
+      // Check for required fields (mata_pelajaran, kelas, materi)
+      if (!data.mata_pelajaran || !data.kelas || !data.materi) {
+        throw new Error('Required fields missing: mata_pelajaran, kelas, and materi are mandatory');
+      }
+
+      // Schema example for Kisi-Kisi
+      const schemaExample = {
+        "kisi_kisi": {
+          "identitas": {
+            "mata_pelajaran": "Sample Subject",
+            "kelas": "Sample Class",
+            "materi": "Sample Material"
+          },
+          "tabel_kisi_kisi": [
+            {
+              "nomor": 1,
+              "tujuan_pembelajaran": "Sample learning objective",
+              "materi": "Sample material",
+              "indikator_soal": "Sample indicator",
+              "level_kognitif": "C1-Mengingat",
+              "bentuk_soal": "Pilihan Ganda",
+              "nomor_soal": "1"
+            }
+          ]
+        }
+      };
+
       const systemPrompt = `
       Kamu adalah ahli penilaian pendidikan yang menguasai pembuatan kisi-kisi soal untuk sekolah di Indonesia.
       Tugasmu adalah menghasilkan kisi-kisi penulisan soal (blueprint) untuk asesmen berdasarkan materi pembelajaran.
@@ -409,7 +759,7 @@ export class EducationService {
       Gunakan format JSON yang terstruktur dan lengkap.
       `;
 
-      const result = await this.generateContent(systemPrompt, userPrompt);
+      const result = await this.generateContent(systemPrompt, userPrompt, schemaExample);
 
       // Parse the string result into a JSON object
       const parsedResult = JSON.parse(result);

@@ -9,7 +9,7 @@
     "alokasi_waktu": "40",
     "tahapan": "FASE D",
     "capaian_pembelajaran": "Peserta didik mampu  menyebutkan berbagai macam pekerjaan (profesi) dalam Bahasa Inggris",
-    "domain_konten": "Menulis – Mempresentasikan ",
+    "domain_konten": "profession",
     "tujuan_pembelajaran": "Peserta didik mampu  menyebutkan berbagai macam pekerjaan (profesi) dalam Bahasa Inggris",
     "konten_utama": "profession",
     "prasyarat": "Peserta didik mengetahui macam-macam profesi.",
@@ -18,8 +18,8 @@
     "sarana": "Papan tulis, buku siswa, HP, jaringan internet",
     "target_peserta": "Peserta didik regular",
     "jumlah_peserta": "30",
-    "model_pembelajaran": "Tatap muka",
-    "sumber_belajar": "\"Buku siswa dan buku guru“ English in Mind- student’s & teacher’s book second edition class VII” Penerbit Pusat kurikulum dan perbukuan Badan Penelitian dan Pengembangan dan Perbukuan Kementerian Pendidikan, Kebudayaan, Riset, dan Tekhnologi, Herbert puchta dkk, tahun 2021.",
+    "model_pembelajaran": "",
+    "sumber_belajar": "Buku siswa dan buku guru“ English in Mind- student’s & teacher’s book second edition class VII” Penerbit Pusat kurikulum dan perbukuan Badan Penelitian dan Pengembangan dan Perbukuan Kementerian Pendidikan, Kebudayaan, Riset, dan Tekhnologi, Herbert puchta dkk, tahun 2021.",
     "catatan": ""
   },
   "rpp": {
@@ -31,53 +31,58 @@
         "mata_pelajaran": "Bahasa Inggris",
         "jenjang": "SMP",
         "kelas": "VII",
-        "alokasi_waktu": "40 menit",
-        "tahapan": "Fase D"
+        "alokasi_waktu": "40 Menit",
+        "tahapan": "FASE D"
       },
       "komponen_pembelajaran": {
-        "capaian_pembelajaran": "Peserta didik mampu menyebutkan berbagai macam pekerjaan (profesi) dalam Bahasa Inggris.",
-        "domain_konten": "Menulis dan Mempresentasikan",
+        "capaian_pembelajaran": "Peserta didik mampu menyebutkan berbagai macam pekerjaan (profesi) dalam Bahasa Inggris dan memahami fungsi serta peranan masing-masing profesi dalam kehidupan masyarakat.",
+        "domain_konten": "Profession (Vocabulary)",
         "tujuan_pembelajaran": [
-          "Setelah mengikuti pembelajaran ini, peserta didik mampu menyebutkan minimal 5 profesi dalam Bahasa Inggris dengan benar.",
-          "Setelah mengikuti pembelajaran ini, peserta didik mampu menuliskan minimal 3 kalimat tentang profesi yang telah dipelajari.",
-          "Setelah mengikuti pembelajaran ini, peserta didik mampu mempresentasikan profesi yang telah dipelajari di depan kelas dengan percaya diri."
+          "Setelah mengikuti pembelajaran, peserta didik mampu menyebutkan minimal 10 macam pekerjaan (profesi) dalam Bahasa Inggris dengan benar (Listening and Speaking).",
+          "Setelah mengikuti pembelajaran, peserta didik mampu menuliskan minimal 5 macam pekerjaan (profesi) dalam Bahasa Inggris dengan ejaan yang benar (Writing).",
+          "Setelah mengikuti pembelajaran, peserta didik mampu mengidentifikasi profesi dalam konteks gambar atau teks sederhana dengan akurasi 80% (Reading).",
+          "Setelah mengikuti pembelajaran, peserta didik dapat menjelaskan pentingnya berbagai profesi dalam masyarakat (Speaking and Writing)."
         ],
         "konten_utama": {
           "linguistik": [
-            "Kosakata profesi dalam Bahasa Inggris (misalnya: doctor, teacher, engineer, pilot, nurse, etc.)",
-            "Kalimat sederhana untuk mendeskripsikan profesi (misalnya: He is a doctor. She is a teacher.)"
+            "Vocabulary: doctor, teacher, engineer, nurse, pilot, police officer, firefighter, chef, farmer, musician, programmer, accountant, artist, writer, architect, etc.",
+            "Simple Sentences: He/She is a…."
           ],
-          "tematik": "Berbagai macam profesi"
+          "tematik": "Various Professions and their Roles in Society"
         },
         "prasyarat_pengetahuan": [
-          "Peserta didik mengetahui macam-macam profesi dalam Bahasa Indonesia.",
+          "Peserta didik mengenal berbagai macam pekerjaan (profesi) dalam Bahasa Indonesia.",
           "Peserta didik mampu membaca dan menulis huruf alfabet Bahasa Inggris."
         ],
-        "pemahaman_bermakna": "Melalui pertanyaan pemantik dan aktivitas yang bermakna, peserta didik dapat memahami pentingnya berbagai profesi dalam masyarakat dan mampu mengkomunikasikannya dalam Bahasa Inggris.",
+        "pemahaman_bermakna": "Pembelajaran ini dirancang agar peserta didik memahami beragam profesi, meningkatkan kosakata Bahasa Inggris, dan menghargai peran penting setiap profesi dalam masyarakat.  Melalui aktivitas interaktif, peserta didik akan termotivasi untuk mempelajari lebih banyak tentang profesi dan menghubungkannya dengan kehidupan sehari-hari.",
         "profil_pelajar_pancasila": {
-          "dimensi_1": "Bernalar kritis: Peserta didik dilatih untuk menganalisis dan membandingkan berbagai profesi.",
-          "dimensi_2": "Mandiri: Peserta didik dilatih untuk mencari informasi dan menyelesaikan tugas secara mandiri.",
-          "dimensi_3": "Kreatif: Peserta didik didorong untuk mengekspresikan pemahaman mereka melalui presentasi."
+          "dimensi_1": "Bernalar Kritis: Peserta didik dilatih untuk mengidentifikasi dan menganalisis informasi terkait profesi dari berbagai sumber, serta menghubungkannya dengan pengetahuan sebelumnya.",
+          "dimensi_2": "Mandiri: Peserta didik didorong untuk belajar secara mandiri melalui kegiatan individu dan berpasangan, serta bertanggung jawab atas proses dan hasil belajarnya.",
+          "dimensi_3": "Kreatif: Peserta didik diberikan kesempatan untuk mengekspresikan pemahamannya tentang profesi melalui gambar, tulisan, dan presentasi."
         },
         "sarana_prasarana": [
-          "Papan tulis",
-          "Buku siswa \"English in Mind- student’s & teacher’s book second edition class VII\"",
+          "Papan tulis/Whiteboard",
+          "Buku siswa dan guru (English in Mind- student’s & teacher’s book second edition class VII)",
+          "Gambar-gambar berbagai profesi",
+          "Kartu gambar profesi",
           "HP (untuk presentasi jika memungkinkan)",
-          "Jaringan internet (jika diperlukan)"
+          "Jaringan internet (opsional)"
         ],
-        "target_peserta_didik": "Peserta didik regular",
+        "target_peserta_didik": "Peserta didik regular dengan kemampuan Bahasa Inggris beragam.",
         "jumlah_peserta_didik": "30",
         "model_pembelajaran": {
-          "nama_model": "Tatap Muka",
-          "alasan_pemilihan": "Model tatap muka dipilih karena memungkinkan interaksi langsung antara guru dan siswa, serta memudahkan pengawasan proses belajar mengajar.",
+          "nama_model": "Pembelajaran Berbasis Proyek (Project-Based Learning)",
+          "alasan_pemilihan": "Model PBL dipilih karena memungkinkan peserta didik aktif terlibat dalam proses pembelajaran, mengembangkan keterampilan kolaborasi, dan menghasilkan produk nyata yang merepresentasikan pemahaman mereka tentang profesi.",
           "tahapan": [
-            "Pendahuluan",
-            "Kegiatan Inti",
-            "Penutup"
+            "Fase Orientasi",
+            "Fase Perencanaan",
+            "Fase Pelaksanaan",
+            "Fase Presentasi",
+            "Fase Refleksi"
           ]
         },
         "sumber_belajar": [
-          "Puchta, Herbert, et al. 2021. *English in Mind- student’s & teacher’s book second edition class VII*. Jakarta: Pusat Kurikulum dan Perbukuan Badan Penelitian dan Pengembangan dan Perbukuan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi."
+          "Puchta, Herbert, et al. 2021. English in Mind- student’s & teacher’s book second edition class VII. Jakarta: Pusat Kurikulum dan Perbukuan Badan Penelitian dan Pengembangan dan Perbukuan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi."
         ]
       },
       "kegiatan_pembelajaran": {
@@ -85,34 +90,42 @@
           "durasi": "15 Menit",
           "langkah_kegiatan": [
             {
-              "aktivitas": "Salam pembuka dan doa",
+              "aktivitas": "Salam dan Doa",
               "waktu": "2 menit",
-              "peran_guru": "Memberikan salam dan memimpin doa",
-              "peran_siswa": "Menjawab salam dan mengikuti doa"
+              "peran_guru": "Memimpin doa dan memberikan salam.",
+              "peran_siswa": "Ikut berdoa dan membalas salam."
             },
             {
-              "aktivitas": "Presensi siswa",
-              "waktu": "3 menit",
-              "peran_guru": "Memeriksa kehadiran siswa",
-              "peran_siswa": "Memberikan respon kehadiran"
-            },
-            {
-              "aktivitas": "Apersepsi (mengaitkan dengan pengalaman siswa)",
+              "aktivitas": "Apersepsi",
               "waktu": "5 menit",
-              "peran_guru": "Mengajukan pertanyaan: \"Apa saja pekerjaan orang tua kalian?\"",
-              "peran_siswa": "Menjawab pertanyaan guru"
+              "peran_guru": "Menanyakan kepada siswa tentang profesi orang tua mereka atau profesi yang mereka kenal.",
+              "peran_siswa": "Menjawab pertanyaan guru dan berdiskusi singkat.",
+              "pertanyaan": [
+                "What does your father/mother do?",
+                "What are some jobs you know?"
+              ]
             },
             {
               "aktivitas": "Motivasi",
               "waktu": "3 menit",
-              "peran_guru": "Menjelaskan pentingnya mempelajari profesi dalam Bahasa Inggris",
-              "peran_siswa": "Mendengarkan penjelasan guru"
+              "peran_guru": "Menayangkan video singkat tentang berbagai profesi atau menunjukkan gambar-gambar profesi.",
+              "peran_siswa": "Menonton video atau mengamati gambar dan merespon.",
+              "pertanyaan": [
+                "What are the professions in the video/picture?",
+                "Why are these professions important?"
+              ]
             },
             {
-              "aktivitas": "Penyampaian tujuan pembelajaran",
+              "aktivitas": "Menyampaikan Tujuan Pembelajaran",
+              "waktu": "3 menit",
+              "peran_guru": "Menjelaskan tujuan pembelajaran yang akan dicapai.",
+              "peran_siswa": "Mendengarkan dan mencatat tujuan pembelajaran."
+            },
+            {
+              "aktivitas": "Pre-test (Informal)",
               "waktu": "2 menit",
-              "peran_guru": "Menjelaskan tujuan pembelajaran yang akan dicapai",
-              "peran_siswa": "Mendengarkan dan memahami tujuan pembelajaran"
+              "peran_guru": "Mengajukan beberapa pertanyaan sederhana tentang profesi yang sudah diketahui siswa.",
+              "peran_siswa": "Menjawab pertanyaan guru secara lisan."
             }
           ]
         },
@@ -120,186 +133,174 @@
           "durasi": "90 Menit",
           "langkah_kegiatan": [
             {
-              "aktivitas": "Penjelasan materi tentang profesi (dengan gambar)",
-              "waktu": "20 menit",
-              "peran_guru": "Menjelaskan berbagai macam profesi dan cara pengucapannya yang benar",
-              "peran_siswa": "Mendengarkan dan mencatat",
+              "aktivitas": "Pengenalan Kosakata Profesi",
+              "waktu": "15 menit",
+              "peran_guru": "Menjelaskan dan mempraktikkan pengucapan kosakata profesi baru.",
+              "peran_siswa": "Mengulangi pengucapan dan menuliskan kosakata baru.",
               "pengelompokan": "Kelas",
               "pertanyaan_kunci": [
-                "Apa perbedaan antara profesi dokter dan guru?",
-                "Sebutkan 5 profesi yang membutuhkan pendidikan tinggi!"
+                "How do you pronounce this word?",
+                "Can you use this word in a sentence?"
               ]
             },
             {
-              "aktivitas": "Praktik mengucapkan profesi",
+              "aktivitas": "Aktivitas Berpasangan",
+              "waktu": "20 menit",
+              "peran_guru": "Membagi siswa dalam kelompok berpasangan untuk mendiskusikan dan mempraktikkan kalimat sederhana menggunakan kosakata profesi.",
+              "peran_siswa": "Berdiskusi dan mempraktikkan kalimat sederhana dengan pasangan.",
+              "pengelompokan": "Berpasangan",
+              "pertanyaan_kunci": [
+                "What is his/her job?",
+                "Can you make a sentence about this profession?"
+              ]
+            },
+            {
+              "aktivitas": "Mencari Informasi (individu)",
               "waktu": "15 menit",
-              "peran_guru": "Meminta siswa untuk mengulang pengucapan profesi",
-              "peran_siswa": "Mengulang pengucapan profesi secara bergantian",
+              "peran_guru": "Meminta siswa untuk mencari informasi tambahan tentang berbagai profesi (gambar, teks pendek, dll).",
+              "peran_siswa": "Mencari informasi dan membuat catatan singkat.",
               "pengelompokan": "Individu",
               "pertanyaan_kunci": [
-                "Bagaimana cara mengucapkan profesi 'engineer' dengan benar?"
+                "Where can you find information about this profession?",
+                "What are the duties of this profession?"
               ]
             },
             {
-              "aktivitas": "Menulis kalimat tentang profesi",
+              "aktivitas": "Presentasi Kelompok Kecil",
               "waktu": "20 menit",
-              "peran_guru": "Membimbing siswa untuk menulis 3 kalimat tentang profesi yang disukai",
-              "peran_siswa": "Menulis kalimat tentang profesi",
-              "pengelompokan": "Individu",
+              "peran_guru": "Membagi siswa dalam kelompok kecil untuk mempresentasikan temuan mereka tentang satu profesi.",
+              "peran_siswa": "Membuat presentasi singkat dan mempresentasikan di depan kelas.",
+              "pengelompokan": "Kelompok Kecil (4-5 orang)",
               "pertanyaan_kunci": [
-                "Buatlah 3 kalimat tentang profesi yang kamu sukai!"
+                "What are the main tasks of this profession?",
+                "Why is this profession important for our society?"
               ]
             },
             {
-              "aktivitas": "Presentasi hasil tulisan",
+              "aktivitas": "Diskusi Kelas",
               "waktu": "20 menit",
-              "peran_guru": "Memilih beberapa siswa untuk mempresentasikan hasil tulisannya",
-              "peran_siswa": "Mempersiapkan dan mempresentasikan hasil tulisannya",
-              "pengelompokan": "Kelompok kecil",
-              "pertanyaan_kunci": [
-                "Bagaimana cara mempresentasikan hasil kerja dengan percaya diri?"
-              ]
-            },
-            {
-              "aktivitas": "Diskusi dan tanya jawab",
-              "waktu": "15 menit",
-              "peran_guru": "Memfasilitasi diskusi dan menjawab pertanyaan siswa",
-              "peran_siswa": "Bertanya dan menjawab pertanyaan",
+              "peran_guru": "Memfasilitasi diskusi kelas untuk membahas presentasi dan memperdalam pemahaman tentang profesi.",
+              "peran_siswa": "Berpartisipasi aktif dalam diskusi kelas.",
               "pengelompokan": "Kelas",
               "pertanyaan_kunci": [
-                "Apa profesi yang paling kamu sukai dan mengapa?"
+                "What are the similarities and differences between these professions?",
+                "Which profession are you most interested in and why?"
               ]
             }
           ],
           "strategi_diferensiasi": {
-            "kemampuan_tinggi": "Memberikan tugas tambahan untuk membuat dialog sederhana tentang profesi.",
-            "kemampuan_sedang": "Membimbing siswa untuk membuat kalimat yang lebih kompleks tentang profesi.",
-            "kemampuan_rendah": "Membantu siswa dalam menulis kalimat sederhana dengan memberikan contoh dan panduan."
+            "kemampuan_tinggi": "Siswa diberikan tugas tambahan untuk membuat cerita pendek tentang berbagai profesi.",
+            "kemampuan_sedang": "Siswa diberikan kesempatan untuk membuat presentasi lebih detail dengan bantuan guru.",
+            "kemampuan_rendah": "Siswa diberikan bantuan ekstra untuk memahami kosakata dan kalimat sederhana."
           }
         },
         "kegiatan_penutup": {
           "durasi": "15 Menit",
           "langkah_kegiatan": [
             {
+              "aktivitas": "Kesimpulan",
+              "waktu": "5 menit",
+              "peran_guru": "Meringkas kembali materi yang telah dipelajari.",
+              "peran_siswa": "Mendengarkan kesimpulan dan mencatat poin penting."
+            },
+            {
               "aktivitas": "Refleksi",
               "waktu": "5 menit",
-              "peran_guru": "Mengajukan pertanyaan refleksi: \"Apa yang telah kamu pelajari hari ini? Apa yang paling kamu sukai? Apa yang masih membingungkan?\"",
-              "peran_siswa": "Menjawab pertanyaan refleksi"
+              "peran_guru": "Mengajukan pertanyaan refleksi kepada siswa.",
+              "peran_siswa": "Menjawab pertanyaan refleksi.",
+              "pertanyaan_refleksi": [
+                "What did you learn today?",
+                "What was the most interesting part of the lesson?",
+                "What are you still confused about?"
+              ]
             },
             {
-              "aktivitas": "Kesimpulan",
+              "aktivitas": "Post-test",
               "waktu": "3 menit",
-              "peran_guru": "Meringkas materi yang telah dipelajari",
-              "peran_siswa": "Mendengarkan kesimpulan"
+              "peran_guru": "Memberikan kuis singkat untuk menguji pemahaman siswa.",
+              "peran_siswa": "Menjawab kuis secara tertulis."
             },
             {
-              "aktivitas": "Penilaian",
-              "waktu": "5 menit",
-              "peran_guru": "Memberikan kuis singkat",
-              "peran_siswa": "Mengerjakan kuis singkat"
-            },
-            {
-              "aktivitas": "Tugas rumah",
+              "aktivitas": "Pengumuman Tugas Rumah",
               "waktu": "2 menit",
-              "peran_guru": "Memberikan tugas rumah untuk mencari informasi tentang 5 profesi lain",
-              "peran_siswa": "Mendengarkan dan mencatat tugas rumah"
+              "peran_guru": "Memberikan tugas rumah untuk memperkuat pemahaman.",
+              "peran_siswa": "Mencatat tugas rumah."
+            },
+            {
+              "aktivitas": "Salam Penutup",
+              "waktu": "2 menit",
+              "peran_guru": "Memberikan salam penutup.",
+              "peran_siswa": "Membalas salam."
             }
-          ],
-          "pertanyaan_refleksi": [
-            "Apa yang sudah kamu pelajari hari ini?",
-            "Apa yang paling kamu sukai dari pembelajaran hari ini?",
-            "Apa kesulitan yang kamu hadapi selama pembelajaran?",
-            "Apa yang akan kamu lakukan untuk meningkatkan pemahamanmu?"
           ]
         }
       },
       "materi_dan_assessment": {
         "bahan_ajar": {
-          "teori": "Profesi adalah pekerjaan atau kegiatan yang dilakukan seseorang untuk menghasilkan sesuatu yang berguna bagi dirinya sendiri dan masyarakat.  Ada berbagai macam profesi, mulai dari dokter, guru, polisi, hingga pilot dan programmer. Setiap profesi memiliki peran dan tanggung jawab yang berbeda-beda.  Mempelajari berbagai macam profesi dalam bahasa Inggris membantu kita untuk berkomunikasi dengan orang-orang dari berbagai latar belakang dan negara.  Dengan mengetahui kosakata profesi, kita dapat memperluas wawasan dan kemampuan berkomunikasi kita dalam bahasa internasional.",
+          "teori": "Berbagai macam pekerjaan (profesi) dalam bahasa Inggris dan peran masing-masing profesi dalam masyarakat. Materi ini akan dijelaskan dengan contoh gambar dan kalimat sederhana dalam bahasa Inggris.  Contohnya, seorang dokter (doctor) merawat orang sakit (treats sick people), seorang guru (teacher) mengajar siswa (teaches students), dan seorang polisi (police officer) menjaga ketertiban (keeps order).  Masing-masing profesi memiliki peran penting dalam menjaga keseimbangan dan kemajuan masyarakat.  Dengan memahami beragam profesi, kita dapat lebih menghargai kerja keras dan kontribusi mereka dalam kehidupan sehari-hari.  Pembahasan juga akan mencakup kalimat sederhana untuk mendeskripsikan profesi, misalnya:  \"He is a doctor.\"  \"She is a teacher.\"  Siswa juga akan belajar bagaimana menggunakan kalimat tersebut dalam konteks yang berbeda.",
           "materi_linguistik": {
-            "grammar": "Kalimat sederhana dalam bentuk afirmatif (misalnya: He is a doctor. She is a teacher.)",
+            "grammar": "Kalimat sederhana (Simple Sentences) dengan pola Subject + Verb + Complement (He/She is a…)",
             "vocabulary": [
-              {
-                "kata": "doctor",
-                "arti": "dokter"
-              },
-              {
-                "kata": "teacher",
-                "arti": "guru"
-              },
-              {
-                "kata": "engineer",
-                "arti": "insinyur"
-              },
-              {
-                "kata": "pilot",
-                "arti": "pilot"
-              },
-              {
-                "kata": "nurse",
-                "arti": "perawat"
-              },
-              {
-                "kata": "police officer",
-                "arti": "petugas polisi"
-              },
-              {
-                "kata": "firefighter",
-                "arti": "petugas pemadam kebakaran"
-              },
-              {
-                "kata": "chef",
-                "arti": "koki"
-              },
-              {
-                "kata": "programmer",
-                "arti": "programmer"
-              },
-              {
-                "kata": "musician",
-                "arti": "musisi"
-              }
+              "doctor",
+              "teacher",
+              "engineer",
+              "nurse",
+              "pilot",
+              "police officer",
+              "firefighter",
+              "chef",
+              "farmer",
+              "musician",
+              "programmer",
+              "accountant",
+              "artist",
+              "writer",
+              "architect"
             ]
           },
-          "teks_lengkap": "My father is a doctor. He works at the hospital. He helps sick people. My mother is a teacher. She teaches at a school. She teaches children. I want to be a pilot when I grow up. I love to travel and see the world.",
-          "materi_visual": "Gambar-gambar yang menunjukkan berbagai macam profesi (dokter, guru, polisi, pilot, dll.)"
+          "teks_lengkap": "Teks bacaan singkat (sekitar 250-300 kata) yang menceritakan tentang berbagai profesi dan peran mereka dalam masyarakat.  Teks akan disesuaikan dengan kemampuan bahasa Inggris siswa kelas VII SMP. Contohnya :  A doctor helps people to be healthy. A teacher teaches students many things in school. An engineer builds bridges and buildings. A nurse takes care of patients in the hospital. A pilot flies airplanes. A police officer keeps the city safe. A firefighter saves people and properties from fire. A chef cooks delicious foods. A farmer grows food for us. A musician plays music that entertains people.  Each profession plays a vital role in making our community a better place to live in. We must appreciate and respect everyone's work, regardless of their profession.",
+          "materi_visual": "Gambar-gambar berbagai profesi yang berwarna dan menarik, disusun dalam slide presentasi atau ditempel di papan tulis.  Gambar dipilih untuk mewakili berbagai jenis profesi dan mudah dipahami oleh siswa."
         },
         "remedial": {
-          "aktivitas": "Siswa yang belum mencapai KKM akan diberikan bimbingan tambahan berupa latihan pengucapan dan penulisan kalimat sederhana tentang profesi. Guru akan memberikan contoh kalimat dan membantu siswa dalam memperbaiki kesalahan.",
+          "aktivitas": "Siswa yang belum mencapai KKM akan diberikan bimbingan tambahan berupa latihan pengucapan kosakata dan penyusunan kalimat sederhana dengan bantuan guru.  Mereka juga akan diberikan lembar kerja tambahan dengan gambar dan pertanyaan sederhana yang fokus pada kosakata profesi.  Guru akan memberikan bimbingan individual dan memastikan mereka memahami konsep dasar materi.",
           "strategi_intervensi": [
-            "Bimbingan individual",
-            "Latihan tambahan"
+            "Pembelajaran individual dengan fokus pada kosakata dan pengucapan.",
+            "Penggunaan media visual yang lebih sederhana dan interaktif.",
+            "Latihan tambahan dengan pertanyaan yang lebih mudah."
           ],
-          "instrumen_penilaian": "Tes lisan dan tertulis yang lebih sederhana"
+          "instrumen_penilaian": "Lembar kerja tambahan dengan soal pilihan ganda dan menjodohkan tentang profesi."
         },
         "pengayaan": {
           "aktivitas": [
-            "Menulis paragraf pendek tentang profesi yang dipilih",
-            "Membuat presentasi singkat tentang profesi pilihan di depan kelas",
-            "Mencari informasi tentang profesi di internet dan mempresentasikannya"
+            "Membuat presentasi video singkat tentang profesi yang dipilih.",
+            "Menulis cerita pendek (minimal 150 kata) tentang pengalaman bertemu dengan orang-orang dari berbagai profesi.",
+            "Melakukan riset kecil tentang profesi masa depan dan presentasikan dalam bentuk poster."
           ],
-          "produk_yang_diharapkan": "Paragraf atau presentasi singkat tentang profesi yang dipilih"
+          "produk_yang_diharapkan": "Video presentasi, cerita pendek, atau poster yang kreatif dan informatif."
         },
         "assessment": {
           "penilaian_pengetahuan": {
             "teknik": "Tes tertulis",
-            "bentuk_instrumen": "Essay",
-            "kisi_kisi": "Menyebutkan dan menjelaskan 5 macam profesi dalam Bahasa Inggris.",
+            "bentuk_instrumen": "Pilihan ganda dan menjodohkan",
+            "kisi_kisi": "Mencakup seluruh kosakata profesi dan kalimat sederhana yang telah dipelajari.",
             "instrumen": [
-              "Sebutkan 5 profesi dalam Bahasa Inggris!",
-              "Jelaskan pekerjaan seorang dokter dalam Bahasa Inggris!",
-              "Tuliskan 3 kalimat tentang pekerjaan seorang guru!",
-              "Apa perbedaan antara seorang pilot dan seorang insinyur?",
-              "Apa yang kamu ketahui tentang profesi programmer?"
+              "1. What is the English word for 'dokter'? a. Teacher b. Doctor c. Nurse d. Engineer",
+              "2.  What does a teacher do? a. Treats sick people b. Teaches students c. Builds houses d. Flies airplanes",
+              "3. Match the profession with its description:",
+              "a. Police Officer 1. Cooks food",
+              "b. Chef 2. Keeps order",
+              "c. Pilot 3. Flies airplane",
+              "4. He ______ a firefighter. a. is b. am c. are d. be",
+              "5. She _____ a nurse. a. is b. am c. are d. be"
             ],
             "kunci_jawaban": [
-              "Jawaban bervariasi, minimal 5 profesi yang benar",
-              "Jawaban bervariasi, menjelaskan pekerjaan dokter",
-              "Jawaban bervariasi, minimal 3 kalimat yang benar",
-              "Jawaban bervariasi, membandingkan pilot dan insinyur",
-              "Jawaban bervariasi, menjelaskan profesi programmer"
+              "b",
+              "b",
+              "a-2, b-1, c-3",
+              "a",
+              "a"
             ],
-            "pedoman_penskoran": "Setiap soal benar bernilai 20, skor maksimal 100."
+            "pedoman_penskoran": "Nilai = (Jumlah jawaban benar / Jumlah soal) x 100"
           },
           "penilaian_keterampilan_mengucapkan": {
             "teknik": "Tes lisan",
@@ -312,19 +313,19 @@
                     "skor": 5
                   },
                   {
-                    "level": "Ada kesalahan tapi tidak mengganggu makna",
+                    "level": "Ada kesalahan kecil, tetapi tidak mengganggu pemahaman",
                     "skor": 4
                   },
                   {
-                    "level": "Ada beberapa kesalahan dan mengganggu makna",
+                    "level": "Ada beberapa kesalahan yang mengganggu pemahaman",
                     "skor": 3
                   },
                   {
-                    "level": "Banyak kesalahan dan mengganggu makna",
+                    "level": "Banyak kesalahan yang sangat mengganggu pemahaman",
                     "skor": 2
                   },
                   {
-                    "level": "Terlalu banyak kesalahan sehingga sulit untuk dipahami",
+                    "level": "Tidak dapat dimengerti",
                     "skor": 1
                   }
                 ]
@@ -355,27 +356,21 @@
                 ]
               }
             ],
-            "penentuan_nilai": "nilaiSiswa = skorDiperoleh/skorMaksimal * 100",
-            "instrumen": "Siswa diminta menyebutkan 5 profesi dalam Bahasa Inggris dengan pengucapan yang benar dan lancar."
+            "penentuan_nilai": "Nilai = (Jumlah skor yang diperoleh / Skor maksimal) x 100",
+            "instrumen": "Siswa diminta untuk menyebutkan minimal 10 profesi dalam Bahasa Inggris dengan benar."
           },
           "penilaian_keterampilan_menulis": {
             "teknik": "Tes tertulis",
-            "instrumen": "Siswa diminta menulis 3 kalimat yang benar secara gramatikal tentang profesi yang telah dipelajari.",
+            "instrumen": "Siswa diminta untuk menuliskan 5 profesi dalam bahasa Inggris dengan ejaan yang benar.",
             "rubrik": {
-              "kriteria_1": {
-                "sangat_baik": "Kalimat benar secara gramatikal, tata bahasa baik, ejaan benar, kosakata tepat.",
-                "baik": "Kalimat hampir benar secara gramatikal, sedikit kesalahan tata bahasa, ejaan sebagian besar benar, kosakata tepat.",
-                "cukup": "Kalimat sebagian besar benar secara gramatikal, beberapa kesalahan tata bahasa, ejaan beberapa salah, kosakata kurang tepat.",
-                "perlu_bimbingan": "Kalimat banyak kesalahan gramatikal, tata bahasa buruk, ejaan banyak salah, kosakata tidak tepat."
-              },
-              "kriteria_2": {
-                "sangat_baik": "Kalimat menunjukkan pemahaman mendalam terhadap materi.",
-                "baik": "Kalimat menunjukkan pemahaman cukup terhadap materi.",
-                "cukup": "Kalimat menunjukkan sedikit pemahaman terhadap materi.",
-                "perlu_bimbingan": "Kalimat tidak menunjukkan pemahaman terhadap materi."
+              "ejaan": {
+                "sangat_baik": "Semua ejaan benar",
+                "baik": "Satu kesalahan ejaan",
+                "cukup": "Dua kesalahan ejaan",
+                "perlu_bimbingan": "Lebih dari dua kesalahan ejaan"
               }
             },
-            "pedoman_penskoran": "Skor diberikan berdasarkan rubrik di atas. Skor maksimal 100."
+            "pedoman_penskoran": "Nilai = (Jumlah skor yang diperoleh / Skor maksimal) x 100"
           }
         }
       }
