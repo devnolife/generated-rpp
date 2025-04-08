@@ -128,6 +128,7 @@ export class EducationService {
       }
 
       // If schema array has an example element, validate first response element against it
+      // Only validate if both schema and response have elements
       if (schema.length > 0 && response.length > 0) {
         return this.validateStructure(response[0], schema[0], `${path}[0]`);
       }
@@ -142,7 +143,47 @@ export class EducationService {
         return false;
       }
 
-      // Check that all schema keys exist in response
+      // For questions validation specifically, handle potential variations in structure
+      if (path === 'questions' || path.startsWith('questions.')) {
+        // Check that all required top-level keys exist in questions object
+        if (path === 'questions') {
+          const requiredKeys = ['pilihan_ganda', 'menjodohkan', 'benar_salah', 'essay'];
+          for (const key of requiredKeys) {
+            if (!(key in response)) {
+              console.error(`Structure mismatch at ${path}: missing required key ${key}`);
+              return false;
+            }
+          }
+
+          // Validate pilihan_ganda is an array
+          if (!Array.isArray(response.pilihan_ganda)) {
+            console.error(`Structure mismatch at ${path}.pilihan_ganda: expected array`);
+            return false;
+          }
+
+          // Validate benar_salah is an array
+          if (!Array.isArray(response.benar_salah)) {
+            console.error(`Structure mismatch at ${path}.benar_salah: expected array`);
+            return false;
+          }
+
+          // Validate essay is an array
+          if (!Array.isArray(response.essay)) {
+            console.error(`Structure mismatch at ${path}.essay: expected array`);
+            return false;
+          }
+
+          // Validate menjodohkan is an object
+          if (typeof response.menjodohkan !== 'object' || response.menjodohkan === null) {
+            console.error(`Structure mismatch at ${path}.menjodohkan: expected object`);
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      // For other regular schema validation, check all schema keys exist in response
       for (const key of Object.keys(schema)) {
         if (!(key in response)) {
           console.error(`Structure mismatch at ${path}: missing key ${key}`);
@@ -643,7 +684,59 @@ export class EducationService {
       - Soal benar-salah dan essay harus mengacu pada informasi dari paragraf di soal pilihan ganda
       - Menciptakan pengalaman tes yang kohesif dan terintegrasi
       
-      Berikan output dalam format JSON yang terstruktur dan lengkap.
+      OUTPUT HARUS DALAM FORMAT JSON SEPERTI INI:
+      {
+        "questions": {
+          "pilihan_ganda": [
+            {
+              "paragraf": "Teks paragraf 1",
+              "pertanyaan": "Pertanyaan 1",
+              "opsi": ["A. Pilihan 1", "B. Pilihan 2", "C. Pilihan 3", "D. Pilihan 4"],
+              "jawaban_benar": "A. Pilihan 1"
+            },
+            ... 4 soal lainnya dengan struktur yang sama ...
+          ],
+          "menjodohkan": {
+            "instruksi": "Petunjuk menjodohkan",
+            "kolom_a": ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+            "kolom_b": ["Match 1", "Match 2", "Match 3", "Match 4", "Match 5"],
+            "jawaban": { 
+              "Item 1": "Match 3", 
+              "Item 2": "Match 1", 
+              "Item 3": "Match 5", 
+              "Item 4": "Match 2", 
+              "Item 5": "Match 4" 
+            }
+          },
+          "benar_salah": [
+            {
+              "pernyataan": "Pernyataan 1",
+              "jawaban": true,
+              "referensi_paragraf": 1
+            },
+            ... 4 pernyataan lainnya dengan struktur yang sama ...
+          ],
+          "essay": [
+            {
+              "pertanyaan": "Pertanyaan essay 1",
+              "panduan_jawaban": "Panduan jawaban 1",
+              "referensi_paragraf": 1
+            },
+            {
+              "pertanyaan": "Pertanyaan essay 2",
+              "panduan_jawaban": "Panduan jawaban 2",
+              "referensi_paragraf": 2
+            }
+          ]
+        }
+      }
+      
+      PERHATIAN PENTING:
+      1. Respons HARUS dalam bentuk JSON murni tanpa kode markdown atau teks di luar JSON
+      2. Struktur JSON HARUS tepat seperti contoh di atas
+      3. Semua kunci (keys) dalam JSON harus sama persis dengan contoh
+      4. Nilai harus sesuai dengan tipe data yang diharapkan
+      5. Pastikan format JSON valid dan dapat di-parse
       `;
 
       const userPrompt = `

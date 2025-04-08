@@ -23,10 +23,10 @@ async function bootstrap() {
     .addTag('education')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swigger', app, document);
+  SwaggerModule.setup('swagger', app, document);
 
   await app.listen(8000);
   console.log(`Application is running on: ${await app.getUrl()}`);
-  console.log(`Swagger documentation is available at: ${await app.getUrl()}/swigger`);
+  console.log(`Swagger documentation is available at: ${await app.getUrl()}/swagger`);
 }
 bootstrap();
