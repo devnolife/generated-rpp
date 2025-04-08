@@ -143,11 +143,11 @@ export class EducationService {
         return false;
       }
 
-      // For questions validation specifically, handle potential variations in structure
+      // For questions validation specifically, handle the new structure
       if (path === 'questions' || path.startsWith('questions.')) {
         // Check that all required top-level keys exist in questions object
         if (path === 'questions') {
-          const requiredKeys = ['pilihan_ganda', 'menjodohkan', 'benar_salah', 'essay'];
+          const requiredKeys = ['pilihan_ganda', 'essay'];
           for (const key of requiredKeys) {
             if (!(key in response)) {
               console.error(`Structure mismatch at ${path}: missing required key ${key}`);
@@ -161,23 +161,13 @@ export class EducationService {
             return false;
           }
 
-          // Validate benar_salah is an array
-          if (!Array.isArray(response.benar_salah)) {
-            console.error(`Structure mismatch at ${path}.benar_salah: expected array`);
-            return false;
-          }
-
           // Validate essay is an array
           if (!Array.isArray(response.essay)) {
             console.error(`Structure mismatch at ${path}.essay: expected array`);
             return false;
           }
 
-          // Validate menjodohkan is an object
-          if (typeof response.menjodohkan !== 'object' || response.menjodohkan === null) {
-            console.error(`Structure mismatch at ${path}.menjodohkan: expected object`);
-            return false;
-          }
+          return true;
         }
 
         return true;
@@ -631,19 +621,6 @@ export class EducationService {
               "jawaban_benar": "A. Option 1"
             }
           ],
-          "menjodohkan": {
-            "instruksi": "Sample instructions",
-            "kolom_a": ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
-            "kolom_b": ["Match 1", "Match 2", "Match 3", "Match 4", "Match 5"],
-            "jawaban": { "Item 1": "Match 3", "Item 2": "Match 1", "Item 3": "Match 5", "Item 4": "Match 2", "Item 5": "Match 4" }
-          },
-          "benar_salah": [
-            {
-              "pernyataan": "Sample statement 1",
-              "jawaban": true,
-              "referensi_paragraf": 1
-            }
-          ],
           "essay": [
             {
               "pertanyaan": "Sample essay question 1",
@@ -656,133 +633,123 @@ export class EducationService {
 
       const systemPrompt = `
       Kamu adalah seorang ahli dalam membuat soal dan penilaian untuk siswa di Indonesia.
-      Buatlah soal yang berkualitas, kontekstual, dan sesuai dengan materi pembelajaran.
+      Tugasmu adalah menghasilkan soal-soal berkualitas tinggi sesuai dengan materi pembelajaran.
       
-      Soal yang dibuat harus mencakup 4 jenis yang SALING TERHUBUNG dalam tema dan materi:
+      PENTING: Kamu HARUS mengembalikan respons dalam format JSON yang VALID dan sesuai dengan struktur berikut:
       
-      1. PILIHAN GANDA - Buatlah 5 soal pilihan ganda dengan 4 opsi jawaban (A, B, C, D)
-         - Setiap soal pilihan ganda harus memiliki paragraf narasi atau teks (minimal 5-7 kalimat)
-         - Paragraf harus terkait dengan konten materi dan menjadi dasar pertanyaan
-         - Total harus ada 5 paragraf (satu untuk setiap soal) yang saling berkaitan dalam tema
-         - Pertanyaan harus langsung berkaitan dengan isi paragraf dan menguji pemahaman siswa
-      
-      2. MENJODOHKAN - Buatlah 5 soal menjodohkan
-         - Konten menjodohkan harus BERKAITAN dengan isi paragraf pada soal pilihan ganda
-         - Konsep yang diuji harus sama dengan yang ada di paragraf
-      
-      3. BENAR-SALAH - Buatlah 5 pernyataan benar/salah
-         - Pernyataan harus LANGSUNG mengacu pada informasi dalam paragraf di soal pilihan ganda
-         - Gunakan informasi spesifik dari paragraf untuk membuat pernyataan
-      
-      4. ESSAY - Buatlah 2 soal essay/uraian
-         - Soal essay harus meminta siswa menganalisis, mensintesis, atau mengevaluasi informasi dari paragraf
-         - Harus menggunakan konteks yang SAMA dengan paragraf dalam soal pilihan ganda
-      
-      KETERKAITAN ANTAR SOAL:
-      - Pastikan semua jenis soal membahas tema/topik yang SAMA
-      - Gunakan kosakata, konsep, dan konteks yang konsisten di semua soal
-      - Soal benar-salah dan essay harus mengacu pada informasi dari paragraf di soal pilihan ganda
-      - Menciptakan pengalaman tes yang kohesif dan terintegrasi
-      
-      OUTPUT HARUS DALAM FORMAT JSON SEPERTI INI:
       {
         "questions": {
           "pilihan_ganda": [
             {
-              "paragraf": "Teks paragraf 1",
-              "pertanyaan": "Pertanyaan 1",
+              "paragraf": "Teks paragraf yang berisi materi",
+              "pertanyaan": "Pertanyaan yang berkaitan dengan paragraf",
               "opsi": ["A. Pilihan 1", "B. Pilihan 2", "C. Pilihan 3", "D. Pilihan 4"],
               "jawaban_benar": "A. Pilihan 1"
             },
-            ... 4 soal lainnya dengan struktur yang sama ...
-          ],
-          "menjodohkan": {
-            "instruksi": "Petunjuk menjodohkan",
-            "kolom_a": ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
-            "kolom_b": ["Match 1", "Match 2", "Match 3", "Match 4", "Match 5"],
-            "jawaban": { 
-              "Item 1": "Match 3", 
-              "Item 2": "Match 1", 
-              "Item 3": "Match 5", 
-              "Item 4": "Match 2", 
-              "Item 5": "Match 4" 
-            }
-          },
-          "benar_salah": [
-            {
-              "pernyataan": "Pernyataan 1",
-              "jawaban": true,
-              "referensi_paragraf": 1
-            },
-            ... 4 pernyataan lainnya dengan struktur yang sama ...
+            ... (total 30 soal pilihan ganda)
           ],
           "essay": [
             {
-              "pertanyaan": "Pertanyaan essay 1",
-              "panduan_jawaban": "Panduan jawaban 1",
+              "pertanyaan": "Pertanyaan essay yang meminta analisis",
+              "panduan_jawaban": "Panduan jawaban untuk guru",
               "referensi_paragraf": 1
             },
-            {
-              "pertanyaan": "Pertanyaan essay 2",
-              "panduan_jawaban": "Panduan jawaban 2",
-              "referensi_paragraf": 2
-            }
+            ... (total 5 soal essay)
           ]
         }
       }
       
-      PERHATIAN PENTING:
-      1. Respons HARUS dalam bentuk JSON murni tanpa kode markdown atau teks di luar JSON
-      2. Struktur JSON HARUS tepat seperti contoh di atas
-      3. Semua kunci (keys) dalam JSON harus sama persis dengan contoh
-      4. Nilai harus sesuai dengan tipe data yang diharapkan
-      5. Pastikan format JSON valid dan dapat di-parse
+      PERSYARATAN SOAL:
+      1. PILIHAN GANDA (30 soal):
+         - Setiap soal harus memiliki paragraf narasi/teks (5-7 kalimat)
+         - Paragraf harus terkait dengan materi pembelajaran
+         - Pertanyaan harus langsung berkaitan dengan isi paragraf
+         - Setiap soal harus memiliki 4 pilihan jawaban (A, B, C, D)
+         - Jawaban benar harus ditentukan dengan jelas
+      
+      2. ESSAY (5 soal):
+         - Soal essay harus meminta siswa menganalisis, mensintesis, atau mengevaluasi
+         - Setiap soal essay harus mengacu pada paragraf tertentu dari soal pilihan ganda
+         - Berikan panduan jawaban yang jelas untuk guru
+         - Tentukan nomor paragraf yang menjadi referensi (referensi_paragraf)
+      
+      PENTING:
+      - JANGAN menambahkan teks atau penjelasan di luar struktur JSON
+      - JANGAN menggunakan format markdown atau kode
+      - JANGAN menambahkan komentar atau catatan tambahan
+      - Pastikan JSON valid dan dapat di-parse
+      - Pastikan jumlah soal sesuai (30 pilihan ganda, 5 essay)
       `;
 
       const userPrompt = `
-      Buatlah soal evaluasi yang sesuai dengan informasi berikut:
-
+      Buatkan soal evaluasi untuk:
+      
       Mata Pelajaran: ${data.mata_pelajaran}
       Kelas: ${data.kelas}
       Materi: ${data.materi}
-      Jumlah Soal: ${data.jumlah || '10'}
       
-      Hasilkan 4 jenis soal yang SALING TERHUBUNG dalam tema yang SAMA:
+      Hasilkan:
+      1. 30 soal pilihan ganda dengan paragraf, pertanyaan, 4 pilihan jawaban, dan jawaban benar
+      2. 5 soal essay dengan pertanyaan, panduan jawaban, dan referensi ke paragraf tertentu
       
-      1. PILIHAN GANDA (5 soal) - Setiap soal harus memiliki:
-         - Paragraf yang langsung mengacu pada materi (5-7 kalimat)
-         - Pertanyaan yang langsung berkaitan dengan isi paragraf
-         - 4 pilihan jawaban (A, B, C, D)
-      
-      2. MENJODOHKAN (5 soal)
-         - Berhubungan dengan tema/konten dalam paragraf pilihan ganda
-      
-      3. BENAR-SALAH (5 soal)
-         - Pernyataan yang LANGSUNG mengacu pada informasi dalam paragraf pilihan ganda
-         - Jelaskan paragraf mana yang menjadi acuan setiap pernyataan
-      
-      4. ESSAY (2 soal)
-         - Pertanyaan yang meminta analisis atau penerapan informasi dari paragraf
-         - Jelaskan paragraf mana yang menjadi acuan setiap pertanyaan essay
-      
-      PERHATIKAN:
-      - Pastikan ada keterkaitan yang jelas antara paragraf, pertanyaan pilihan ganda, soal menjodohkan, 
-        pernyataan benar-salah, dan pertanyaan essay
-      - Soal benar-salah dan essay harus jelas menunjukkan paragraf mana yang menjadi referensinya
-      - Buat soal yang kohesif dan terintegrasi, bukan soal-soal yang berdiri sendiri
+      Pastikan semua soal berkaitan dengan materi yang diberikan dan sesuai dengan tingkat kelas.
       `;
 
+      // Generate content with more specific instructions
       const result = await this.generateContent(systemPrompt, userPrompt, schemaExample);
 
       // Parse the string result into a JSON object
       const parsedResult = JSON.parse(result);
 
+      // Validate the structure of the parsed result
+      if (!parsedResult.questions ||
+        !Array.isArray(parsedResult.questions.pilihan_ganda) ||
+        !Array.isArray(parsedResult.questions.essay)) {
+        throw new Error('Invalid response structure: missing required fields or incorrect data types');
+      }
+
+      // Validate the number of questions with some flexibility
+      const pilihanGandaCount = parsedResult.questions.pilihan_ganda.length;
+      const essayCount = parsedResult.questions.essay.length;
+
+      // Allow for a small margin of error (at least 28 multiple choice questions)
+      if (pilihanGandaCount < 28) {
+        throw new Error(`Invalid number of multiple choice questions: expected at least 28, got ${pilihanGandaCount}`);
+      }
+
+      // If we have fewer than 30 multiple choice questions, add a note to the response
+      let message = `Questions for ${data.mata_pelajaran} generated successfully`;
+      if (pilihanGandaCount < 30) {
+        message += ` (Note: Generated ${pilihanGandaCount} multiple choice questions instead of 30)`;
+      }
+
+      // Validate essay questions (should be exactly 5)
+      if (essayCount !== 5) {
+        throw new Error(`Invalid number of essay questions: expected 5, got ${essayCount}`);
+      }
+
+      // Validate the structure of each question
+      for (let i = 0; i < parsedResult.questions.pilihan_ganda.length; i++) {
+        const question = parsedResult.questions.pilihan_ganda[i];
+        if (!question.paragraf || !question.pertanyaan || !Array.isArray(question.opsi) || question.opsi.length !== 4 || !question.jawaban_benar) {
+          throw new Error(`Invalid multiple choice question structure at index ${i}`);
+        }
+      }
+
+      for (let i = 0; i < parsedResult.questions.essay.length; i++) {
+        const question = parsedResult.questions.essay[i];
+        if (!question.pertanyaan || !question.panduan_jawaban || typeof question.referensi_paragraf !== 'number') {
+          throw new Error(`Invalid essay question structure at index ${i}`);
+        }
+      }
+
       return {
         status: 'success',
-        message: `Questions for ${data.mata_pelajaran} generated successfully`,
+        message: message,
         questions: parsedResult
       };
     } catch (error) {
+      console.error('Error generating questions:', error);
       return {
         status: 'error',
         message: error.message
