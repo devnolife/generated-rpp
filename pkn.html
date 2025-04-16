@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrumen Penilaian Harian / Sumatif</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1, h2, h3 {
+            color: #007bff;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .subsection {
+            margin-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .question-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .question-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        .instructions-list {
+            list-style-type: decimal;
+            padding-left: 20px;
+        }
+
+        .note-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+        
+        .answer-key {
+            background-color: #f0f8ff;
+            border-left: 4px solid #007bff;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        
+        .cognitive-level {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        /* Header untuk setiap halaman saat dicetak */
+        .print-header {
+            display: none;
+        }
+        
+        /* Tombol print */
+        .print-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .print-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .print-options {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        
+        .print-option {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .page-break {
+            display: none;
+        }
+        
+        .print-info {
+            background-color: #f8f9fa;
+            border: 1px dashed #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        
+        .print-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        /* CSS khusus untuk tampilan cetak */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: white;
+                font-size: 12pt;
+            }
+            
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 10px;
+                page-break-inside: avoid;
+                border-radius: 0;
+            }
+            
+            .page-break {
+                display: block;
+                page-break-before: always;
+                height: 0;
+                clear: both;
+            }
+            
+            .print-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
+            }
+            
+            .print-button, .print-options, .print-info {
+                display: none;
+            }
+            
+            table {
+                font-size: 10pt;
+            }
+            
+            h1 {
+                font-size: 18pt;
+            }
+            
+            h2 {
+                font-size: 16pt;
+            }
+            
+            h3 {
+                font-size: 14pt;
+            }
+            
+            .section {
+                border: 1px solid #ddd;
+                margin-bottom: 10px;
+                background-color: white;
+            }
+            
+            .answer-key {
+                background-color: white;
+                border-left: 2px solid #007bff;
+            }
+            
+            /* Memastikan tabel tidak terpotong di halaman yang berbeda */
+            table { 
+                page-break-inside: avoid;
+            }
+            
+            /* Header dan footer untuk setiap halaman */
+            @page {
+                margin: 1.5cm;
+                @top-center {
+                    content: "Instrumen Penilaian Pendidikan Pancasila";
+                    font-size: 10pt;
+                }
+                @bottom-center {
+                    content: "Halaman " counter(page) " dari " counter(pages);
+                    font-size: 10pt;
+                }
+            }
+            
+            /* Bagian yang tersembunyi saat mencetak bagian tertentu */
+            .hidden-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-options">
+        <h3>Opsi Cetak:</h3>
+        <button onclick="printAll()" class="print-button">Cetak Semua</button>
+        <button onclick="printSection('section-1')" class="print-button">Cetak Kisi-Kisi</button>
+        <button onclick="printSection('section-2')" class="print-button">Cetak Soal</button>
+        <button onclick="printSection('section-3')" class="print-button">Cetak Kunci Jawaban</button>
+    </div>
+    
+    <div class="print-header">
+        <h2>Instrumen Penilaian Harian / Sumatif</h2>
+        <p>Mata Pelajaran: <strong>Pendidikan Pancasila</strong> | Kelas: <strong>IX (Sembilan) / Fase D</strong></p>
+        <p>Kurikulum: <strong>Merdeka</strong> | <span id="print_date"></span></p>
+    </div>
+    
+    <div class="container">
+        <h1>Instrumen Penilaian Harian / Sumatif</h1>
+        <p><strong>Mata Pelajaran:</strong> <span id="subject"></span></p>
+        <p><strong>Kelas / Fase:</strong> <span id="grade_phase"></span></p>
+        <p><strong>Kurikulum:</strong> <span id="curriculum"></span></p>
+        <p><strong>Tanggal Penyusunan:</strong> <span id="preparation_date"></span></p>
+        <p><strong>Lokasi:</strong> <span id="location"></span></p>
+        <div class="print-info">
+            <p><i>* Dokumen ini terdiri dari 3 bagian: (1) Kisi-Kisi Penilaian, (2) Butir Soal Penilaian, dan (3) Kunci Jawaban.</i></p>
+            <p><i>* Setiap bagian akan dicetak pada halaman terpisah untuk kemudahan penggunaan.</i></p>
+            <p><i>* Pilih opsi cetak di atas untuk mencetak seluruh dokumen atau bagian tertentu.</i></p>
+        </div>
+    </div>
+
+    <div class="container section-1">
+        <h2>Bagian I: Kisi-Kisi Penilaian</h2>
+        <div class="section">
+            <h3>A. Ringkasan Informasi Instrumen:</h3>
+            <p><strong>Topik Materi:</strong></p>
+            <ul id="topic_list"></ul>
+            <p><strong>Jumlah Soal:</strong> <span id="number_of_questions"></span> Butir</p>
+            <p><strong>Rincian Bentuk Soal:</strong></p>
+            <ul id="question_format_details_list"></ul>
+            <p><strong>Alokasi Waktu:</strong> <span id="time_allocation"></span></p>
+        </div>
+
+        <div class="section">
+            <h3>B. Tabel Spesifikasi Kisi-Kisi Soal:</h3>
+            <table id="specification_table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Bab / Domain</th>
+                        <th>Tujuan Pembelajaran (TP) yang Diukur</th>
+                        <th>Level Kognitif</th>
+                        <th>Materi Pokok / Konten Utama</th>
+                        <th>Indikator Soal</th>
+                        <th>Bentuk Soal</th>
+                        <th>No. Soal</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h3>Keterangan Level Kognitif:</h3>
+            <ul id="cognitive_level_description_list"></ul>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="container section-2">
+        <h2>Bagian II: Butir Soal Penilaian</h2>
+        <div class="section">
+            <h3>Petunjuk Umum Pengerjaan:</h3>
+            <ol class="instructions-list" id="general_instructions_list"></ol>
+        </div>
+
+        <div class="section">
+            <h3>Bagian A: Benar / Salah</h3>
+            <p>(Jawablah dengan menulis Benar atau Salah)</p>
+            <ul class="question-list" id="true_false_questions_list"></ul>
+        </div>
+
+        <div class="section">
+            <h3>Bagian B: Isian Singkat</h3>
+            <p>(Isilah titik-titik di bawah ini dengan jawaban yang tepat!)</p>
+            <ul class="question-list" id="fill_in_the_blanks_questions_list"></ul>
+        </div>
+
+        <div class="section">
+            <p><strong><span id="closing_message"></span></strong></p>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="container section-3">
+        <h2>Kunci Jawaban</h2>
+        <div class="section">
+            <h3>Kunci Jawaban Bagian A: Benar / Salah</h3>
+            <ul class="question-list" id="true_false_answers_list"></ul>
+        </div>
+
+        <div class="section">
+            <h3>Kunci Jawaban Bagian B: Isian Singkat</h3>
+            <ul class="question-list" id="fill_in_the_blanks_answers_list"></ul>
+        </div>
+    </div>
+
+    <script>
+        const jsonData = {
+            "instrument_title": "INSTRUMEN PENILAIAN HARIAN / SUMATIF",
+            "subject": "Pendidikan Pancasila",
+            "grade_phase": "IX (Sembilan) / Fase D",
+            "curriculum": "Merdeka",
+            "preparation_date": "12 April 2025",
+            "location": "Makassar, Sulawesi Selatan",
+            "part_i": {
+                "title": "KISI-KISI PENILAIAN",
+                "a_instrument_summary": {
+                    "topic": [
+                        "Bab 4: Menjaga dan Melestarikan Tradisi, Kearifan Lokal, serta Budaya",
+                        "Bab 5: Menjaga Keutuhan Wilayah NKRI"
+                    ],
+                    "number_of_questions": 15,
+                    "question_format_details": [
+                        {
+                            "format": "Benar / Salah (B/S)",
+                            "count": 8
+                        },
+                        {
+                            "format": "Isian Singkat (IS)",
+                            "count": 7
+                        }
+                    ],
+                    "time_allocation": "± 45 Menit"
+                },
+                "b_specification_table": [
+                    {
+                        "no": 1,
+                        "chapter_domain": "Bab 4: Tradisi, Kearifan Lokal, Budaya",
+                        "learning_objective": "Siswa dapat menjelaskan makna tradisi, kearifan lokal, dan budaya.",
+                        "cognitive_level": "C1",
+                        "core_material_content": "Makna Tradisi, Kearifan Lokal, dan Budaya",
+                        "indicator": "Siswa dapat mengidentifikasi pengertian dasar dari tradisi sebagai kebiasaan turun-temurun.",
+                        "question_format": "B/S",
+                        "question_number": 1
+                    },
+                    {
+                        "no": 2,
+                        "chapter_domain": "Bab 4: Tradisi, Kearifan Lokal, Budaya",
+                        "learning_objective": "Siswa dapat memberikan contoh praktik tradisi, kearifan lokal, dan budaya di Indonesia.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Contoh Tradisi, Kearifan Lokal, dan Budaya di Indonesia",
+                        "indicator": "Siswa dapat menyebutkan satu contoh kearifan lokal yang dikenal di Indonesia.",
+                        "question_format": "IS",
+                        "question_number": 9
+                    },
+                    {
+                        "no": 3,
+                        "chapter_domain": "Bab 4: Tradisi, Kearifan Lokal, Budaya",
+                        "learning_objective": "Siswa dapat menjelaskan peran tradisi, kearifan lokal, dan budaya dalam masyarakat global.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Peran Tradisi, Kearifan Lokal, dan Budaya dalam Masyarakat Global",
+                        "indicator": "Siswa dapat menilai pernyataan mengenai pentingnya budaya lokal di zaman modern (globalisasi).",
+                        "question_format": "B/S",
+                        "question_number": 2
+                    },
+                    {
+                        "no": 4,
+                        "chapter_domain": "Bab 4: Tradisi, Kearifan Lokal, Budaya",
+                        "learning_objective": "Siswa dapat menunjukkan sikap tanggung jawab menjaga serta melestarikan praktik tradisi, kearifan lokal, dan budaya.",
+                        "cognitive_level": "C3",
+                        "core_material_content": "Komitmen Menjaga dan Melestarikan Tradisi, Kearifan Lokal, serta Budaya",
+                        "indicator": "Siswa dapat menjelaskan salah satu cara sederhana bagi pelajar untuk ikut melestarikan budaya.",
+                        "question_format": "IS",
+                        "question_number": 10
+                    },
+                    {
+                        "no": 5,
+                        "chapter_domain": "Bab 4: Tradisi, Kearifan Lokal, Budaya",
+                        "learning_objective": "Siswa dapat menjelaskan makna tradisi, kearifan lokal, dan budaya.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Makna Tradisi, Kearifan Lokal, dan Budaya",
+                        "indicator": "Siswa dapat membedakan antara tradisi dan kearifan lokal melalui contoh.",
+                        "question_format": "B/S",
+                        "question_number": 3
+                    },
+                    {
+                        "no": 6,
+                        "chapter_domain": "Bab 4: Tradisi, Kearifan Lokal, Budaya",
+                        "learning_objective": "Siswa dapat menjelaskan peran tradisi, kearifan lokal, dan budaya.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Peran Tradisi, Kearifan Lokal, dan Budaya dalam Masyarakat Global",
+                        "indicator": "Siswa dapat menjelaskan salah satu fungsi kearifan lokal sebagai pedoman hidup masyarakat.",
+                        "question_format": "IS",
+                        "question_number": 11
+                    },
+                    {
+                        "no": 7,
+                        "chapter_domain": "Bab 4: Tradisi, Kearifan Lokal, Budaya",
+                        "learning_objective": "Siswa dapat menunjukkan sikap tanggung jawab menjaga serta melestarikan praktik tradisi, kearifan lokal, dan budaya.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Komitmen Menjaga dan Melestarikan Tradisi, Kearifan Lokal, serta Budaya",
+                        "indicator": "Siswa dapat mengidentifikasi sikap yang benar dalam menghargai keragaman budaya.",
+                        "question_format": "B/S",
+                        "question_number": 4
+                    },
+                    {
+                        "no": 8,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat menjelaskan komitmen untuk menjaga keutuhan wilayah NKRI.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Komitmen untuk Menjaga Keutuhan Wilayah NKRI",
+                        "indicator": "Siswa dapat menjelaskan arti sederhana dari menjaga keutuhan NKRI.",
+                        "question_format": "IS",
+                        "question_number": 12
+                    },
+                    {
+                        "no": 9,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat menjelaskan upaya untuk mempertahankan kesatuan dan persatuan Indonesia.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Upaya untuk Mempertahankan Kesatuan dan Persatuan Indonesia",
+                        "indicator": "Siswa dapat menilai pernyataan tentang hubungan antara persatuan dan keutuhan wilayah.",
+                        "question_format": "B/S",
+                        "question_number": 5
+                    },
+                    {
+                        "no": 10,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat mengidentifikasi tantangan dalam upaya mempertahankan wilayah NKRI.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Tantangan dalam Upaya Mempertahankan Wilayah NKRI",
+                        "indicator": "Siswa dapat menyebutkan salah satu contoh tantangan dari dalam negeri yang bisa mengganggu persatuan.",
+                        "question_format": "IS",
+                        "question_number": 13
+                    },
+                    {
+                        "no": 11,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat menumbuhkan kesadaran untuk menjaga keutuhan NKRI.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Menumbuhkan Kesadaran untuk Menjaga Keutuhan NKRI",
+                        "indicator": "Siswa dapat mengidentifikasi kegiatan di sekolah yang dapat menumbuhkan rasa cinta tanah air.",
+                        "question_format": "B/S",
+                        "question_number": 6
+                    },
+                    {
+                        "no": 12,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat berperan serta menjaga keutuhan wilayah NKRI.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Peran Aktif Peserta Didik dalam Menjaga Keutuhan Wilayah NKRI",
+                        "indicator": "Siswa dapat menilai pernyataan tentang kemampuan pelajar dalam ikut serta menjaga keutuhan NKRI.",
+                        "question_format": "B/S",
+                        "question_number": 7
+                    },
+                    {
+                        "no": 13,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat menjelaskan upaya untuk mempertahankan kesatuan dan persatuan Indonesia.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Upaya untuk Mempertahankan Kesatuan dan Persatuan Indonesia",
+                        "indicator": "Siswa dapat menjelaskan makna semboyan Bhinneka Tunggal Ika sebagai pemersatu bangsa.",
+                        "question_format": "IS",
+                        "question_number": 14
+                    },
+                    {
+                        "no": 14,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat berperan serta menjaga keutuhan wilayah NKRI.",
+                        "cognitive_level": "C3",
+                        "core_material_content": "Peran Aktif Peserta Didik dalam Menjaga Keutuhan Wilayah NKRI",
+                        "indicator": "Siswa dapat memberikan contoh sikap pelajar yang mencerminkan persatuan di lingkungan sekolah.",
+                        "question_format": "IS",
+                        "question_number": 15
+                    },
+                    {
+                        "no": 15,
+                        "chapter_domain": "Bab 5: Keutuhan Wilayah NKRI",
+                        "learning_objective": "Siswa dapat mengidentifikasi tantangan dalam upaya mempertahankan wilayah NKRI.",
+                        "cognitive_level": "C2",
+                        "core_material_content": "Tantangan dalam Upaya Mempertahankan Wilayah NKRI",
+                        "indicator": "Siswa dapat mengidentifikasi salah satu ancaman dari luar negeri (eksternal) yang bisa mempengaruhi keutuhan NKRI.",
+                        "question_format": "B/S",
+                        "question_number": 8
+                    }
+                ],
+                "cognitive_level_description": {
+                    "C1": "Mengingat",
+                    "C2": "Memahami",
+                    "C3": "Mengaplikasikan"
+                }
+            },
+            "part_ii": {
+                "title": "BUTIR SOAL PENILAIAN",
+                "general_instructions": [
+                    "Mulailah dengan membaca doa sesuai keyakinanmu.",
+                    "Bacalah setiap butir soal dengan cermat dan teliti.",
+                    "Kerjakan soal yang kamu anggap mudah terlebih dahulu.",
+                    "Untuk soal Bagian A, tuliskan Benar atau Salah pada tempat yang tersedia.",
+                    "Untuk soal Bagian B, isilah titik-titik dengan jawaban yang singkat dan jelas.",
+                    "Periksa kembali jawabanmu sebelum diserahkan kepada guru."
+                ],
+                "section_a_true_false": {
+                    "title": "BENAR / SALAH",
+                    "instructions": "(Jawablah dengan menulis Benar atau Salah)",
+                    "questions": [
+                        {
+                            "number": 1,
+                            "text": "Tradisi adalah kebiasaan yang baru saja muncul dalam masyarakat dan belum tentu diwariskan.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Salah",
+                            "cognitive_level": "C1 (Mengingat)",
+                            "explanation": "Mengingat definisi dasar tradisi."
+                        },
+                        {
+                            "number": 2,
+                            "text": "Mempelajari dan melestarikan budaya daerah sendiri tidak lagi penting karena sekarang zaman sudah modern.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Salah",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Memahami pentingnya budaya lokal di era modern."
+                        },
+                        {
+                            "number": 3,
+                            "text": "Upacara adat Ngaben di Bali termasuk contoh tradisi, sedangkan sistem Subak (pengairan sawah) termasuk contoh kearifan lokal.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Benar",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Membedakan contoh tradisi dan kearifan lokal."
+                        },
+                        {
+                            "number": 4,
+                            "text": "Menghargai teman yang berbeda suku dan agama merupakan salah satu sikap menjaga keragaman budaya Indonesia.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Benar",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Mengidentifikasi sikap menghargai keragaman."
+                        },
+                        {
+                            "number": 5,
+                            "text": "Jika masyarakat Indonesia tidak bersatu, maka keutuhan wilayah negara Indonesia akan mudah terancam.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Benar",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Memahami hubungan antara persatuan dan keutuhan wilayah."
+                        },
+                        {
+                            "number": 6,
+                            "text": "Mengikuti kegiatan Pramuka dan Paskibra di sekolah tidak ada hubungannya dengan rasa cinta tanah air.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Salah",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Mengidentifikasi kegiatan yang menumbuhkan rasa cinta tanah air."
+                        },
+                        {
+                            "number": 7,
+                            "text": "Pelajar SMP belum bisa ikut berperan menjaga keutuhan NKRI karena usianya masih terlalu muda.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Salah",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Menilai peran pelajar dalam menjaga keutuhan NKRI."
+                        },
+                        {
+                            "number": 8,
+                            "text": "Masuknya budaya asing secara bebas tanpa disaring dapat menjadi ancaman bagi persatuan dan keutuhan bangsa.",
+                            "answer_space": "(.........)",
+                            "correct_answer": "Benar",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Mengidentifikasi ancaman eksternal terhadap keutuhan NKRI."
+                        }
+                    ]
+                },
+                "section_b_fill_in_the_blanks": {
+                    "title": "ISIAN SINGKAT",
+                    "instructions": "(Isilah titik-titik di bawah ini dengan jawaban yang tepat!)",
+                    "questions": [
+                        {
+                            "number": 9,
+                            "text": "Salah satu contoh kearifan lokal dalam menjaga alam di Papua adalah sistem ....................................."
+,
+                            "correct_answer": "sasi",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Menyebutkan contoh kearifan lokal."
+                        },
+                        {
+                            "number": 10,
+                            "text": "Sebagai pelajar, cara sederhana untuk ikut melestarikan tarian daerah adalah dengan mau .................................... tarian tersebut di sanggar atau sekolah.",
+                            "correct_answer": "mempelajari",
+                            "cognitive_level": "C3 (Mengaplikasikan)",
+                            "explanation": "Menjelaskan cara melestarikan budaya."
+                        },
+                        {
+                            "number": 11,
+                            "text": "Kearifan lokal dapat berfungsi sebagai .................................... bagi masyarakat agar hidup rukun dan menjaga lingkungannya.",
+                            "correct_answer": "pedoman hidup",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Menjelaskan fungsi kearifan lokal."
+                        },
+                        {
+                            "number": 12,
+                            "text": "Menjaga keutuhan NKRI artinya kita bertekad dan berusaha agar wilayah Indonesia dari Sabang sampai Merauke tetap ....................................."
+,
+                            "correct_answer": "bersatu",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Menjelaskan arti menjaga keutuhan NKRI."
+                        },
+                        {
+                            "number": 13,
+                            "text": "Salah satu tantangan dari dalam negeri yang bisa mengganggu persatuan bangsa adalah terjadinya .................................... antar suku atau kelompok masyarakat.",
+                            "correct_answer": "konflik",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Menyebutkan contoh tantangan dari dalam negeri."
+                        },
+                        {
+                            "number": 14,
+                            "text": "Semboyan Bhinneka Tunggal Ika artinya \"Berbeda-beda tetapi tetap satu jua\", yang berfungsi sebagai .................................... bangsa Indonesia.",
+                            "correct_answer": "pemersatu",
+                            "cognitive_level": "C2 (Memahami)",
+                            "explanation": "Menjelaskan makna Bhinneka Tunggal Ika."
+                        },
+                        {
+                            "number": 15,
+                            "text": "Contoh sikap pelajar yang menunjukkan persatuan di sekolah adalah tidak memilih-milih teman berdasarkan .................................... nya.",
+                            "correct_answer": "suku/ras/agama/status sosial",
+                            "cognitive_level": "C3 (Mengaplikasikan)",
+                            "explanation": "Memberikan contoh sikap persatuan."
+                        }
+                    ]
+                },
+                "closing_message": "SELAMAT MENGERJAKAN!"
+            },
+            "notes_for_users": [
+                "Teks di atas sudah diformat agar lebih terstruktur dan siap untuk di-copy ke Microsoft Word.",
+                "Di Word, Anda dapat:",
+                "  - Menggunakan tema dokumen yang sesuai (misalnya \"Formal\" atau \"Elegant\")",
+                "  - Mengatur font judul menggunakan \"Calibri Light\" atau \"Times New Roman\" dengan ukuran 14pt",
+                "  - Menggunakan font isi \"Calibri\" atau \"Times New Roman\" dengan ukuran 11pt",
+                "  - Menambahkan header dengan logo sekolah",
+                "  - Menggunakan warna tema yang sesuai (misalnya biru tua untuk judul)",
+                "  - Menambahkan border dan shading pada tabel untuk tampilan yang lebih profesional",
+                "  - Mengatur spasi dan margin yang sesuai",
+                "Untuk tampilan yang lebih menarik, Anda bisa:",
+                "  - Menambahkan watermark sekolah",
+                "  - Menggunakan style heading yang konsisten",
+                "  - Menambahkan nomor halaman",
+                "  - Menggunakan bullet points yang sesuai",
+                "  - Menambahkan garis pemisah yang elegan"
+            ]
+        };
+
+        // Fungsi untuk menampilkan data teks sederhana
+        function displayText(id, text) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = text;
+            }
+        }
+
+        // Fungsi untuk format tanggal
+        function formatDate(date) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
+        }
+
+        // Fungsi untuk menampilkan daftar item
+        function displayList(id, items) {
+            const element = document.getElementById(id);
+            if (element && Array.isArray(items)) {
+                items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    element.appendChild(li);
+                });
+            }
+        }
+
+        // Fungsi untuk menampilkan rincian bentuk soal
+        function displayQuestionFormatDetails(id, details) {
+            const element = document.getElementById(id);
+            if (element && Array.isArray(details)) {
+                details.forEach(detail => {
+                    const li = document.createElement('li');
+                    li.textContent = `${detail.format}: ${detail.count} Butir`;
+                    element.appendChild(li);
+                });
+            }
+        }
+
+        // Fungsi untuk menampilkan tabel spesifikasi kisi-kisi soal
+        function displaySpecificationTable(id, data) {
+            const tbody = document.querySelector(`#${id} tbody`);
+            if (tbody && Array.isArray(data)) {
+                data.forEach(item => {
+                    const row = tbody.insertRow();
+                    row.insertCell().textContent = item.no;
+                    row.insertCell().textContent = item.chapter_domain;
+                    row.insertCell().textContent = item.learning_objective;
+                    row.insertCell().textContent = item.cognitive_level;
+                    row.insertCell().textContent = item.core_material_content;
+                    row.insertCell().textContent = item.indicator;
+                    row.insertCell().textContent = item.question_format;
+                    row.insertCell().textContent = item.question_number;
+                });
+            }
+        }
+
+        // Fungsi untuk menampilkan pertanyaan Benar / Salah
+        function displayTrueFalseQuestions(id, questions) {
+            const element = document.getElementById(id);
+            if (element && Array.isArray(questions)) {
+                questions.forEach(question => {
+                    const li = document.createElement('li');
+                    li.classList.add('question-item');
+                    li.innerHTML = `<strong>${question.number}.</strong> ${question.text} <span style="float: right;">${question.answer_space}</span>`;
+                    element.appendChild(li);
+                });
+            }
+        }
+
+        // Fungsi untuk menampilkan pertanyaan Isian Singkat
+        function displayFillInTheBlanksQuestions(id, questions) {
+            const element = document.getElementById(id);
+            if (element && Array.isArray(questions)) {
+                questions.forEach(question => {
+                    const li = document.createElement('li');
+                    li.classList.add('question-item');
+                    li.innerHTML = `<strong>${question.number}.</strong> ${question.text}`;
+                    element.appendChild(li);
+                });
+            }
+        }
+        
+        // Fungsi untuk menampilkan jawaban soal Benar / Salah
+        function displayTrueFalseAnswers(id, questions) {
+            const element = document.getElementById(id);
+            if (element && Array.isArray(questions)) {
+                questions.forEach(question => {
+                    const li = document.createElement('li');
+                    li.classList.add('question-item');
+                    li.innerHTML = `
+                        <strong>${question.number}.</strong> ${question.text}
+                        <div class="answer-key">
+                            <strong>Jawaban:</strong> ${question.correct_answer}<br>
+                            <span class="cognitive-level"><strong>Level Kognitif:</strong> ${question.cognitive_level} - ${question.explanation}</span>
+                        </div>
+                    `;
+                    element.appendChild(li);
+                });
+            }
+        }
+        
+        // Fungsi untuk menampilkan jawaban soal Isian Singkat
+        function displayFillInTheBlanksAnswers(id, questions) {
+            const element = document.getElementById(id);
+            if (element && Array.isArray(questions)) {
+                questions.forEach(question => {
+                    const li = document.createElement('li');
+                    li.classList.add('question-item');
+                    const text = question.text.replace("......................................", `<strong>${question.correct_answer}</strong>`);
+                    li.innerHTML = `
+                        <strong>${question.number}.</strong> ${text}
+                        <div class="answer-key">
+                            <strong>Jawaban:</strong> ${question.correct_answer}<br>
+                            <span class="cognitive-level"><strong>Level Kognitif:</strong> ${question.cognitive_level} - ${question.explanation}</span>
+                        </div>
+                    `;
+                    element.appendChild(li);
+                });
+            }
+        }
+
+        // Inisialisasi data pada halaman HTML
+        displayText('subject', jsonData.subject);
+        displayText('grade_phase', jsonData.grade_phase);
+        displayText('curriculum', jsonData.curriculum);
+        displayText('preparation_date', jsonData.preparation_date);
+        displayText('location', jsonData.location);
+        displayList('topic_list', jsonData.part_i.a_instrument_summary.topic);
+        displayText('number_of_questions', jsonData.part_i.a_instrument_summary.number_of_questions);
+        displayQuestionFormatDetails('question_format_details_list', jsonData.part_i.a_instrument_summary.question_format_details);
+        displayText('time_allocation', jsonData.part_i.a_instrument_summary.time_allocation);
+        displaySpecificationTable('specification_table', jsonData.part_i.b_specification_table);
+        const cognitiveLevels = Object.entries(jsonData.part_i.cognitive_level_description).map(([key, value]) => `${key}: ${value}`);
+        displayList('cognitive_level_description_list', cognitiveLevels);
+        displayList('general_instructions_list', jsonData.part_ii.general_instructions);
+        displayTrueFalseQuestions('true_false_questions_list', jsonData.part_ii.section_a_true_false.questions);
+        displayFillInTheBlanksQuestions('fill_in_the_blanks_questions_list', jsonData.part_ii.section_b_fill_in_the_blanks.questions);
+        displayText('closing_message', jsonData.part_ii.closing_message);
+        
+        // Menampilkan kunci jawaban
+        displayTrueFalseAnswers('true_false_answers_list', jsonData.part_ii.section_a_true_false.questions);
+        displayFillInTheBlanksAnswers('fill_in_the_blanks_answers_list', jsonData.part_ii.section_b_fill_in_the_blanks.questions);
+        
+        // Menampilkan tanggal cetak
+        const today = new Date();
+        displayText('print_date', 'Tanggal Cetak: ' + formatDate(today));
+        
+        // Fungsi untuk mencetak semua bagian dokumen
+        function printAll() {
+            window.print();
+        }
+        
+        // Fungsi untuk mencetak bagian tertentu saja
+        function printSection(sectionClass) {
+            // Simpan daftar elemen yang perlu disembunyikan
+            const containers = document.querySelectorAll('.container');
+            
+            // Sembunyikan semua container kecuali yang dipilih
+            containers.forEach(container => {
+                if (!container.classList.contains(sectionClass)) {
+                    container.classList.add('hidden-print');
+                }
+            });
+            
+            // Cetak dokumen
+            window.print();
+            
+            // Kembalikan tampilan seperti semula setelah mencetak
+            containers.forEach(container => {
+                container.classList.remove('hidden-print');
+            });
+        }
+    </script>
+</body>
+</html>

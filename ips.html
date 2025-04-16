@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Instrumen Penilaian IPS</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --accent: #1abc9c;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: white;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        h1 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 30px 0 15px;
+            font-size: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+        
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0;
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .meta-info div {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 10px;
+        }
+        
+        .meta-info span {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: white;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            page-break-inside: avoid;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--dark);
+        }
+        
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .options {
+            margin-left: 20px;
+        }
+        
+        .option {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .option-label {
+            min-width: 25px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .true-false {
+            display: flex;
+            margin-top: 10px;
+        }
+        
+        .true-false div {
+            margin-right: 20px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .true {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: var(--success);
+        }
+        
+        .false {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--danger);
+        }
+        
+        .matching-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .matching-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .matching-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: var(--light);
+            border-radius: 5px;
+        }
+        
+        .essay-question {
+            border-left-color: var(--accent);
+        }
+        
+        .essay-answer {
+            background-color: rgba(26, 188, 156, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        .rubric {
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 10px;
+            color: var(--dark);
+        }
+        
+        .rubric-item {
+            margin-bottom: 5px;
+        }
+        
+        .kisi-kisi {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .kisi-kisi th, .kisi-kisi td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .kisi-kisi th {
+            background-color: var(--light);
+            font-weight: bold;
+        }
+        
+        .kisi-kisi tr:nth-child(even) {
+            background-color: rgba(236, 240, 241, 0.3);
+        }
+        
+        .instructions {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .instructions ol, .instructions ul {
+            margin-left: 20px;
+        }
+        
+        .fill-question {
+            border-left-color: var(--warning);
+        }
+        
+        .answer-space {
+            font-style: italic;
+            color: var(--dark);
+            margin-top: 10px;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+                font-size: 12pt;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: 100%;
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            h1 {
+                font-size: 18pt;
+            }
+            
+            h2 {
+                font-size: 16pt;
+                page-break-after: avoid;
+            }
+            
+            h3 {
+                font-size: 14pt;
+                page-break-after: avoid;
+            }
+            
+            .question {
+                page-break-inside: avoid;
+                border-left: 2px solid var(--primary);
+                box-shadow: none;
+            }
+            
+            .meta-info, .instructions {
+                background-color: white;
+                border: 1px solid #ddd;
+            }
+            
+            .true, .false {
+                border: 1px solid #ddd;
+            }
+            
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            
+            .kisi-kisi th {
+                background-color: white;
+                border: 1px solid #000;
+            }
+            
+            @page {
+                margin: 1.5cm;
+                size: A4;
+            }
+        }
+        
+        /* Loading indicator style */
+        #loading {
+            text-align: center;
+            padding: 20px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loading">Memuat data assessmen...</div>
+        <div id="content" style="display: none;">
+            <header>
+                <h1 id="assessment-title">INSTRUMEN PENILAIAN HARIAN / SUMATIF</h1>
+                <h2 id="assessment-subtitle"></h2>
+                <p id="assessment-curriculum"></p>
+            </header>
+            
+            <section class="meta-info" id="meta-info">
+                <!-- Will be populated by JavaScript -->
+            </section>
+            
+            <section>
+                <h2>I. KISI-KISI PENILAIAN</h2>
+                
+                <section>
+                    <h3>A. Ringkasan Instrumen</h3>
+                    <div class="meta-info">
+                        <div id="themes-container">
+                            <p><span>Topik:</span></p>
+                            <ul id="themes-list">
+                                <!-- Will be populated by JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <section>
+                    <h3>B. Tabel Spesifikasi</h3>
+                    <div class="meta-info">
+                        <div>
+                            <p><span>Keterangan Level Kognitif:</span></p>
+                            <p id="cognitive-levels">
+                                <!-- Will be populated by JavaScript -->
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Add Kisi-Kisi Table Section -->
+                <section>
+                    <h3>C. Kisi-Kisi Soal</h3>
+                    <div style="overflow-x:auto;">
+                        <table class="kisi-kisi" id="kisi-kisi-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Fase</th>
+                                    <th>Elemen</th>
+                                    <th>Capaian Pembelajaran</th>
+                                    <th>Tujuan Pembelajaran</th>
+                                    <th>Level Kognitif</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kisi-kisi-body">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+            
+            <section>
+                <h2>II. BUTIR SOAL PENILAIAN</h2>
+                
+                <div class="instructions">
+                    <h3>Petunjuk Umum:</h3>
+                    <ol>
+                        <li>Mulailah dengan membaca doa sesuai keyakinanmu.</li>
+                        <li>Bacalah setiap butir soal dengan cermat dan teliti.</li>
+                        <li>Kerjakan soal yang kamu anggap mudah terlebih dahulu.</li>
+                        <li>Periksa kembali jawabanmu sebelum diserahkan kepada guru.</li>
+                    </ol>
+                </div>
+                
+                <!-- Question sections will be populated by JavaScript -->
+                <div id="questions-container"></div>
+                
+                <div style="text-align: center; margin-top: 40px; font-weight: bold; font-size: 18px;">
+                    SELAMAT MENGERJAKAN!
+                </div>
+            </section>
+            
+            <footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--light);">
+                <p id="footer-copyright"></p>
+            </footer>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch the JSON data
+            fetch('ips.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading indicator and show content
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                    
+                    // Populate header
+                    document.getElementById('page-title').textContent = data.assessmentTitle;
+                    document.getElementById('assessment-title').textContent = data.assessmentTitle.toUpperCase();
+                    document.getElementById('assessment-subtitle').textContent = data.subject + ' Kelas ' + data.grade;
+                    document.getElementById('assessment-curriculum').textContent = 'Kurikulum ' + data.curriculum;
+                    
+                    // Populate meta info
+                    const metaInfo = document.getElementById('meta-info');
+                    metaInfo.innerHTML = `
+                        <div>
+                            <p><span>Mata Pelajaran:</span> ${data.subject}</p>
+                            <p><span>Kelas:</span> ${data.grade}</p>
+                            <p><span>Kurikulum:</span> ${data.curriculum}</p>
+                        </div>
+                        <div>
+                            <p><span>Jumlah Soal:</span> ${data.totalQuestions}</p>
+                            <p><span>Pilihan Ganda:</span> ${data.questionTypes.multipleChoice}</p>
+                            <p><span>Benar/Salah:</span> ${data.questionTypes.trueFalse}</p>
+                        </div>
+                        <div>
+                            <p><span>Format Soal Lainnya:</span></p>
+                            <p>Menjodohkan: ${data.questionTypes.matching}</p>
+                            <p>Esai: ${data.questionTypes.essay}</p>
+                        </div>
+                    `;
+                    
+                    // Populate themes
+                    const themesList = document.getElementById('themes-list');
+                    data.themes.forEach(theme => {
+                        const li = document.createElement('li');
+                        li.textContent = theme.title;
+                        themesList.appendChild(li);
+                    });
+                    
+                    // Populate cognitive levels
+                    const cognitiveLevels = document.getElementById('cognitive-levels');
+                    cognitiveLevels.innerHTML = `
+                        <p>C1-C2 (Mengingat, Memahami): ${data.cognitiveLevelsDistribution.C1_C2}</p>
+                        <p>C3 (Mengaplikasikan): ${data.cognitiveLevelsDistribution.C3}</p>
+                        <p>C4-C6 (Menganalisis, Mengevaluasi, Mencipta): ${data.cognitiveLevelsDistribution.C4_C5_C6}</p>
+                    `;
+                    
+                    // Populate kisi-kisi table
+                    if (data.kisiKisi && data.kisiKisi.length > 0) {
+                        const kisiKisiBody = document.getElementById('kisi-kisi-body');
+                        
+                        data.kisiKisi.forEach(item => {
+                            const row = document.createElement('tr');
+                            
+                            // Add table cells
+                            row.innerHTML = `
+                                <td>${item.id}</td>
+                                <td>${item.fase}</td>
+                                <td>${item.elemen}</td>
+                                <td>${item.capaianPembelajaran}</td>
+                                <td>${item.tujuanPembelajaran}</td>
+                                <td>${item.levelKognitif}</td>
+                            `;
+                            
+                            kisiKisiBody.appendChild(row);
+                        });
+                    }
+                    
+                    // Populate questions
+                    const questionsContainer = document.getElementById('questions-container');
+                    
+                    // Multiple Choice Questions
+                    if (data.questions.multipleChoice && data.questions.multipleChoice.length > 0) {
+                        const mcSection = document.createElement('section');
+                        const mcTitle = document.createElement('h3');
+                        mcTitle.textContent = 'A. PILIHAN GANDA';
+                        mcSection.appendChild(mcTitle);
+                        
+                        const mcInstructions = document.createElement('p');
+                        mcInstructions.textContent = 'Pilihlah satu jawaban yang paling tepat!';
+                        mcSection.appendChild(mcInstructions);
+                        
+                        data.questions.multipleChoice.forEach(q => {
+                            const questionDiv = document.createElement('div');
+                            questionDiv.className = 'question';
+                            
+                            const questionHeader = document.createElement('div');
+                            questionHeader.className = 'question-header';
+                            questionHeader.innerHTML = `
+                                <div>Soal ${q.id}</div>
+                                <div>Level Kognitif: ${q.cognitiveLevel}</div>
+                            `;
+                            questionDiv.appendChild(questionHeader);
+                            
+                            const questionText = document.createElement('div');
+                            questionText.className = 'question-text';
+                            questionText.textContent = q.question;
+                            questionDiv.appendChild(questionText);
+                            
+                            const options = document.createElement('div');
+                            options.className = 'options';
+                            q.options.forEach(option => {
+                                const optionDiv = document.createElement('div');
+                                optionDiv.className = 'option';
+                                
+                                const optionLabel = document.createElement('div');
+                                optionLabel.className = 'option-label';
+                                optionLabel.textContent = option.key.toUpperCase() + '.';
+                                
+                                const optionText = document.createElement('div');
+                                optionText.textContent = option.text;
+                                
+                                optionDiv.appendChild(optionLabel);
+                                optionDiv.appendChild(optionText);
+                                options.appendChild(optionDiv);
+                            });
+                            questionDiv.appendChild(options);
+                            
+                            const answerSpace = document.createElement('div');
+                            answerSpace.className = 'answer-space';
+                            answerSpace.textContent = 'Jawaban: (........)';
+                            questionDiv.appendChild(answerSpace);
+                            
+                            const rubric = document.createElement('div');
+                            rubric.className = 'rubric';
+                            rubric.textContent = `Jawaban Benar: ${q.answer.toUpperCase()}`;
+                            questionDiv.appendChild(rubric);
+                            
+                            mcSection.appendChild(questionDiv);
+                        });
+                        
+                        questionsContainer.appendChild(mcSection);
+                    }
+                    
+                    // True/False Questions
+                    if (data.questions.trueFalse && data.questions.trueFalse.length > 0) {
+                        const tfSection = document.createElement('section');
+                        const tfTitle = document.createElement('h3');
+                        tfTitle.textContent = 'B. BENAR / SALAH';
+                        tfSection.appendChild(tfTitle);
+                        
+                        const tfInstructions = document.createElement('p');
+                        tfInstructions.textContent = 'Jawablah dengan menulis Benar atau Salah';
+                        tfSection.appendChild(tfInstructions);
+                        
+                        data.questions.trueFalse.forEach(q => {
+                            const questionDiv = document.createElement('div');
+                            questionDiv.className = 'question';
+                            
+                            const questionHeader = document.createElement('div');
+                            questionHeader.className = 'question-header';
+                            questionHeader.innerHTML = `
+                                <div>Soal ${q.id}</div>
+                                <div>Level Kognitif: ${q.cognitiveLevel}</div>
+                            `;
+                            questionDiv.appendChild(questionHeader);
+                            
+                            const questionText = document.createElement('div');
+                            questionText.className = 'question-text';
+                            questionText.textContent = q.statement;
+                            questionDiv.appendChild(questionText);
+                            
+                            const answerSpace = document.createElement('div');
+                            answerSpace.className = 'answer-space';
+                            answerSpace.textContent = 'Jawaban: (........)';
+                            questionDiv.appendChild(answerSpace);
+                            
+                            const rubric = document.createElement('div');
+                            rubric.className = 'rubric';
+                            rubric.textContent = `Jawaban Benar: ${q.answer ? 'Benar' : 'Salah'}`;
+                            questionDiv.appendChild(rubric);
+                            
+                            tfSection.appendChild(questionDiv);
+                        });
+                        
+                        questionsContainer.appendChild(tfSection);
+                    }
+                    
+                    // Matching Questions
+                    if (data.questions.matching && data.questions.matching.prompts) {
+                        const matchingSection = document.createElement('section');
+                        const matchingTitle = document.createElement('h3');
+                        matchingTitle.textContent = 'C. MENJODOHKAN';
+                        matchingSection.appendChild(matchingTitle);
+                        
+                        const matchingInstructions = document.createElement('p');
+                        matchingInstructions.textContent = data.questions.matching.instruction || 'Jodohkan pernyataan di Kolom A dengan jawaban yang tepat di Kolom B!';
+                        matchingSection.appendChild(matchingInstructions);
+                        
+                        const matchingContainer = document.createElement('div');
+                        matchingContainer.className = 'matching-container';
+                        
+                        // Prompts column (Column A)
+                        const promptsColumn = document.createElement('div');
+                        promptsColumn.className = 'matching-column';
+                        const promptsTitle = document.createElement('h4');
+                        promptsTitle.textContent = 'Kolom A';
+                        promptsColumn.appendChild(promptsTitle);
+                        
+                        data.questions.matching.prompts.forEach(prompt => {
+                            const promptItem = document.createElement('div');
+                            promptItem.className = 'matching-item';
+                            promptItem.innerHTML = `<strong>${prompt.id}.</strong> ${prompt.text}`;
+                            promptsColumn.appendChild(promptItem);
+                        });
+                        
+                        // Choices column (Column B)
+                        const choicesColumn = document.createElement('div');
+                        choicesColumn.className = 'matching-column';
+                        const choicesTitle = document.createElement('h4');
+                        choicesTitle.textContent = 'Kolom B';
+                        choicesColumn.appendChild(choicesTitle);
+                        
+                        data.questions.matching.choices.forEach(choice => {
+                            const choiceItem = document.createElement('div');
+                            choiceItem.className = 'matching-item';
+                            choiceItem.innerHTML = `<strong>${choice.key}.</strong> ${choice.text}`;
+                            choicesColumn.appendChild(choiceItem);
+                        });
+                        
+                        matchingContainer.appendChild(promptsColumn);
+                        matchingContainer.appendChild(choicesColumn);
+                        
+                        matchingSection.appendChild(matchingContainer);
+                        
+                        // Answer key for the matching
+                        const matchingAnswerKey = document.createElement('div');
+                        matchingAnswerKey.className = 'meta-info';
+                        matchingAnswerKey.style.marginTop = '20px';
+                        
+                        const answerKeyTitle = document.createElement('p');
+                        answerKeyTitle.innerHTML = '<span>Kunci Jawaban:</span>';
+                        matchingAnswerKey.appendChild(answerKeyTitle);
+                        
+                        const answerList = document.createElement('div');
+                        answerList.style.display = 'flex';
+                        answerList.style.flexWrap = 'wrap';
+                        
+                        for (const [promptId, choiceKey] of Object.entries(data.questions.matching.answerMapping)) {
+                            const answerItem = document.createElement('div');
+                            answerItem.style.marginRight = '15px';
+                            answerItem.textContent = `${promptId} → ${choiceKey}`;
+                            answerList.appendChild(answerItem);
+                        }
+                        
+                        matchingAnswerKey.appendChild(answerList);
+                        matchingSection.appendChild(matchingAnswerKey);
+                        
+                        questionsContainer.appendChild(matchingSection);
+                    }
+                    
+                    // Essay Questions
+                    if (data.questions.essay && data.questions.essay.length > 0) {
+                        const essaySection = document.createElement('section');
+                        const essayTitle = document.createElement('h3');
+                        essayTitle.textContent = 'D. ESAI';
+                        essaySection.appendChild(essayTitle);
+                        
+                        const essayInstructions = document.createElement('p');
+                        essayInstructions.textContent = 'Jawablah pertanyaan berikut dengan jelas dan tepat!';
+                        essaySection.appendChild(essayInstructions);
+                        
+                        data.questions.essay.forEach(q => {
+                            const questionDiv = document.createElement('div');
+                            questionDiv.className = 'question essay-question';
+                            
+                            const questionHeader = document.createElement('div');
+                            questionHeader.className = 'question-header';
+                            questionHeader.innerHTML = `
+                                <div>Soal ${q.id}</div>
+                                <div>Level Kognitif: ${q.cognitiveLevel} | Skor Maksimal: ${q.maxScore}</div>
+                            `;
+                            questionDiv.appendChild(questionHeader);
+                            
+                            const questionText = document.createElement('div');
+                            questionText.className = 'question-text';
+                            questionText.textContent = q.question;
+                            questionDiv.appendChild(questionText);
+                            
+                            const answerArea = document.createElement('div');
+                            answerArea.className = 'essay-answer';
+                            answerArea.textContent = 'Jawaban:';
+                            questionDiv.appendChild(answerArea);
+                            
+                            if (q.rubric && q.rubric.length > 0) {
+                                const rubric = document.createElement('div');
+                                rubric.className = 'rubric';
+                                
+                                const rubricTitle = document.createElement('div');
+                                rubricTitle.style.fontWeight = 'bold';
+                                rubricTitle.textContent = 'Pedoman Penilaian:';
+                                rubric.appendChild(rubricTitle);
+                                
+                                const rubricList = document.createElement('ul');
+                                q.rubric.forEach(item => {
+                                    const listItem = document.createElement('li');
+                                    listItem.className = 'rubric-item';
+                                    listItem.textContent = item;
+                                    rubricList.appendChild(listItem);
+                                });
+                                
+                                rubric.appendChild(rubricList);
+                                questionDiv.appendChild(rubric);
+                            }
+                            
+                            essaySection.appendChild(questionDiv);
+                        });
+                        
+                        questionsContainer.appendChild(essaySection);
+                    }
+                    
+                    // Set copyright footer
+                    const currentYear = new Date().getFullYear();
+                    const footerCopyright = document.getElementById('footer-copyright');
+                    footerCopyright.textContent = `© ${currentYear} - ${data.assessmentTitle} - ${data.subject} Kelas ${data.grade} Kurikulum ${data.curriculum}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('loading').textContent = 'Terjadi kesalahan saat memuat data. Silakan refresh halaman.';
+                });
+        });
+    </script>
+</body>
+</html>

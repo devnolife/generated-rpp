@@ -1,0 +1,105 @@
+INSTRUMEN PENILAIAN HARIAN / SUMATIF
+
+Mata Pelajaran : Pendidikan Pancasila
+Kelas / Fase : IX (Sembilan) / Fase D
+Kurikulum : Merdeka
+Tanggal Penyusunan: 12 April 2025
+Lokasi: Makassar, Sulawesi Selatan
+
+==================================================
+
+BAGIAN I: KISI-KISI PENILAIAN
+
+A. Ringkasan Informasi Instrumen:
+
+Topik Materi:
+- Bab 4: Menjaga dan Melestarikan Tradisi, Kearifan Lokal, serta Budaya
+- Bab 5: Menjaga Keutuhan Wilayah NKRI
+
+Jumlah Soal: 15 Butir
+
+Rincian Bentuk Soal:
+- Benar / Salah (B/S): 8 Butir
+- Isian Singkat (IS): 7 Butir
+
+Alokasi Waktu: ± 45 Menit
+
+B. Tabel Spesifikasi Kisi-Kisi Soal:
+
+| No | Bab / Domain | Tujuan Pembelajaran (TP) yang Diukur | Level Kognitif | Materi Pokok / Konten Utama | Indikator Soal | Bentuk Soal | No. Soal |
+|----|--------------|--------------------------------------|----------------|-----------------------------|----------------|-------------|----------|
+| 1  | Bab 4: Tradisi, Kearifan Lokal, Budaya | Siswa dapat menjelaskan makna tradisi, kearifan lokal, dan budaya. | C1 | Makna Tradisi, Kearifan Lokal, dan Budaya | Siswa dapat mengidentifikasi pengertian dasar dari tradisi sebagai kebiasaan turun-temurun. | B/S | 1 |
+| 2  | Bab 4: Tradisi, Kearifan Lokal, Budaya | Siswa dapat memberikan contoh praktik tradisi, kearifan lokal, dan budaya di Indonesia. | C2 | Contoh Tradisi, Kearifan Lokal, dan Budaya di Indonesia | Siswa dapat menyebutkan satu contoh kearifan lokal yang dikenal di Indonesia. | IS | 9 |
+| 3  | Bab 4: Tradisi, Kearifan Lokal, Budaya | Siswa dapat menjelaskan peran tradisi, kearifan lokal, dan budaya dalam masyarakat global. | C2 | Peran Tradisi, Kearifan Lokal, dan Budaya dalam Masyarakat Global | Siswa dapat menilai pernyataan mengenai pentingnya budaya lokal di zaman modern (globalisasi). | B/S | 2 |
+| 4  | Bab 4: Tradisi, Kearifan Lokal, Budaya | Siswa dapat menunjukkan sikap tanggung jawab menjaga serta melestarikan praktik tradisi, kearifan lokal, dan budaya. | C3 | Komitmen Menjaga dan Melestarikan Tradisi, Kearifan Lokal, serta Budaya | Siswa dapat menjelaskan salah satu cara sederhana bagi pelajar untuk ikut melestarikan budaya. | IS | 10 |
+| 5  | Bab 4: Tradisi, Kearifan Lokal, Budaya | Siswa dapat menjelaskan makna tradisi, kearifan lokal, dan budaya. | C2 | Makna Tradisi, Kearifan Lokal, dan Budaya | Siswa dapat membedakan antara tradisi dan kearifan lokal melalui contoh. | B/S | 3 |
+| 6  | Bab 4: Tradisi, Kearifan Lokal, Budaya | Siswa dapat menjelaskan peran tradisi, kearifan lokal, dan budaya. | C2 | Peran Tradisi, Kearifan Lokal, dan Budaya dalam Masyarakat Global | Siswa dapat menjelaskan salah satu fungsi kearifan lokal sebagai pedoman hidup masyarakat. | IS | 11 |
+| 7  | Bab 4: Tradisi, Kearifan Lokal, Budaya | Siswa dapat menunjukkan sikap tanggung jawab menjaga serta melestarikan praktik tradisi, kearifan lokal, dan budaya. | C2 | Komitmen Menjaga dan Melestarikan Tradisi, Kearifan Lokal, serta Budaya | Siswa dapat mengidentifikasi sikap yang benar dalam menghargai keragaman budaya. | B/S | 4 |
+| 8  | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat menjelaskan komitmen untuk menjaga keutuhan wilayah NKRI. | C2 | Komitmen untuk Menjaga Keutuhan Wilayah NKRI | Siswa dapat menjelaskan arti sederhana dari menjaga keutuhan NKRI. | IS | 12 |
+| 9  | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat menjelaskan upaya untuk mempertahankan kesatuan dan persatuan Indonesia. | C2 | Upaya untuk Mempertahankan Kesatuan dan Persatuan Indonesia | Siswa dapat menilai pernyataan tentang hubungan antara persatuan dan keutuhan wilayah. | B/S | 5 |
+| 10 | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat mengidentifikasi tantangan dalam upaya mempertahankan wilayah NKRI. | C2 | Tantangan dalam Upaya Mempertahankan Wilayah NKRI | Siswa dapat menyebutkan salah satu contoh tantangan dari dalam negeri yang bisa mengganggu persatuan. | IS | 13 |
+| 11 | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat menumbuhkan kesadaran untuk menjaga keutuhan NKRI. | C2 | Menumbuhkan Kesadaran untuk Menjaga Keutuhan NKRI | Siswa dapat mengidentifikasi kegiatan di sekolah yang dapat menumbuhkan rasa cinta tanah air. | B/S | 6 |
+| 12 | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat berperan serta menjaga keutuhan wilayah NKRI. | C2 | Peran Aktif Peserta Didik dalam Menjaga Keutuhan Wilayah NKRI | Siswa dapat menilai pernyataan tentang kemampuan pelajar dalam ikut serta menjaga keutuhan NKRI. | B/S | 7 |
+| 13 | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat menjelaskan upaya untuk mempertahankan kesatuan dan persatuan Indonesia. | C2 | Upaya untuk Mempertahankan Kesatuan dan Persatuan Indonesia | Siswa dapat menjelaskan makna semboyan Bhinneka Tunggal Ika sebagai pemersatu bangsa. | IS | 14 |
+| 14 | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat berperan serta menjaga keutuhan wilayah NKRI. | C3 | Peran Aktif Peserta Didik dalam Menjaga Keutuhan Wilayah NKRI | Siswa dapat memberikan contoh sikap pelajar yang mencerminkan persatuan di lingkungan sekolah. | IS | 15 |
+| 15 | Bab 5: Keutuhan Wilayah NKRI | Siswa dapat mengidentifikasi tantangan dalam upaya mempertahankan wilayah NKRI. | C2 | Tantangan dalam Upaya Mempertahankan Wilayah NKRI | Siswa dapat mengidentifikasi salah satu ancaman dari luar negeri (eksternal) yang bisa mempengaruhi keutuhan NKRI. | B/S | 8 |
+
+Keterangan Level Kognitif:
+- C1: Mengingat
+- C2: Memahami
+- C3: Mengaplikasikan
+
+==================================================
+
+BAGIAN II: BUTIR SOAL PENILAIAN
+
+Petunjuk Umum Pengerjaan:
+1. Mulailah dengan membaca doa sesuai keyakinanmu.
+2. Bacalah setiap butir soal dengan cermat dan teliti.
+3. Kerjakan soal yang kamu anggap mudah terlebih dahulu.
+4. Untuk soal Bagian A, tuliskan Benar atau Salah pada tempat yang tersedia.
+5. Untuk soal Bagian B, isilah titik-titik dengan jawaban yang singkat dan jelas.
+6. Periksa kembali jawabanmu sebelum diserahkan kepada guru.
+
+BAGIAN A: BENAR / SALAH
+(Jawablah dengan menulis Benar atau Salah)
+
+1. Tradisi adalah kebiasaan yang baru saja muncul dalam masyarakat dan belum tentu diwariskan. (.........)
+2. Mempelajari dan melestarikan budaya daerah sendiri tidak lagi penting karena sekarang zaman sudah modern. (.........)
+3. Upacara adat Ngaben di Bali termasuk contoh tradisi, sedangkan sistem Subak (pengairan sawah) termasuk contoh kearifan lokal. (.........)
+4. Menghargai teman yang berbeda suku dan agama merupakan salah satu sikap menjaga keragaman budaya Indonesia. (.........)
+5. Jika masyarakat Indonesia tidak bersatu, maka keutuhan wilayah negara Indonesia akan mudah terancam. (.........)
+6. Mengikuti kegiatan Pramuka dan Paskibra di sekolah tidak ada hubungannya dengan rasa cinta tanah air. (.........)
+7. Pelajar SMP belum bisa ikut berperan menjaga keutuhan NKRI karena usianya masih terlalu muda. (.........)
+8. Masuknya budaya asing secara bebas tanpa disaring dapat menjadi ancaman bagi persatuan dan keutuhan bangsa. (.........)
+
+BAGIAN B: ISIAN SINGKAT
+(Isilah titik-titik di bawah ini dengan jawaban yang tepat!)
+
+9. Salah satu contoh kearifan lokal dalam menjaga alam di Papua adalah sistem .....................................
+10. Sebagai pelajar, cara sederhana untuk ikut melestarikan tarian daerah adalah dengan mau .................................... tarian tersebut di sanggar atau sekolah.
+11. Kearifan lokal dapat berfungsi sebagai .................................... bagi masyarakat agar hidup rukun dan menjaga lingkungannya.
+12. Menjaga keutuhan NKRI artinya kita bertekad dan berusaha agar wilayah Indonesia dari Sabang sampai Merauke tetap .....................................
+13. Salah satu tantangan dari dalam negeri yang bisa mengganggu persatuan bangsa adalah terjadinya .................................... antar suku atau kelompok masyarakat.
+14. Semboyan Bhinneka Tunggal Ika artinya "Berbeda-beda tetapi tetap satu jua", yang berfungsi sebagai .................................... bangsa Indonesia.
+15. Contoh sikap pelajar yang menunjukkan persatuan di sekolah adalah tidak memilih-milih teman berdasarkan .................................... nya.
+
+==================================================
+SELAMAT MENGERJAKAN!
+
+Catatan untuk Pengguna:
+1. Teks di atas sudah diformat agar lebih terstruktur dan siap untuk di-copy ke Microsoft Word.
+2. Di Word, Anda dapat:
+   - Menggunakan tema dokumen yang sesuai (misalnya "Formal" atau "Elegant")
+   - Mengatur font judul menggunakan "Calibri Light" atau "Times New Roman" dengan ukuran 14pt
+   - Menggunakan font isi "Calibri" atau "Times New Roman" dengan ukuran 11pt
+   - Menambahkan header dengan logo sekolah
+   - Menggunakan warna tema yang sesuai (misalnya biru tua untuk judul)
+   - Menambahkan border dan shading pada tabel untuk tampilan yang lebih profesional
+   - Mengatur spasi dan margin yang sesuai
+3. Untuk tampilan yang lebih menarik, Anda bisa:
+   - Menambahkan watermark sekolah
+   - Menggunakan style heading yang konsisten
+   - Menambahkan nomor halaman
+   - Menggunakan bullet points yang sesuai
+   - Menambahkan garis pemisah yang elegan 

@@ -1,0 +1,825 @@
+{
+  "assessmentTitle": "Soal Sumatif Akhir Sekolah IPS Kelas IX Kurikulum Merdeka",
+  "subject": "Ilmu Pengetahuan Sosial (IPS)",
+  "grade": 9,
+  "curriculum": "Merdeka",
+  "totalQuestions": 40,
+  "questionTypes": {
+    "multipleChoice": 20,
+    "trueFalse": 8,
+    "matching": 7,
+    "essay": 5
+  },
+  "cognitiveLevelsDistribution": {
+    "C1_C2": "50% (20 soal)",
+    "C3": "27.5% (11 soal)",
+    "C4_C5_C6": "22.5% (9 soal)"
+  },
+  "themes": [
+    {"id": 1, "title": "Dinamika Sosial Budaya, Modernisasi, dan Globalisasi"},
+    {"id": 2, "title": "Literasi Keuangan dan Ekonomi Digital"},
+    {"id": 3, "title": "Pembangunan Ekonomi dan Indonesia Menuju Negara Maju"},
+    {"id": 4, "title": "Kerjasama Internasional dan Isu Global"}
+  ],
+  "questions": {
+    "multipleChoice": [
+      {
+        "id": 1,
+        "theme": 1,
+        "indicator": "Menjelaskan dinamika perubahan sosial.",
+        "cognitiveLevel": "C2",
+        "question": "Proses perubahan unsur-unsur sosial dalam masyarakat, seperti nilai, norma, pola perilaku, organisasi, lembaga, dan lapisan sosial, disebut...",
+        "options": [
+          {"key": "a", "text": "Integrasi sosial"},
+          {"key": "b", "text": "Konflik sosial"},
+          {"key": "c", "text": "Dinamika perubahan sosial"},
+          {"key": "d", "text": "Mobilitas sosial"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 2,
+        "theme": 1,
+        "indicator": "Mengidentifikasi dampak perubahan sosial dalam masyarakat.",
+        "cognitiveLevel": "C2",
+        "question": "Salah satu dampak positif dari perubahan sosial yang terencana adalah...",
+        "options": [
+          {"key": "a", "text": "Meningkatnya kesenjangan sosial"},
+          {"key": "b", "text": "Terciptanya keteraturan dan kemajuan masyarakat"},
+          {"key": "c", "text": "Melemahnya nilai-nilai tradisional"},
+          {"key": "d", "text": "Munculnya konflik antarkelompok"}
+        ],
+        "answer": "b"
+      },
+       {
+        "id": 3,
+        "theme": 1,
+        "indicator": "Membedakan antara modernisasi dan globalisasi.",
+        "cognitiveLevel": "C2",
+        "question": "Perbedaan mendasar antara modernisasi dan globalisasi terletak pada...",
+        "options": [
+          {"key": "a", "text": "Modernisasi fokus pada kemajuan teknologi, globalisasi pada interaksi antarnegara"},
+          {"key": "b", "text": "Modernisasi hanya terjadi di negara maju, globalisasi di negara berkembang"},
+          {"key": "c", "text": "Modernisasi bersifat lokal, globalisasi bersifat nasional"},
+          {"key": "d", "text": "Modernisasi mengarah pada perubahan nilai, globalisasi pada perubahan ekonomi"}
+        ],
+        "answer": "a"
+      },
+      {
+        "id": 4,
+        "theme": 1,
+        "indicator": "Memberikan contoh fenomena modernisasi dalam kehidupan.",
+        "cognitiveLevel": "C3",
+        "question": "Penggunaan traktor untuk menggantikan tenaga hewan dalam membajak sawah merupakan contoh fenomena...",
+        "options": [
+          {"key": "a", "text": "Globalisasi"},
+          {"key": "b", "text": "Westernisasi"},
+          {"key": "c", "text": "Konsumerisme"},
+          {"key": "d", "text": "Modernisasi"}
+        ],
+        "answer": "d"
+      },
+      {
+        "id": 5,
+        "theme": 1,
+        "indicator": "Menganalisis pengaruh globalisasi terhadap gaya hidup remaja.",
+        "cognitiveLevel": "C4",
+        "question": "Masuknya budaya K-Pop yang memengaruhi gaya berpakaian dan selera musik remaja Indonesia merupakan salah satu pengaruh dari...",
+        "options": [
+          {"key": "a", "text": "Modernisasi"},
+          {"key": "b", "text": "Globalisasi"},
+          {"key": "c", "text": "Westernisasi"},
+          {"key": "d", "text": "Demokratisasi"}
+        ],
+        "answer": "b"
+      },
+      {
+        "id": 6,
+        "theme": 1,
+        "indicator": "Mengidentifikasi contoh pelestarian budaya di masyarakat.",
+        "cognitiveLevel": "C1",
+        "question": "Mengadakan festival budaya daerah dan mengajarkan bahasa daerah di sekolah merupakan contoh upaya...",
+        "options": [
+          {"key": "a", "text": "Westernisasi budaya"},
+          {"key": "b", "text": "Pelestarian budaya lokal"},
+          {"key": "c", "text": "Modernisasi kesenian"},
+          {"key": "d", "text": "Globalisasi pariwisata"}
+        ],
+        "answer": "b"
+      },
+      {
+        "id": 7,
+        "theme": 1,
+        "indicator": "Menyebutkan faktor pendorong perubahan sosial.",
+        "cognitiveLevel": "C1",
+        "question": "Faktor internal yang dapat mendorong terjadinya perubahan sosial dalam masyarakat adalah...",
+        "options": [
+          {"key": "a", "text": "Pengaruh kebudayaan masyarakat lain"},
+          {"key": "b", "text": "Peperangan dengan negara lain"},
+          {"key": "c", "text": "Perubahan lingkungan alam"},
+          {"key": "d", "text": "Penemuan-penemuan baru (inovasi)"}
+        ],
+        "answer": "d"
+      },
+      {
+        "id": 8,
+        "theme": 2,
+        "indicator": "Menjelaskan fungsi uang dalam perekonomian.",
+        "cognitiveLevel": "C2",
+        "question": "Fungsi uang sebagai alat untuk membandingkan nilai suatu barang dengan barang lain disebut fungsi...",
+        "options": [
+          {"key": "a", "text": "Alat tukar"},
+          {"key": "b", "text": "Satuan hitung"},
+          {"key": "c", "text": "Penyimpan kekayaan"},
+          {"key": "d", "text": "Standar pembayaran utang"}
+        ],
+        "answer": "b"
+      },
+      {
+        "id": 9,
+        "theme": 2,
+        "indicator": "Menyebutkan contoh lembaga keuangan bank.",
+        "cognitiveLevel": "C1",
+        "question": "Berikut ini yang termasuk contoh lembaga keuangan bank adalah...",
+        "options": [
+          {"key": "a", "text": "Koperasi Simpan Pinjam"},
+          {"key": "b", "text": "Pegadaian"},
+          {"key": "c", "text": "Bank Perkreditan Rakyat (BPR)"},
+          {"key": "d", "text": "Perusahaan Asuransi"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 10,
+        "theme": 2,
+        "indicator": "Membedakan ciri interaksi di dunia nyata dan digital.",
+        "cognitiveLevel": "C2",
+        "question": "Ciri khas interaksi di dunia digital yang membedakannya dengan dunia nyata adalah...",
+        "options": [
+          {"key": "a", "text": "Adanya kontak fisik langsung"},
+          {"key": "b", "text": "Komunikasi bersifat verbal saja"},
+          {"key": "c", "text": "Anonimitas dan kecepatan penyebaran informasi"},
+          {"key": "d", "text": "Keterbatasan jangkauan geografis"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 11,
+        "theme": 2,
+        "indicator": "Menerapkan prinsip Respect dalam berinteraksi di media sosial.",
+        "cognitiveLevel": "C3",
+        "question": "Menghindari penyebaran berita bohong (hoax) dan tidak menggunakan kata-kata kasar saat berkomentar di media sosial adalah penerapan prinsip...",
+        "options": [
+          {"key": "a", "text": "Respect (Menghargai)"},
+          {"key": "b", "text": "Educate (Mendidik)"},
+          {"key": "c", "text": "Protect (Melindungi)"},
+          {"key": "d", "text": "Connect (Menghubungkan)"}
+        ],
+        "answer": "a"
+      },
+      {
+        "id": 12,
+        "theme": 2,
+        "indicator": "Menganalisis keuntungan ekonomi berbasis teknologi digital (misal: e-commerce).",
+        "cognitiveLevel": "C4",
+        "question": "Kemudahan dalam melakukan transaksi jual beli tanpa harus bertemu langsung antara penjual dan pembeli merupakan salah satu keuntungan dari...",
+        "options": [
+          {"key": "a", "text": "Sistem barter"},
+          {"key": "b", "text": "Pasar tradisional"},
+          {"key": "c", "text": "Ekonomi berbasis teknologi digital (e-commerce)"},
+          {"key": "d", "text": "Lembaga keuangan mikro"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 13,
+        "theme": 2,
+        "indicator": "Mengidentifikasi contoh penerapan Protect dalam penggunaan internet.",
+        "cognitiveLevel": "C3",
+        "question": "Menggunakan kata sandi yang kuat dan tidak membagikan informasi pribadi secara sembarangan di internet adalah contoh penerapan prinsip...",
+        "options": [
+          {"key": "a", "text": "Respect"},
+          {"key": "b", "text": "Educate"},
+          {"key": "c", "text": "Protect"},
+          {"key": "d", "text": "Share"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 14,
+        "theme": 3,
+        "indicator": "Menjelaskan tujuan pembangunan nasional.",
+        "cognitiveLevel": "C2",
+        "question": "Tujuan utama dilaksanakannya pembangunan nasional di Indonesia adalah...",
+        "options": [
+          {"key": "a", "text": "Meningkatkan pendapatan per kapita semata"},
+          {"key": "b", "text": "Mewujudkan masyarakat yang adil, makmur, dan sejahtera"},
+          {"key": "c", "text": "Mengejar ketertinggalan dari negara-negara maju"},
+          {"key": "d", "text": "Memperkuat posisi Indonesia dalam kerja sama internasional"}
+        ],
+        "answer": "b"
+      },
+      {
+        "id": 15,
+        "theme": 3,
+        "indicator": "Mendeskripsikan contoh upaya pembangunan di era Orde Baru.",
+        "cognitiveLevel": "C2",
+        "question": "Program Repelita (Rencana Pembangunan Lima Tahun) yang fokus pada pembangunan sektor pertanian dan industri merupakan ciri khas upaya pembangunan pada masa...",
+        "options": [
+          {"key": "a", "text": "Awal Kemerdekaan"},
+          {"key": "b", "text": "Orde Lama"},
+          {"key": "c", "text": "Orde Baru"},
+          {"key": "d", "text": "Reformasi"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 16,
+        "theme": 3,
+        "indicator": "Menyebutkan salah satu tolok ukur keberhasilan pembangunan ekonomi.",
+        "cognitiveLevel": "C1",
+        "question": "Salah satu indikator yang sering digunakan untuk mengukur tingkat kesejahteraan dan kualitas hidup penduduk suatu negara adalah...",
+        "options": [
+          {"key": "a", "text": "Jumlah penduduk"},
+          {"key": "b", "text": "Tingkat inflasi"},
+          {"key": "c", "text": "Indeks Pembangunan Manusia (IPM)"},
+          {"key": "d", "text": "Pertumbuhan ekonomi"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 17,
+        "theme": 3,
+        "indicator": "Menganalisis tantangan Indonesia dalam mewujudkan pembangunan berkelanjutan.",
+        "cognitiveLevel": "C4",
+        "question": "Ketergantungan pada sumber daya alam yang tidak terbarukan dan kerusakan lingkungan merupakan salah satu tantangan Indonesia dalam mewujudkan...",
+        "options": [
+          {"key": "a", "text": "Pembangunan infrastruktur"},
+          {"key": "b", "text": "Pembangunan berkelanjutan"},
+          {"key": "c", "text": "Pertumbuhan ekonomi tinggi"},
+          {"key": "d", "text": "Swasembada pangan"}
+        ],
+        "answer": "b"
+      },
+      {
+        "id": 18,
+        "theme": 3,
+        "indicator": "Mengidentifikasi potensi Indonesia menjadi negara maju.",
+        "cognitiveLevel": "C2",
+        "question": "Sumber daya alam yang melimpah, jumlah penduduk usia produktif yang besar, dan letak geografis yang strategis merupakan bagian dari... Indonesia untuk menjadi negara maju.",
+        "options": [
+          {"key": "a", "text": "Tantangan"},
+          {"key": "b", "text": "Kelemahan"},
+          {"key": "c", "text": "Potensi"},
+          {"key": "d", "text": "Masalah"}
+        ],
+        "answer": "c"
+      },
+      {
+        "id": 19,
+        "theme": 4,
+        "indicator": "Menjelaskan alasan negara-negara melakukan kerja sama internasional.",
+        "cognitiveLevel": "C2",
+        "question": "Alasan utama mengapa negara-negara di dunia perlu melakukan kerja sama internasional adalah...",
+        "options": [
+          {"key": "a", "text": "Untuk menunjukkan kekuatan militernya"},
+          {"key": "b", "text": "Karena setiap negara tidak dapat memenuhi kebutuhannya sendiri"},
+          {"key": "c", "text": "Agar dapat menguasai negara lain"},
+          {"key": "d", "text": "Untuk menyeragamkan budaya di seluruh dunia"}
+        ],
+        "answer": "b"
+      },
+      {
+        "id": 20,
+        "theme": 4,
+        "indicator": "Memberikan contoh bentuk kerja sama Indonesia di tingkat regional (ASEAN).",
+        "cognitiveLevel": "C2",
+        "question": "ASEAN (Association of Southeast Asian Nations) merupakan contoh bentuk kerja sama Indonesia di tingkat...",
+        "options": [
+          {"key": "a", "text": "Bilateral"},
+          {"key": "b", "text": "Regional"},
+          {"key": "c", "text": "Multilateral"},
+          {"key": "d", "text": "Global"}
+        ],
+        "answer": "b"
+      }
+    ],
+    "trueFalse": [
+       {
+        "id": 21,
+        "theme": 1,
+        "indicator": "Menilai pernyataan tentang dampak negatif globalisasi.",
+        "cognitiveLevel": "C2",
+        "statement": "Salah satu dampak negatif globalisasi adalah lunturnya rasa nasionalisme pada sebagian masyarakat.",
+        "answer": true
+      },
+      {
+        "id": 22,
+        "theme": 1,
+        "indicator": "Menilai pernyataan tentang definisi modernisasi.",
+        "cognitiveLevel": "C2",
+        "statement": "Modernisasi selalu berarti meniru gaya hidup dan budaya Barat (westernisasi).",
+        "answer": false,
+        "explanation": "Modernisasi fokus pada rasionalitas & efisiensi, tidak harus kebarat-baratan"
+      },
+      {
+        "id": 23,
+        "theme": 2,
+        "indicator": "Menilai pernyataan tentang peran lembaga keuangan bukan bank.",
+        "cognitiveLevel": "C2",
+        "statement": "Koperasi dan asuransi termasuk dalam kategori lembaga keuangan bukan bank.",
+        "answer": true
+      },
+      {
+        "id": 24,
+        "theme": 2,
+        "indicator": "Menilai pernyataan tentang etika berinteraksi digital.",
+        "cognitiveLevel": "C2",
+        "statement": "Menyebarkan informasi pribadi orang lain tanpa izin di media sosial merupakan tindakan yang dibenarkan secara etika.",
+        "answer": false
+      },
+      {
+        "id": 25,
+        "theme": 3,
+        "indicator": "Menilai pernyataan tentang tujuan pembangunan berkelanjutan (SDGs).",
+        "cognitiveLevel": "C2",
+        "statement": "Tujuan Pembangunan Berkelanjutan (SDGs) hanya fokus pada aspek ekonomi tanpa memperhatikan aspek sosial dan lingkungan.",
+        "answer": false,
+        "explanation": "SDGs mencakup 3 pilar: ekonomi, sosial, lingkungan"
+      },
+      {
+        "id": 26,
+        "theme": 3,
+        "indicator": "Menilai pernyataan tentang dampak negatif pembangunan yang tidak merata.",
+        "cognitiveLevel": "C2",
+        "statement": "Pembangunan yang hanya terpusat di kota-kota besar dapat menimbulkan kesenjangan sosial dan ekonomi dengan daerah pedesaan.",
+        "answer": true
+      },
+      {
+        "id": 27,
+        "theme": 4,
+        "indicator": "Menilai pernyataan tentang manfaat kerja sama internasional bagi Indonesia.",
+        "cognitiveLevel": "C2",
+        "statement": "Melalui kerja sama internasional, Indonesia dapat meningkatkan ekspor, memperoleh bantuan teknologi, dan ikut serta dalam perdamaian dunia.",
+        "answer": true
+      },
+      {
+        "id": 28,
+        "theme": 4,
+        "indicator": "Menilai pernyataan tentang tujuan utama PBB.",
+        "cognitiveLevel": "C1",
+        "statement": "Tujuan utama pembentukan Perserikatan Bangsa-Bangsa (PBB) adalah untuk menguasai perekonomian dunia.",
+        "answer": false,
+        "explanation": "Tujuan utama PBB adalah perdamaian dan keamanan internasional"
+      }
+    ],
+    "matching": {
+      "instruction": "Jodohkan pernyataan di Kolom A dengan istilah/konsep yang tepat di Kolom B!",
+      "prompts": [
+        {"id": 29, "theme": 1, "indicator": "Mencocokkan istilah perubahan sosial (misal: westernisasi) dengan definisinya.", "cognitiveLevel": "C1", "text": "Perubahan sosial yang terarah pada gaya hidup kebarat-baratan."},
+        {"id": 30, "theme": 2, "indicator": "Mencocokkan jenis literasi finansial (misal: budgeting) dengan penjelasannya.", "cognitiveLevel": "C2", "text": "Kemampuan mengelola keuangan pribadi, seperti membuat anggaran belanja."},
+        {"id": 31, "theme": 2, "indicator": "Mencocokkan platform ekonomi digital (misal: marketplace) dengan fungsinya.", "cognitiveLevel": "C1", "text": "Platform online yang mempertemukan penjual dan pembeli (misal: Tokopedia)."},
+        {"id": 32, "theme": 3, "indicator": "Mencocokkan indikator pembangunan (misal: IPM) dengan deskripsinya.", "cognitiveLevel": "C2", "text": "Indikator komposit untuk mengukur capaian pembangunan manusia (kesehatan, pendidikan, standar hidup)."},
+        {"id": 33, "theme": 4, "indicator": "Mencocokkan organisasi internasional (misal: OPEC) dengan fokus kerjasamanya.", "cognitiveLevel": "C1", "text": "Organisasi negara-negara pengekspor minyak bumi."},
+        {"id": 34, "theme": 4, "indicator": "Mengaitkan isu global (misal: perubahan iklim) dengan dampaknya di tingkat lokal.", "cognitiveLevel": "C4", "text": "Isu global yang dampaknya dirasakan secara lokal, seperti banjir akibat naiknya permukaan air laut."},
+        {"id": 35, "theme": 4, "indicator": "Menganalisis peran Indonesia dalam organisasi PBB.", "cognitiveLevel": "C4", "text": "Organisasi internasional yang bertujuan menjaga perdamaian dunia."}
+      ],
+      "choices": [
+        {"key": "A", "text": "PBB"},
+        {"key": "B", "text": "Westernisasi"},
+        {"key": "C", "text": "IPM (HDI)"},
+        {"key": "D", "text": "Perubahan Iklim"},
+        {"key": "E", "text": "Budgeting"},
+        {"key": "F", "text": "OPEC"},
+        {"key": "G", "text": "Marketplace"},
+        {"key": "H", "text": "Lembaga Keuangan Bank"}
+      ],
+      "answerMapping": {
+        "29": "B",
+        "30": "E",
+        "31": "G",
+        "32": "C",
+        "33": "F",
+        "34": "D",
+        "35": "A"
+      }
+    },
+    "essay": [
+      {
+        "id": 36,
+        "theme": 1,
+        "indicator": "Mengevaluasi pentingnya pelestarian budaya lokal di tengah arus globalisasi.",
+        "cognitiveLevel": "C5",
+        "question": "Globalisasi membawa banyak perubahan dalam kehidupan masyarakat, termasuk budaya. Jelaskan mengapa pelestarian budaya lokal menjadi penting di tengah arus globalisasi, dan berikan contoh upaya pelestarian yang bisa dilakukan oleh generasi muda!",
+        "maxScore": 6,
+        "rubric": [
+          "Alasan Pentingnya Pelestarian (Skor 2-3): Menjelaskan bahwa budaya lokal adalah identitas bangsa, warisan leluhur, sumber kearifan lokal, dan dapat menangkal dampak negatif globalisasi (misal: kehilangan jati diri).",
+          "Contoh Upaya Generasi Muda (Skor 2-3): Menyebutkan contoh konkret seperti: belajar tari/musik daerah, menggunakan bahasa daerah, mengikuti/mengadakan festival budaya, mempromosikan budaya lewat media sosial, membeli produk kerajinan lokal, dll.",
+          "Penilaian: Kelogisan alasan, relevansi contoh."
+        ],
+         "answerKeyPoints": [
+             "Pentingnya: Identitas bangsa, warisan, kearifan lokal, tangkal dampak negatif.",
+             "Contoh: Belajar seni daerah, pakai bahasa daerah, festival budaya, promosi medsos, beli produk lokal."
+         ]
+      },
+       {
+        "id": 37,
+        "theme": 2,
+        "indicator": "Mengevaluasi pentingnya literasi finansial bagi remaja.",
+        "cognitiveLevel": "C5",
+        "question": "Mengapa literasi finansial dianggap penting bagi remaja seusia kalian? Jelaskan setidaknya dua alasan!",
+        "maxScore": 4,
+        "rubric": [
+            "Menjelaskan minimal dua alasan logis dan relevan.",
+            "Contoh alasan: Membantu membuat keputusan keuangan bijak (menabung, investasi vs konsumtif); Menghindari masalah keuangan (utang, pinjol ilegal); Mempersiapkan kemandirian finansial; Memahami produk keuangan.",
+            "Penilaian: Relevansi dan kejelasan alasan (Masing-masing alasan skor 2)."
+        ],
+        "answerKeyPoints": [
+            "Keputusan keuangan bijak.",
+            "Hindari masalah keuangan.",
+            "Persiapan mandiri finansial.",
+            "Paham produk keuangan."
+        ]
+      },
+      {
+        "id": 38,
+        "theme": 2,
+        "indicator": "Merancang ide sederhana untuk meningkatkan literasi finansial di sekolah.",
+        "cognitiveLevel": "C6",
+        "question": "Anda diminta untuk membantu meningkatkan literasi finansial di lingkungan sekolah. Rancanglah satu ide kegiatan sederhana yang dapat dilakukan bersama teman-teman untuk mencapai tujuan tersebut!",
+        "maxScore": 5,
+        "rubric": [
+            "Merancang satu ide kegiatan yang realistis, relevan, dan kreatif.",
+            "Contoh: Mading/poster tips hemat, lomba cerdas cermat keuangan, sesi berbagi pengalaman uang saku, simulasi bisnis kecil, undang narasumber.",
+            "Menjelaskan secara singkat cara pelaksanaan.",
+            "Penilaian: Kreativitas ide (1-2), Kelayakan (1-2), Keterkaitan dengan literasi finansial (1)."
+        ],
+        "answerKeyPoints": [
+             "Ide kegiatan spesifik (misal: mading tips hemat).",
+             "Langkah pelaksanaan singkat.",
+             "Relevan dengan literasi finansial remaja."
+        ]
+      },
+      {
+        "id": 39,
+        "theme": 3,
+        "indicator": "Mengevaluasi proses pembangunan yang dilakukan di lingkungan setempat.",
+        "cognitiveLevel": "C5",
+        "question": "Amatilah lingkungan sekitar tempat tinggalmu! Berikan satu contoh pembangunan (misal: jalan, jembatan, sekolah, pasar) yang telah dilakukan. Evaluasilah dampak positif dan dampak negatif dari pembangunan tersebut bagi masyarakat sekitar!",
+        "maxScore": 6,
+        "rubric": [
+            "Menyebutkan satu contoh pembangunan konkret (Skor 1).",
+            "Menjelaskan dampak positif (minimal 1) secara jelas (misal: memperlancar transportasi, meningkatkan akses pendidikan/kesehatan, membuka lapangan kerja) (Skor 2-3).",
+            "Menjelaskan dampak negatif (minimal 1) secara jelas (misal: penggusuran, polusi, kemacetan, perubahan sosial) (Skor 2-3).",
+            "Penilaian: Ketepatan contoh, kelogisan analisis dampak positif dan negatif."
+        ],
+        "answerKeyPoints": [
+            "Contoh pembangunan spesifik.",
+            "Dampak positif (misal: akses mudah).",
+            "Dampak negatif (misal: polusi/kemacetan)."
+        ]
+      },
+      {
+        "id": 40,
+        "theme": 3,
+        "indicator": "Merancang kampanye dukungan terhadap pembangunan Indonesia untuk menjadi negara maju.",
+        "cognitiveLevel": "C6",
+        "question": "Indonesia memiliki potensi besar untuk menjadi negara maju. Buatlah sebuah slogan (kalimat singkat dan menarik) untuk kampanye yang bertujuan mengajak masyarakat mendukung upaya pembangunan Indonesia menuju negara maju!",
+        "maxScore": 4,
+        "rubric": [
+           "Membuat slogan yang singkat, menarik, mudah diingat.",
+           "Relevan dengan tema mendukung pembangunan Indonesia maju.",
+           "Contoh: 'Maju Bersama, Bangun Indonesia!', 'Generasi Cerdas, Indonesia Emas!', 'Dukung Pembangunan, Wujudkan Kemajuan!', 'Gotong Royong Bangun Negeri, Indonesia Maju Menanti!'.",
+           "Penilaian: Kreativitas (1-2), Keringkasan (1), Relevansi (1)."
+        ],
+        "answerKeyPoints": [
+            "Slogan singkat dan menarik.",
+            "Mengajak dukung pembangunan.",
+            "Tujuan Indonesia Maju."
+        ]
+      }
+    ]
+  },
+  "kisiKisi" :[
+    {
+      "id": 1,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami konsep-konsep dasar tentang dinamika sosial.",
+      "tujuanPembelajaran": "Menjelaskan pengertian dinamika perubahan sosial.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 2,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu mengidentifikasi dampak perubahan sosial.",
+      "tujuanPembelajaran": "Mengidentifikasi dampak positif dan negatif perubahan sosial.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 3,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu membedakan modernisasi dan globalisasi.",
+      "tujuanPembelajaran": "Membandingkan karakteristik modernisasi dan globalisasi.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 4,
+      "fase": "D",
+      "elemen": "Aplikasi",
+      "capaianPembelajaran": "Peserta didik mampu menerapkan pemahaman tentang modernisasi dalam kehidupan sehari-hari.",
+      "tujuanPembelajaran": "Memberikan contoh konkret fenomena modernisasi.",
+      "levelKognitif": "C3 (Penerapan)"
+    },
+    {
+      "id": 5,
+      "fase": "D",
+      "elemen": "Analisis",
+      "capaianPembelajaran": "Peserta didik mampu menganalisis pengaruh globalisasi terhadap berbagai aspek kehidupan.",
+      "tujuanPembelajaran": "Menganalisis pengaruh globalisasi terhadap gaya hidup remaja.",
+      "levelKognitif": "C4 (Analisis)"
+    },
+    {
+      "id": 6,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami pentingnya pelestarian budaya.",
+      "tujuanPembelajaran": "Mengidentifikasi contoh-contoh pelestarian budaya.",
+      "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+      "id": 7,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu mengidentifikasi faktor-faktor penyebab perubahan sosial.",
+      "tujuanPembelajaran": "Menyebutkan faktor-faktor internal pendorong perubahan sosial.",
+      "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+      "id": 8,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami fungsi uang dalam perekonomian.",
+      "tujuanPembelajaran": "Menjelaskan fungsi uang sebagai satuan hitung.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 9,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu mengklasifikasikan lembaga keuangan.",
+      "tujuanPembelajaran": "Menyebutkan contoh lembaga keuangan bank.",
+      "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+      "id": 10,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu membandingkan interaksi sosial di dunia nyata dan digital.",
+      "tujuanPembelajaran": "Membedakan ciri interaksi di dunia nyata dan digital.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 11,
+      "fase": "D",
+      "elemen": "Aplikasi",
+      "capaianPembelajaran": "Peserta didik mampu menerapkan etika dalam berinteraksi di ruang digital.",
+      "tujuanPembelajaran": "Menerapkan prinsip Respect dalam berinteraksi di media sosial.",
+      "levelKognitif": "C3 (Penerapan)"
+    },
+    {
+      "id": 12,
+      "fase": "D",
+      "elemen": "Analisis",
+      "capaianPembelajaran": "Peserta didik mampu menganalisis dampak ekonomi dari perkembangan teknologi digital.",
+      "tujuanPembelajaran": "Menganalisis keuntungan ekonomi berbasis teknologi digital (e-commerce).",
+      "levelKognitif": "C4 (Analisis)"
+    },
+    {
+      "id": 13,
+      "fase": "D",
+      "elemen": "Aplikasi",
+      "capaianPembelajaran": "Peserta didik mampu menerapkan prinsip keamanan dalam penggunaan internet.",
+      "tujuanPembelajaran": "Mengidentifikasi contoh penerapan Protect dalam penggunaan internet.",
+      "levelKognitif": "C3 (Penerapan)"
+    },
+    {
+      "id": 14,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami tujuan pembangunan nasional.",
+      "tujuanPembelajaran": "Menjelaskan tujuan pembangunan nasional.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 15,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu mendeskripsikan upaya pembangunan pada masa Orde Baru.",
+      "tujuanPembelajaran": "Mendeskripsikan contoh upaya pembangunan di era Orde Baru.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 16,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu mengidentifikasi indikator keberhasilan pembangunan.",
+      "tujuanPembelajaran": "Menyebutkan salah satu tolok ukur keberhasilan pembangunan ekonomi.",
+      "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+      "id": 17,
+      "fase": "D",
+      "elemen": "Analisis",
+      "capaianPembelajaran": "Peserta didik mampu menganalisis tantangan pembangunan berkelanjutan.",
+      "tujuanPembelajaran": "Menganalisis tantangan Indonesia dalam mewujudkan pembangunan berkelanjutan.",
+      "levelKognitif": "C4 (Analisis)"
+    },
+    {
+      "id": 18,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu mengidentifikasi potensi Indonesia menjadi negara maju.",
+      "tujuanPembelajaran": "Mengidentifikasi potensi Indonesia menjadi negara maju.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 19,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami alasan kerja sama internasional.",
+      "tujuanPembelajaran": "Menjelaskan alasan negara-negara melakukan kerja sama internasional.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 20,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu mengidentifikasi bentuk-bentuk kerja sama internasional.",
+      "tujuanPembelajaran": "Memberikan contoh bentuk kerja sama Indonesia di tingkat regional (ASEAN).",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 21,
+      "fase": "D",
+      "elemen": "Evaluasi",
+      "capaianPembelajaran": "Peserta didik mampu mengevaluasi dampak globalisasi.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang dampak negatif globalisasi.",
+      "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+      "id": 22,
+      "fase": "D",
+      "elemen": "Evaluasi",
+      "capaianPembelajaran": "Peserta didik mampu mengevaluasi konsep modernisasi.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang definisi modernisasi.",
+      "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+      "id": 23,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami peran lembaga keuangan bukan bank.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang peran lembaga keuangan bukan bank.",
+      "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+      "id": 24,
+      "fase": "D",
+      "elemen": "Evaluasi",
+      "capaianPembelajaran": "Peserta didik mampu mengevaluasi etika berinteraksi digital.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang etika berinteraksi digital.",
+      "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+      "id": 25,
+      "fase": "D",
+      "elemen": "Evaluasi",
+      "capaianPembelajaran": "Peserta didik mampu mengevaluasi tujuan pembangunan berkelanjutan.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang tujuan pembangunan berkelanjutan (SDGs).",
+      "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+      "id": 26,
+      "fase": "D",
+      "elemen": "Evaluasi",
+      "capaianPembelajaran": "Peserta didik mampu mengevaluasi dampak pembangunan yang tidak merata.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang dampak negatif pembangunan yang tidak merata.",
+      "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+      "id": 27,
+      "fase": "D",
+      "elemen": "Evaluasi",
+      "capaianPembelajaran": "Peserta didik mampu mengevaluasi manfaat kerja sama internasional bagi Indonesia.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang manfaat kerja sama internasional bagi Indonesia.",
+      "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+      "id": 28,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami tujuan organisasi PBB.",
+      "tujuanPembelajaran": "Menilai pernyataan tentang tujuan utama PBB.",
+      "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+      "id": 29,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami istilah-istilah dalam perubahan sosial.",
+      "tujuanPembelajaran": "Mencocokkan istilah perubahan sosial (misal: westernisasi) dengan definisinya.",
+      "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+      "id": 30,
+      "fase": "D",
+      "elemen": "Pemahaman Konsep",
+      "capaianPembelajaran": "Peserta didik mampu memahami konsep literasi finansial.",
+      "tujuanPembelajaran": "Mencocokkan jenis literasi finansial (misal: budgeting) dengan penjelasannya.",
+      "levelKognitif": "C2 (Pemahaman)"},
+      {
+    "id": 31,
+    "fase": "D",
+    "elemen": "Pemahaman Konsep",
+    "capaianPembelajaran": "Peserta didik mampu memahami platform ekonomi digital.",
+    "tujuanPembelajaran": "Mencocokkan platform ekonomi digital (misal: marketplace) dengan fungsinya.",
+    "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+    "id": 32,
+    "fase": "D",
+    "elemen": "Pemahaman Konsep",
+    "capaianPembelajaran": "Peserta didik mampu memahami indikator pembangunan.",
+    "tujuanPembelajaran": "Mencocokkan indikator pembangunan (misal: IPM) dengan deskripsinya.",
+    "levelKognitif": "C2 (Pemahaman)"
+    },
+    {
+    "id": 33,
+    "fase": "D",
+    "elemen": "Pemahaman Konsep",
+    "capaianPembelajaran": "Peserta didik mampu memahami organisasi internasional.",
+    "tujuanPembelajaran": "Mencocokkan organisasi internasional (misal: OPEC) dengan fokus kerjasamanya.",
+    "levelKognitif": "C1 (Mengingat)"
+    },
+    {
+    "id": 34,
+    "fase": "D",
+    "elemen": "Analisis",
+    "capaianPembelajaran": "Peserta didik mampu menganalisis isu global dan dampaknya.",
+    "tujuanPembelajaran": "Mengaitkan isu global (misal: perubahan iklim) dengan dampaknya di tingkat lokal.",
+    "levelKognitif": "C4 (Analisis)"
+    },
+    {
+    "id": 35,
+    "fase": "D",
+    "elemen": "Analisis",
+    "capaianPembelajaran": "Peserta didik mampu menganalisis peran Indonesia dalam organisasi internasional.",
+    "tujuanPembelajaran": "Menganalisis peran Indonesia dalam organisasi PBB.",
+    "levelKognitif": "C4 (Analisis)"
+    },
+    {
+    "id": 36,
+    "fase": "D",
+    "elemen": "Evaluasi",
+    "capaianPembelajaran": "Peserta didik mampu mengevaluasi pentingnya pelestarian budaya di era globalisasi.",
+    "tujuanPembelajaran": "Mengevaluasi pentingnya pelestarian budaya lokal di tengah arus globalisasi.",
+    "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+    "id": 37,
+    "fase": "D",
+    "elemen": "Evaluasi",
+    "capaianPembelajaran": "Peserta didik mampu mengevaluasi pentingnya literasi finansial bagi remaja.",
+    "tujuanPembelajaran": "Mengevaluasi pentingnya literasi finansial bagi remaja.",
+    "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+    "id": 38,
+    "fase": "D",
+    "elemen": "Kreasi",
+    "capaianPembelajaran": "Peserta didik mampu merancang solusi untuk meningkatkan literasi finansial.",
+    "tujuanPembelajaran": "Merancang ide sederhana untuk meningkatkan literasi finansial di sekolah.",
+    "levelKognitif": "C6 (Mencipta/Kreasi)"
+    },
+    {
+    "id": 39,
+    "fase": "D",
+    "elemen": "Evaluasi",
+    "capaianPembelajaran": "Peserta didik mampu mengevaluasi dampak pembangunan di lingkungan sekitar.",
+    "tujuanPembelajaran": "Mengevaluasi proses pembangunan yang dilakukan di lingkungan setempat.",
+    "levelKognitif": "C5 (Evaluasi)"
+    },
+    {
+    "id": 40,
+    "fase": "D",
+    "elemen": "Kreasi",
+    "capaianPembelajaran": "Peserta didik mampu merancang pesan kampanye untuk mendukung pembangunan nasional.",
+    "tujuanPembelajaran": "Merancang kampanye dukungan terhadap pembangunan Indonesia untuk menjadi negara maju.",
+    "levelKognitif": "C6 (Mencipta/Kreasi)"
+    }
+]
+      
+}
