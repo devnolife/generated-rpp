@@ -1,7 +1,19 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { RppService } from './rpp.service';
+import { Args, Mutation, Query, Resolver, ObjectType, Field } from '@nestjs/graphql';
+import { RppService, TokenUsage } from './rpp.service';
 import { Rpp } from './models/rpp.model';
 import { CreateRppInput } from './dto/create-rpp.input';
+
+@ObjectType()
+export class TokenUsageInfo {
+  @Field()
+  promptTokens: number;
+
+  @Field()
+  completionTokens: number;
+
+  @Field()
+  totalTokens: number;
+}
 
 @Resolver(() => Rpp)
 export class RppResolver {
@@ -10,6 +22,11 @@ export class RppResolver {
   @Query(() => String, { name: 'hello' })
   async hello(): Promise<string> {
     return 'Hello RPP Generator!';
+  }
+
+  @Query(() => TokenUsageInfo)
+  async getTokenUsage(): Promise<TokenUsageInfo> {
+    return this.rppService.getTokenUsage();
   }
 
   @Mutation(() => Rpp)

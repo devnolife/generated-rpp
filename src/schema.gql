@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""Model AI yang digunakan untuk generate RPP"""
+enum AiModel {
+  EmiliaAiV1
+  EmiliaAiV2
+  EmiliaAiV3
+  GEMINI
+  OPENAI
+  SweetV1
+}
+
 type AlurKegiatanPembelajaran {
   inti: KegiatanDetail!
   pendahuluan: KegiatanDetail!
@@ -28,14 +38,28 @@ type BahanAjarResponse {
 }
 
 input CreateRppInput {
+  ai_model: AiModel = GEMINI
   alokasi_waktu: String
-  cakupanMateri: String!
-  fase: Fase!
-  jenjangPendidikan: JenjangPendidikan!
-  kelas: String!
-  mataPelajaran: String!
-  satuanPendidikan: String!
-  topik: String!
+  capaian_pembelajaran: String
+  catatan: String
+  domain_konten: String
+  institusi: String
+  jenjang: String
+  jumlah_peserta: String
+  kelas: String
+  konten_utama: String
+  mata_pelajaran: String
+  model_pembelajaran: String
+  nama_penyusun: String
+  pemahaman_bermakna: String
+  prasyarat: String
+  profil_pelajar: String
+  sarana: String
+  sumber_belajar: String
+  tahapan: String
+  tahun_pembuatan: String
+  target_peserta: String
+  tujuan_pembelajaran: String
 }
 
 type EducationBahanAjarResponse {
@@ -88,23 +112,6 @@ input EnglishLessonDto {
   tahun_pembuatan: String
   target_peserta: String
   tujuan_pembelajaran: String!
-}
-
-"""Fase pembelajaran dalam Kurikulum Merdeka"""
-enum Fase {
-  A
-  B
-  C
-  D
-  E
-  F
-}
-
-"""Jenjang pendidikan yang tersedia"""
-enum JenjangPendidikan {
-  SD
-  SMA
-  SMP
 }
 
 type KegiatanDetail {
@@ -170,6 +177,7 @@ type Mutation {
 }
 
 type Query {
+  getTokenUsage: TokenUsageInfo!
   hello: String!
 }
 
@@ -197,16 +205,36 @@ type Rpp {
   alokasi_waktu: String!
   alur_kegiatan_pembelajaran: AlurKegiatanPembelajaran!
   asesmen_pembelajaran: AsesmenPembelajaran!
+  capaian_pembelajaran: String
+  catatan: String
+  domain_konten: String
   id: ID!
+  institusi: String
+  jenjang: String
+  jumlah_peserta: String
+  kelas: String
   kelas_semester: String!
+  konten_utama: String
   mataPelajaran: String!
+  mata_pelajaran: String
   materi_pembelajaran: MateriPembelajaran!
   materi_pokok: String!
+  model_pembelajaran: String
+  nama_penyusun: String
+  pemahaman_bermakna: String
+  prasyarat: String
+  profil_pelajar: String
   profil_pelajar_pancasila: [String!]!
   refleksi_guru: RefleksiGuru!
+  sarana: String
   satuan_pendidikan: String!
+  sumber_belajar: String
   sumber_dan_media_pembelajaran: SumberDanMediaPembelajaran!
-  tujuan_pembelajaran: [String!]!
+  tahapan: String
+  tahun_pembuatan: String
+  target_peserta: String
+  tujuan_pembelajaran: String
+  tujuan_pembelajaran_list: [String!]!
 }
 
 type RppResponse {
@@ -220,4 +248,10 @@ type SumberDanMediaPembelajaran {
   buku: [String!]!
   media_digital: [String!]!
   metode: [String!]!
+}
+
+type TokenUsageInfo {
+  completionTokens: Float!
+  promptTokens: Float!
+  totalTokens: Float!
 }
