@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { OpenAiService } from '../ai/openai.service';
-import { AiModel, CreateRppInput } from './dto/create-rpp.input';
-import { Rpp } from './models/rpp.model';
+import { Injectable, Logger } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { GeminiService } from 'src/ai/gemini.service';
-import { generateRppPrompt } from 'src/utils/rppPrompt';
+import { LlmService, parseJsonLoose } from '../ai/llm.service';
+import { resolveProfile } from '../ai/llm.config';
+import { CreateRppInput } from './dto/create-rpp.input';
+import { Rpp } from './models/rpp.model';
+import { generateRppPrompt } from '../utils/rppPrompt';
+import { SYSTEM_RPP_PROMPT } from './rpp.system-prompt';
 
 export interface TokenUsage {
   promptTokens: number;
@@ -14,127 +15,212 @@ export interface TokenUsage {
 
 @Injectable()
 export class RppService {
-  private tokenUsage: TokenUsage = { promptTokens: 0, completionTokens: 0, totalTokens: 0 };
-  
-  constructor(
-    private openAiService: OpenAiService,
-    private geminiAiService: GeminiService
-  ) {}
+  private readonly logger = new Logger(RppService.name);
+
+  constructor(private readonly llm: LlmService) { }
 
   getTokenUsage(): TokenUsage {
-    return { ...this.tokenUsage };
+    return this.llm.getTokenUsage();
   }
 
   resetTokenUsage(): void {
-    this.tokenUsage = { promptTokens: 0, completionTokens: 0, totalTokens: 0 };
-    this.openAiService.resetTokenUsage();
-    this.geminiAiService.resetTokenUsage();
+    this.llm.resetTokenUsage();
   }
 
   async generateRpp(input: CreateRppInput): Promise<Rpp> {
+    this.llm.resetTokenUsage();
+
+    const profile = resolveProfile(input.ai_model ?? null);
+    const userPrompt = generateRppPrompt(input);
+
+    let rppData: any;
     try {
-      // Reset token usage before each generation
-      this.resetTokenUsage();
-      
-      const prompt = this.createRppPrompt(input);
-      let aiResponse: string;
-      let modelUsed: string;
-      
-      // Use the selected AI model
-      if (input.ai_model === AiModel.OPENAI || input.ai_model === AiModel.SweetV1) {
-        // OpenAI models
-        aiResponse = await this.openAiService.generateContent(prompt);
-        this.tokenUsage = this.openAiService.getTokenUsage();
-        modelUsed = 'OpenAI';
-      } else if (input.ai_model === AiModel.EmiliaAiV2) {
-        // Gemini V2
-        aiResponse = await this.geminiAiService.GuruPintarV2(prompt);
-        this.tokenUsage = this.geminiAiService.getTokenUsage();
-        modelUsed = 'Gemini V2';
-      } else if (input.ai_model === AiModel.EmiliaAiV3) {
-        // Gemini V3
-        aiResponse = await this.geminiAiService.GuruPintarV3(prompt);
-        this.tokenUsage = this.geminiAiService.getTokenUsage();
-        modelUsed = 'Gemini V3';
-      } else {
-        // Default to Gemini V1 (including AiModel.GEMINI and AiModel.EmiliaAiV1)
-        aiResponse = await this.geminiAiService.GuruPintarV1(prompt);
-        this.tokenUsage = this.geminiAiService.getTokenUsage();
-        modelUsed = 'Gemini V1';
-      }
+      const aiResponse = await this.llm.chat({
+        profile,
+        system: SYSTEM_RPP_PROMPT,
+        prompt: userPrompt,
+        json: true,
+      });
+      rppData = parseJsonLoose(aiResponse);
+    } catch (error: any) {
+      this.logger.error(`Gagal generate RPP: ${error?.message ?? error}`);
+      throw new Error(`Terjadi kesalahan dalam pembuatan RPP: ${error?.message ?? error}`);
+    }
 
-      if (!aiResponse) {
-        throw new Error('Gagal menerima respons dari AI model');
-      }
+    if (!rppData.materi_pembelajaran || !rppData.alur_kegiatan_pembelajaran) {
+      this.logger.error(
+        `Respons AI tidak lengkap. Keys: ${Object.keys(rppData ?? {}).join(', ')}`,
+      );
+      throw new Error('Respons AI tidak sesuai dengan format yang diharapkan');
+    }
 
-      const rppData = this.parseOpenAiResponse(aiResponse);
+    const usage = this.llm.getTokenUsage();
+    this.logger.log(
+      `RPP generated [profile=${profile}] tokens prompt=${usage.promptTokens} completion=${usage.completionTokens} total=${usage.totalTokens}`,
+    );
 
-      if (!rppData.materi_pembelajaran || !rppData.alur_kegiatan_pembelajaran) {
-        throw new Error('Respons AI tidak sesuai dengan format yang diharapkan');
-      }
+    const materi = normalizeMateri(rppData.materi_pembelajaran);
+    const alur = normalizeAlur(rppData.alur_kegiatan_pembelajaran);
+    const asesmen = normalizeAsesmen(rppData.asesmen_pembelajaran);
+    const sumberMedia = normalizeSumberMedia(
+      rppData.sumber_dan_media_pembelajaran,
+    );
+    const refleksi = normalizeRefleksi(rppData.refleksi_guru);
 
-      // Log the token usage
-      console.log(`==== ${modelUsed} Token Usage ====`);
-      console.log(`Prompt Tokens: ${this.tokenUsage.promptTokens}`);
-      console.log(`Completion Tokens: ${this.tokenUsage.completionTokens}`);
-      console.log(`Total Tokens: ${this.tokenUsage.totalTokens}`);
-      console.log('========================');
+    return {
+      id: uuidv4(),
+      nama_penyusun: input.nama_penyusun || rppData.nama_penyusun || '',
+      institusi: input.institusi || rppData.institusi || '',
+      tahun_pembuatan: input.tahun_pembuatan || rppData.tahun_pembuatan || '',
+      mata_pelajaran: input.mata_pelajaran || rppData.mata_pelajaran || '',
+      jenjang: input.jenjang || rppData.jenjang || '',
+      kelas: input.kelas || rppData.kelas || '',
+      alokasi_waktu: input.alokasi_waktu || rppData.alokasi_waktu || '',
+      tahapan: input.tahapan || rppData.tahapan || '',
+      capaian_pembelajaran:
+        input.capaian_pembelajaran || rppData.capaian_pembelajaran || '',
+      domain_konten: input.domain_konten || rppData.domain_konten || '',
+      tujuan_pembelajaran:
+        input.tujuan_pembelajaran || rppData.tujuan_pembelajaran || '',
+      konten_utama: input.konten_utama || rppData.konten_utama || '',
+      prasyarat: input.prasyarat || rppData.prasyarat || '',
+      pemahaman_bermakna:
+        input.pemahaman_bermakna || rppData.pemahaman_bermakna || '',
+      profil_pelajar: input.profil_pelajar || rppData.profil_pelajar || '',
+      sarana: input.sarana || rppData.sarana || '',
+      target_peserta: input.target_peserta || rppData.target_peserta || '',
+      jumlah_peserta: input.jumlah_peserta || rppData.jumlah_peserta || '',
+      model_pembelajaran:
+        input.model_pembelajaran || rppData.model_pembelajaran || '',
+      sumber_belajar: input.sumber_belajar || rppData.sumber_belajar || '',
+      catatan: input.catatan || rppData.catatan || '',
+      satuan_pendidikan: rppData.satuan_pendidikan || '',
+      mataPelajaran: rppData.mata_pelajaran || input.mata_pelajaran || '',
+      kelas_semester: rppData.kelas_semester || '',
+      materi_pokok: rppData.materi_pokok || '',
+      materi_pembelajaran: materi,
+      tujuan_pembelajaran_list: ensureStringArr(rppData.tujuan_pembelajaran_list),
+      profil_pelajar_pancasila: ensureStringArr(rppData.profil_pelajar_pancasila),
+      alur_kegiatan_pembelajaran: alur,
+      asesmen_pembelajaran: asesmen,
+      sumber_dan_media_pembelajaran: sumberMedia,
+      refleksi_guru: refleksi,
+    };
+  }
+}
 
+// ---------- Normalizers ----------
+//
+// LLM kadang mengembalikan shape yang sedikit berbeda (object vs array,
+// string vs array of string). Helper berikut membuat output selalu cocok
+// dengan schema GraphQL agar tidak meledakkan resolver Apollo.
+
+function ensureStringArr(v: unknown): string[] {
+  if (Array.isArray(v)) return v.map((x) => String(x ?? '')).filter(Boolean);
+  if (typeof v === 'string' && v.trim()) {
+    // pisah by newline/semicolon/bullet
+    return v
+      .split(/\r?\n|;|•/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function toKegiatanArr(
+  v: unknown,
+): Array<{ kegiatan: string; deskripsi: string }> {
+  if (Array.isArray(v)) {
+    return v.map((item) => {
+      if (typeof item === 'string')
+        return { kegiatan: item, deskripsi: item };
+      const obj = (item ?? {}) as Record<string, any>;
       return {
-        id: uuidv4(),
-        nama_penyusun: input.nama_penyusun || rppData.nama_penyusun || '',
-        institusi: input.institusi || rppData.institusi || '',
-        tahun_pembuatan: input.tahun_pembuatan || rppData.tahun_pembuatan || '',
-        mata_pelajaran: input.mata_pelajaran || rppData.mata_pelajaran || '',
-        jenjang: input.jenjang || rppData.jenjang || '',
-        kelas: input.kelas || rppData.kelas || '',
-        alokasi_waktu: input.alokasi_waktu || rppData.alokasi_waktu || '',
-        tahapan: input.tahapan || rppData.tahapan || '',
-        capaian_pembelajaran: input.capaian_pembelajaran || rppData.capaian_pembelajaran || '',
-        domain_konten: input.domain_konten || rppData.domain_konten || '',
-        tujuan_pembelajaran: input.tujuan_pembelajaran || rppData.tujuan_pembelajaran || '',
-        konten_utama: input.konten_utama || rppData.konten_utama || '',
-        prasyarat: input.prasyarat || rppData.prasyarat || '',
-        pemahaman_bermakna: input.pemahaman_bermakna || rppData.pemahaman_bermakna || '',
-        profil_pelajar: input.profil_pelajar || rppData.profil_pelajar || '',
-        sarana: input.sarana || rppData.sarana || '',
-        target_peserta: input.target_peserta || rppData.target_peserta || '',
-        jumlah_peserta: input.jumlah_peserta || rppData.jumlah_peserta || '',
-        model_pembelajaran: input.model_pembelajaran || rppData.model_pembelajaran || '',
-        sumber_belajar: input.sumber_belajar || rppData.sumber_belajar || '',
-        catatan: input.catatan || rppData.catatan || '',
-        satuan_pendidikan: rppData.satuan_pendidikan || '',
-        mataPelajaran: rppData.mata_pelajaran || input.mata_pelajaran || '',
-        kelas_semester: rppData.kelas_semester || '',
-        materi_pokok: rppData.materi_pokok || '',
-        materi_pembelajaran: rppData.materi_pembelajaran,
-        tujuan_pembelajaran_list: rppData.tujuan_pembelajaran_list || [],
-        profil_pelajar_pancasila: rppData.profil_pelajar_pancasila || [],
-        alur_kegiatan_pembelajaran: rppData.alur_kegiatan_pembelajaran,
-        asesmen_pembelajaran: rppData.asesmen_pembelajaran,
-        sumber_dan_media_pembelajaran: rppData.sumber_dan_media_pembelajaran,
-        refleksi_guru: rppData.refleksi_guru,
+        kegiatan: String(obj.kegiatan ?? obj.nama ?? obj.title ?? ''),
+        deskripsi: String(obj.deskripsi ?? obj.description ?? obj.detail ?? ''),
       };
-    } catch (error) {
-      console.error('Error generating RPP:', error);
-      throw new Error('Terjadi kesalahan dalam pembuatan RPP');
+    });
+  }
+  if (v && typeof v === 'object') {
+    const obj = v as Record<string, any>;
+    if ('kegiatan' in obj || 'deskripsi' in obj) {
+      return [
+        {
+          kegiatan: String(obj.kegiatan ?? ''),
+          deskripsi: String(obj.deskripsi ?? ''),
+        },
+      ];
     }
+    // mungkin shape: { langkah1: '...', langkah2: '...' }
+    return Object.entries(obj).map(([k, val]) => ({
+      kegiatan: k,
+      deskripsi: typeof val === 'string' ? val : JSON.stringify(val),
+    }));
   }
+  if (typeof v === 'string' && v.trim()) {
+    return [{ kegiatan: 'Kegiatan', deskripsi: v }];
+  }
+  return [];
+}
 
-  private createRppPrompt(input: CreateRppInput): string {
-    return generateRppPrompt(input);
-  }
+function normalizeMateri(v: unknown) {
+  const m = (v ?? {}) as Record<string, any>;
+  return {
+    pendahuluan: toKegiatanArr(m.pendahuluan),
+    inti: toKegiatanArr(m.inti),
+    penutup: toKegiatanArr(m.penutup),
+  };
+}
 
-  private parseOpenAiResponse(response: string): any {
-    try {
-      const jsonMatch = response.match(/\{[\s\S]*\}/);
-      if (jsonMatch && jsonMatch[0]) {
-        return JSON.parse(jsonMatch[0]);
-      }
-      throw new Error('Tidak ditemukan format JSON dalam respons');
-    } catch (error) {
-      console.error('Error parsing AI response:', error);
-      throw new Error('Format JSON tidak valid dalam respons dari AI');
-    }
+function toKegiatanDetail(v: unknown): { deskripsi: string; durasi: string } {
+  if (typeof v === 'string') return { deskripsi: v, durasi: '' };
+  const obj = (v ?? {}) as Record<string, any>;
+  if (Array.isArray(v)) {
+    return {
+      deskripsi: v
+        .map((x) =>
+          typeof x === 'string' ? x : x?.deskripsi ?? JSON.stringify(x),
+        )
+        .join('; '),
+      durasi: '',
+    };
   }
+  return {
+    deskripsi: String(obj.deskripsi ?? obj.description ?? ''),
+    durasi: String(obj.durasi ?? obj.duration ?? ''),
+  };
+}
+
+function normalizeAlur(v: unknown) {
+  const a = (v ?? {}) as Record<string, any>;
+  return {
+    pendahuluan: toKegiatanDetail(a.pendahuluan),
+    inti: toKegiatanDetail(a.inti),
+    penutup: toKegiatanDetail(a.penutup),
+  };
+}
+
+function normalizeAsesmen(v: unknown) {
+  const a = (v ?? {}) as Record<string, any>;
+  return {
+    diagnostik: String(a.diagnostik ?? a.diagnostic ?? ''),
+    formatif: String(a.formatif ?? a.formative ?? ''),
+    sumatif: String(a.sumatif ?? a.summative ?? ''),
+  };
+}
+
+function normalizeSumberMedia(v: unknown) {
+  const s = (v ?? {}) as Record<string, any>;
+  return { buku: ensureStringArr(s.buku ?? s.books ?? s) };
+}
+
+function normalizeRefleksi(v: unknown) {
+  const r = (v ?? {}) as Record<string, any>;
+  return {
+    pencapaian_tujuan: String(r.pencapaian_tujuan ?? r.pencapaian ?? ''),
+    tantangan: String(r.tantangan ?? r.challenges ?? ''),
+    strategi_perbaikan: String(
+      r.strategi_perbaikan ?? r.strategi ?? r.improvement ?? '',
+    ),
+  };
 }

@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { RppResolver } from './rpp.resolver';
 import { RppService } from './rpp.service';
-import { OpenAiService } from '../ai/openai.service';
-import { GeminiService } from 'src/ai/gemini.service';
 
+// LlmService disediakan oleh LlmModule (@Global di app.module.ts).
 @Module({
-  providers: [RppResolver, RppService, OpenAiService, GeminiService],
+  providers: [RppResolver, RppService],
 })
 export class RppModule {}
