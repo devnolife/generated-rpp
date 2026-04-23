@@ -16,7 +16,7 @@ async function bootstrap() {
   // CORS: explicit origin (wildcard '*' tidak boleh dipakai bersama credentials).
   // Set FRONTEND_ORIGIN ke URL Next.js (default localhost:3000).
   // Bisa multiple, dipisah koma. Contoh:
-  //   FRONTEND_ORIGIN=http://localhost:3000,https://app.gurupintar.id
+  //   FRONTEND_ORIGIN=http://localhost:3000,https://app.ngajarsaja.id
   const origins =
     (process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000')
       .split(',')
@@ -31,7 +31,7 @@ async function bootstrap() {
 
   // Swagger
   const config = new DocumentBuilder()
-    .setTitle('Guru Pintar AI API')
+    .setTitle('Ngajar Saja AI API')
     .setDescription(
       'GraphQL & REST endpoint untuk generate RPP via vLLM lokal.',
     )
@@ -42,7 +42,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
 
   const port = Number(process.env.PORT ?? 3001);
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 
   const url = await app.getUrl();
   logger.log(`Backend listening on ${url}`);
