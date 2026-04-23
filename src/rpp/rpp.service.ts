@@ -211,7 +211,11 @@ function normalizeAsesmen(v: unknown) {
 
 function normalizeSumberMedia(v: unknown) {
   const s = (v ?? {}) as Record<string, any>;
-  return { buku: ensureStringArr(s.buku ?? s.books ?? s) };
+  return {
+    buku: ensureStringArr(s.buku ?? s.books),
+    media_digital: ensureStringArr(s.media_digital ?? s.digital ?? s.media),
+    metode: ensureStringArr(s.metode ?? s.methods),
+  };
 }
 
 function normalizeRefleksi(v: unknown) {
