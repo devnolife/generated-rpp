@@ -129,15 +129,16 @@ function ensureStringArr(v: unknown): string[] {
 
 function toKegiatanArr(
   v: unknown,
-): Array<{ kegiatan: string; deskripsi: string }> {
+): Array<{ kegiatan: string; deskripsi: string; durasi: string }> {
   if (Array.isArray(v)) {
     return v.map((item) => {
       if (typeof item === 'string')
-        return { kegiatan: item, deskripsi: item };
+        return { kegiatan: item, deskripsi: item, durasi: '' };
       const obj = (item ?? {}) as Record<string, any>;
       return {
         kegiatan: String(obj.kegiatan ?? obj.nama ?? obj.title ?? ''),
         deskripsi: String(obj.deskripsi ?? obj.description ?? obj.detail ?? ''),
+        durasi: String(obj.durasi ?? obj.duration ?? obj.waktu ?? ''),
       };
     });
   }
@@ -148,6 +149,7 @@ function toKegiatanArr(
         {
           kegiatan: String(obj.kegiatan ?? ''),
           deskripsi: String(obj.deskripsi ?? ''),
+          durasi: String(obj.durasi ?? obj.duration ?? obj.waktu ?? ''),
         },
       ];
     }
@@ -155,10 +157,11 @@ function toKegiatanArr(
     return Object.entries(obj).map(([k, val]) => ({
       kegiatan: k,
       deskripsi: typeof val === 'string' ? val : JSON.stringify(val),
+      durasi: '',
     }));
   }
   if (typeof v === 'string' && v.trim()) {
-    return [{ kegiatan: 'Kegiatan', deskripsi: v }];
+    return [{ kegiatan: 'Kegiatan', deskripsi: v, durasi: '' }];
   }
   return [];
 }
